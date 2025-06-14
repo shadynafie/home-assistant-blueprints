@@ -1,7 +1,13 @@
 blueprint:
   name: Before Maghrib Quran
-  description: صوت القرآن لمدة نصف ساعة قبل أذان المغرب.  PLEASE make sure to install 'Islamic Prayer Times' integration before you use this blueprint.
+  description: |
+    📖 Plays Quran audio for 30 minutes before Maghrib.
+    **By [Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**
+
+    PLEASE make sure to install the **Islamic Prayer Times** integration before using this blueprint.
   domain: automation
+  author: Shady Nafie
+  source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/before-maghrib/before_maghrib.yaml
   input:
     Mobile_to_Notify:
       name: Mobile Device to notify.
