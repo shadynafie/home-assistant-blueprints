@@ -1,8 +1,8 @@
 blueprint:
 
-  name: Azan Notifications v1.0
+  name: Azan Notifications
   description: |
-    **🕌 Complete Islamic Prayer Time Notification System**
+    **🕌 Complete Islamic Prayer Time Notification System - V1.0**
     **By [Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**  
 
     Transform your Home Assistant into a reliable Islamic prayer reminder system with beautiful notifications for all daily prayers.
