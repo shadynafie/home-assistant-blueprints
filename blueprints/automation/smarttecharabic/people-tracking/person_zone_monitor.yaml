@@ -20,9 +20,6 @@ blueprint:
     • **Three** notifications types: **Enter / Leave / Jump**  
     • Optional custom *Extra Actions* for each type
 
-  metadata:
-   version: "2.0"
-   change_log: https://github.com/shadynafie/home-assistant-blueprints/releases/tag/person-zone-monitor-v2.0
 
   input:
 
