@@ -1,0 +1,51 @@
+blueprint:
+  name: Before Maghrib Quran
+  description: صوت القرآن لمدة نصف ساعة قبل أذان المغرب.  PLEASE make sure to install 'Islamic Prayer Times' integration before you use this blueprint.
+  domain: automation
+  input:
+    Mobile_to_Notify:
+      name: Mobile Device to notify.
+      description: Device needs to run the official Home Assistant app to receive notifications.
+      default: ''
+      selector:
+        device:
+          integration: mobile_app
+    Media_Player_to_Notify:
+      name: Media Player to play Quran.
+      description: Choose Media player to play Quran before the time of Maghrib prayer.
+      selector:
+        entity:
+          domain: media_player
+    Quran_Media:
+      name: Quran Media
+      description: Quran you want to play.
+    Music_Service:
+      name: Music Service
+      description: Service you are subscribed to.
+      selector:
+        select:
+          options:
+            - APPLE_MUSIC
+            - AMAZON_MUSIC
+            - SPOTIFY
+            - audio/mp4
+            - audio/mpeg
+            - custom
+
+trigger:
+  - platform: template
+    value_template: '{{ now().timestamp()|int == as_timestamp(states(''sensor.maghrib_prayer'')) - 1800 }}'
+condition: []
+action:
+  - type: notify
+    domain: mobile_app
+    device_id: !input 'Mobile_to_Notify'
+    title: 🕌 Maghrib Quran 🕌
+    message: موعد قرآن المغرب
+  - service: media_player.play_media
+    data:
+      media_content_id: !input 'Quran_Media'
+      media_content_type: !input 'Music_Service'
+    target:
+      entity_id: !input 'Media_Player_to_Notify'
+mode: single
