@@ -3,7 +3,6 @@ blueprint:
   domain: automation
   author: Shady Nafie
   source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/people-tracking/person_zone_monitor.yaml
-  version: "2.0"
 
   description: |
     ### Person Zone Monitor — V2.0 (Single Device)
@@ -19,7 +18,11 @@ blueprint:
     • Monitor multiple people **and** zones simultaneously  
     • Push notification to **one** selected device (clean and reliable)  
     • **Three** notifications types: **Enter / Leave / Jump**  
-    • Optional custom *Extra Actions* for each type  
+    • Optional custom *Extra Actions* for each type
+
+  metadata:
+   version: "2.0"
+   change_log: https://github.com/shadynafie/home-assistant-blueprints/releases/tag/person-zone-monitor-v2.0
 
   input:
 
