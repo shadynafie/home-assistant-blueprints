@@ -1,0 +1,269 @@
+blueprint:
+
+  name: Azan Notifications v1.0
+  description: |
+    **🕌 Complete Islamic Prayer Time Notification System**
+    **By [Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**  
+
+    Transform your Home Assistant into a reliable Islamic prayer reminder system with beautiful notifications for all daily prayers.
+    
+    **✨ Features:**
+    🔔 High-priority notifications for all 5 daily prayers
+    🎨 Unique icons and colors for each prayer time  
+    📝 Bilingual messages (English/Arabic) - fully customizable
+    🧪 Built-in test mode to verify setup
+    📱 Cross-platform support (Android/iOS)
+    ⚡ Interactive actions (Android only: Mark as Prayed, Snooze)
+    
+    **📋 Prerequisites:**
+    - Islamic Prayer Times integration installed and configured
+    - Prayer time sensors with timestamp device class
+    - Home Assistant mobile app on target device
+
+
+  domain: automation
+  input:
+
+    # --- Section 1: Target Device (Non-collapsible) ---
+    notify_target:
+      name: "Notification Target"
+      description: Select the notify device.
+      icon: mdi:devices
+      collapsed: false
+      input:
+        notify_device:
+          name: Target device
+          selector:
+            device:
+              filter:
+                integration: mobile_app
+
+    # --- Section 2: Prayer Settings (Collapsible) ---
+    prayer_section:
+      name: "Prayer Notifications"
+      description: "Enable or disable Prayer notifications"
+      icon: mdi:bell-outline
+      collapsed: true
+      input:
+
+        # --- Fajr ---
+        fajr_sensor:
+          name: Fajr Time Sensor
+          description: Select a sensor that provides the Fajr prayer time.
+          selector:
+            entity:
+              filter:
+                  domain: sensor
+                  device_class: timestamp
+
+        fajr_enabled:
+          name: 🌅 Fajr Prayer
+          description: "Enable or disable Fajr notifications"
+          default: true
+          selector:
+            boolean: {}
+
+        # --- Dhuhr ---
+        dhuhr_sensor:
+          name: Dhuhr Time Sensor
+          description: Select a sensor that provides the Dhuhr prayer time.
+          selector:
+            entity:
+              filter:
+                  domain: sensor
+                  device_class: timestamp
+
+        dhuhr_enabled:
+          name: ☀️ Dhuhr Prayer
+          description: "Enable or disable Dhuhr notifications"
+          default: true
+          selector:
+            boolean: {}         
+
+        # --- Asr ---
+        asr_sensor:
+          name: Asr Time Sensor
+          description: Select a sensor that provides the Asr prayer time.
+          selector:
+            entity:
+              filter:
+                  domain: sensor
+                  device_class: timestamp
+
+        asr_enabled:
+          name: 🌤️ Asr Prayer
+          description: "Enable or disable Asr notifications"
+          default: true
+          selector:
+            boolean: {}
+
+        # --- Maghrib ---
+        maghrib_sensor:
+          name: Maghrib Time Sensor
+          description: Select a sensor that provides the Maghrib prayer time.
+          selector:
+            entity:
+              filter:
+                  domain: sensor
+                  device_class: timestamp
+
+        maghrib_enabled:
+          name: 🌅 Maghrib Prayer
+          description: "Enable or disable Maghrib notifications"
+          default: true
+          selector:
+            boolean: {}
+
+        # --- Isha ---
+        isha_sensor:
+          name: Isha Time Sensor
+          description: Select a sensor that provides the Isha prayer time.
+          selector:
+            entity:
+              filter:
+                  domain: sensor
+                  device_class: timestamp
+
+        isha_enabled:
+          name: 🌙 Isha Prayer
+          description: "Enable or disable Isha notifications"
+          default: true
+          selector:
+            boolean: {}
+            
+
+    # --- Section 3: Notification Settings (Collapsible) ---
+    notification_section:
+      name: "Custom Prayer Messages"
+      description: "Customize the message for each prayer."
+      icon: mdi:message-outline
+      collapsed: true
+      input:
+        fajr_message:
+          name: Fajr Custom Message
+          default: "Time for Fajr prayer – حان الآن موعد صلاة الفجر"
+          selector:
+            text:
+              multiline: false
+
+        dhuhr_message:
+          name: Dhuhr Custom Message
+          default: "Time for Dhuhr prayer – حان الآن موعد صلاة الظهر"
+          selector:
+            text:
+              multiline: false
+
+        asr_message:
+          name: Asr Custom Message
+          default: "Time for Asr prayer – حان الآن موعد صلاة العصر"
+          selector:
+            text:
+              multiline: false
+
+        maghrib_message:
+          name: Maghrib Custom Message
+          default: "Time for Maghrib prayer – حان الآن موعد صلاة المغرب"
+          selector:
+            text:
+              multiline: false
+
+        isha_message:
+          name: Isha Custom Message
+          default: "Time for Isha prayer – حان الآن موعد صلاة العشاء"
+          selector:
+            text:
+              multiline: false
+
+
+# --- AUTOMATION SECTION ---
+variables:
+  prayers:
+    fajr:
+      sensor: !input fajr_sensor
+      enabled: !input fajr_enabled
+      message: !input fajr_message
+      title: "🌅 Fajr Prayer Time"
+      icon: "mdi:weather-sunset-up"
+      color: "#FFA726"
+    dhuhr:
+      sensor: !input dhuhr_sensor
+      enabled: !input dhuhr_enabled
+      message: !input dhuhr_message
+      title: "☀️ Dhuhr Prayer Time"
+      icon: "mdi:weather-sunny"
+      color: "#FFD54F"
+    asr:
+      sensor: !input asr_sensor
+      enabled: !input asr_enabled
+      message: !input asr_message
+      title: "🌤️ Asr Prayer Time"
+      icon: "mdi:weather-partly-cloudy"
+      color: "#FF8A65"
+    maghrib:
+      sensor: !input maghrib_sensor
+      enabled: !input maghrib_enabled
+      message: !input maghrib_message
+      title: "🌅 Maghrib Prayer Time"
+      icon: "mdi:weather-sunset"
+      color: "#FF7043"
+    isha:
+      sensor: !input isha_sensor
+      enabled: !input isha_enabled
+      message: !input isha_message
+      title: "🌙 Isha Prayer Time"
+      icon: "mdi:weather-night"
+      color: "#5C6BC0"
+
+  
+# --- AUTOMATION SECTION ---
+trigger:
+  - platform: time
+    at: !input fajr_sensor
+    id: fajr
+  - platform: time
+    at: !input dhuhr_sensor
+    id: dhuhr
+  - platform: time
+    at: !input asr_sensor
+    id: asr
+  - platform: time
+    at: !input maghrib_sensor
+    id: maghrib
+  - platform: time
+    at: !input isha_sensor
+    id: isha
+
+
+condition:
+  - condition: template
+    value_template: "{{ prayers[trigger.id].enabled }}"
+
+action:
+  - device_id: !input notify_device
+    domain: mobile_app
+    type: notify
+    title: "{{ prayers[trigger.id].title }}"
+    message: "{{ prayers[trigger.id].message }}"
+    data:
+      # Cross-platform notification settings
+      notification_icon: "{{ prayers[trigger.id].icon }}"
+      color: "{{ prayers[trigger.id].color }}"
+      channel: "prayer_notifications"
+      importance: high
+      # Multiple persistence options for cross-platform compatibility
+      persistent: true    # Android
+      sticky: true       # Android fallback
+      timeout: 0         # Prevent auto-dismiss
+      # Interactive actions
+      actions:
+        - action: "MARK_PRAYED"
+          title: "Mark as Prayed"
+          icon: "sfsymbols:checkmark.circle"
+        - action: "SNOOZE_PRAYER"
+          title: "Remind me in 5 min"
+          icon: "sfsymbols:clock"
+
+
+          
+mode: parallel
+max_exceeded: silent

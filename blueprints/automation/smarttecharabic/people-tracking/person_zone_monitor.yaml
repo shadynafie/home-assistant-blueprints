@@ -1,0 +1,268 @@
+blueprint:
+  name: Person Zone Monitor
+  domain: automation
+  author: Shady Nafie
+
+  description: |
+    ### Person Zone Monitor — V2.0 (Single Device)
+    **By [Dr. Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**  
+
+    Tracks one or more people and fires your custom actions whenever they …  
+
+    • ➡️ **enter** a monitored zone from outside  
+    • ⬅️ **leave** a monitored zone to outside  
+    • 🔄 **jump** directly between two monitored zones  
+
+    **Key features**  
+    • Monitor multiple people **and** zones simultaneously  
+    • Push notification to **one** selected device (clean and reliable)  
+    • **Three** notifications types: **Enter / Leave / Jump**  
+    • Optional custom *Extra Actions* for each type  
+
+  input:
+
+    people_zones:
+      name: "People & Zones"
+      icon: mdi:account-multiple-outline
+      collapsed: false
+      input:
+        people2monitor:
+          name: Monitored people
+          description: Select **one or more persons** to track.
+          selector:
+            entity:
+              filter:
+                domain: person
+              multiple: true
+
+        zone2monitor:
+          name: Monitored zones (optional)
+          description: Leave blank to track **all** zones.
+          default: []
+          selector:
+            entity:
+              filter:
+                domain: zone
+              multiple: true
+
+    delivery:
+      name: "Delivery"
+      icon: mdi:cellphone
+      collapsed: false
+      input:
+        notify_device:
+          name: Target device
+          description: Choose a phone/tablet with the official Home Assistant app.
+          selector:
+            device:
+              filter:
+                integration: mobile_app
+
+    notification_text:
+      name: "Notification text"
+      icon: mdi:bell-outline
+      collapsed: true
+      input:
+        custom_sound:
+          name: Custom notification sound (optional)
+          default: ""
+          selector:
+            text:
+
+        enter_title:
+          name: "Enter · Title"
+          default: "{{ person_name }} Update!"
+          selector:
+            text:
+
+        enter_message:
+          name: "Enter · Message"
+          default: "📍 Arrived at {{ zone_name_title }}! 🕒 {{ now().strftime('%I:%M %p') }}"
+          selector:
+            text:
+              multiline: true
+
+        leave_title:
+          name: "Leave · Title"
+          default: "{{ person_name }} Update!"
+          selector:
+            text:
+
+        leave_message:
+          name: "Leave · Message"
+          default: "📍 Left {{ from_zone_title }}! 🕒 {{ now().strftime('%I:%M %p') }}"
+          selector:
+            text:
+              multiline: true
+
+        jump_title:
+          name: "Jump · Title"
+          default: "{{ person_name }} Update!"
+          selector:
+            text:
+
+        jump_message:
+          name: "Jump · Message"
+          default: "📍 Moved from {{ from_zone_title }} ➞ {{ zone_name_title }}! 🕒 {{ now().strftime('%I:%M %p') }}"
+          selector:
+            text:
+              multiline: true
+
+    extra_actions:
+      name: "Extra actions (optional)"
+      icon: mdi:cog-outline
+      collapsed: true
+      input:
+        enter_action:
+          name: "Enter · Extra sequence"
+          default: []
+          selector:
+            action:
+
+        leave_action:
+          name: "Leave · Extra sequence"
+          default: []
+          selector:
+            action:
+
+        jump_action:
+          name: "Jump · Extra sequence"
+          default: []
+          selector:
+            action:
+
+trigger:
+  - platform: state
+    entity_id: !input people2monitor
+
+variables:
+  _zones_raw: !input zone2monitor
+  _notify_device: !input notify_device
+  _custom_sound: !input custom_sound
+  _enter_action: !input enter_action
+  _leave_action: !input leave_action
+  _jump_action: !input jump_action
+
+  zones_monitored: >
+    {% if _zones_raw | length == 0 %}
+      {{ states.zone | map(attribute='entity_id') | list }}
+    {% else %}
+      {{ _zones_raw }}
+    {% endif %}
+
+  monitored_zone_states: >
+    {% set ns = namespace(states=[]) %}
+    {% for zone_entity in zones_monitored %}
+      {% set zone_friendly = state_attr(zone_entity, 'friendly_name') or zone_entity.replace('zone.', '').replace('_', ' ').title() %}
+      {% set zone_clean = zone_entity.replace('zone.', '') %}
+      {% set zone_underscore = zone_clean.replace('_', ' ').title() %}
+      {% set ns.states = ns.states + [zone_clean, zone_friendly, zone_underscore] %}
+    {% endfor %}
+    {{ ns.states | unique | list }}
+
+  to_state: "{{ trigger.to_state.state }}"
+  from_state: "{{ trigger.from_state.state }}"
+
+  zone_name: "{{ to_state }}"
+  from_zone: "{{ from_state }}"
+
+  zone_name_title: "{{ zone_name.replace('_', ' ').title() }}"
+  from_zone_title: "{{ from_zone.replace('_', ' ').title() }}"
+
+  person_name: "{{ state_attr(trigger.entity_id, 'friendly_name') or trigger.entity_id.split('.')[1].replace('_', ' ').title() }}"
+  timestamp: "{{ now().strftime('%I:%M %p') }}"
+
+  entity_picture: "{{ state_attr(trigger.entity_id, 'entity_picture') | default('') }}"
+  picture_url: >
+    {%- if entity_picture -%}
+      {%- if entity_picture.startswith('http') -%}
+        {{ entity_picture }}
+      {%- elif entity_picture.startswith('/') -%}
+        {{ entity_picture }}
+      {%- else -%}
+        {{ '/local/' ~ entity_picture }}
+      {%- endif -%}
+    {%- else -%}
+      ''
+    {%- endif -%}
+
+condition:
+  - condition: template
+    value_template: "{{ to_state != from_state }}"
+  - condition: template
+    value_template: "{{ to_state not in ('unknown', 'unavailable', 'none', '') }}"
+  - condition: template
+    value_template: "{{ from_state not in ('unknown', 'unavailable', 'none', '') }}"
+
+action:
+  - choose:
+      # ENTER
+      - conditions:
+          - condition: template
+            value_template: "{{ to_state in monitored_zone_states }}"
+          - condition: template
+            value_template: "{{ from_state not in monitored_zone_states }}"
+        sequence:
+          - device_id: !input notify_device
+            domain: mobile_app
+            type: notify
+            title: !input enter_title
+            message: !input enter_message
+            data:
+              image: "{{ picture_url if picture_url else none }}"
+              attachment:
+                url: "{{ picture_url if picture_url else none }}"
+              sound: "{{ _custom_sound if _custom_sound else none }}"
+          - if:
+              - condition: template
+                value_template: "{{ (_enter_action | default([])) | length > 0 }}"
+            then: !input enter_action
+
+      # LEAVE
+      - conditions:
+          - condition: template
+            value_template: "{{ from_state in monitored_zone_states }}"
+          - condition: template
+            value_template: "{{ to_state not in monitored_zone_states }}"
+        sequence:
+          - device_id: !input notify_device
+            domain: mobile_app
+            type: notify
+            title: !input leave_title
+            message: !input leave_message
+            data:
+              image: "{{ picture_url if picture_url else none }}"
+              attachment:
+                url: "{{ picture_url if picture_url else none }}"
+              sound: "{{ _custom_sound if _custom_sound else none }}"
+          - if:
+              - condition: template
+                value_template: "{{ (_leave_action | default([])) | length > 0 }}"
+            then: !input leave_action
+
+      # JUMP
+      - conditions:
+          - condition: template
+            value_template: "{{ from_state in monitored_zone_states }}"
+          - condition: template
+            value_template: "{{ to_state in monitored_zone_states }}"
+          - condition: template
+            value_template: "{{ from_state != to_state }}"
+        sequence:
+          - device_id: !input notify_device
+            domain: mobile_app
+            type: notify
+            title: !input jump_title
+            message: !input jump_message
+            data:
+              image: "{{ picture_url if picture_url else none }}"
+              attachment:
+                url: "{{ picture_url if picture_url else none }}"
+              sound: "{{ _custom_sound if _custom_sound else none }}"
+          - if:
+              - condition: template
+                value_template: "{{ (_jump_action | default([])) | length > 0 }}"
+            then: !input jump_action
+
+mode: queued
+max: 10
