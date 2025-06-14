@@ -17,5 +17,5 @@ A collection of useful blueprints for Home Assistant automations, crafted to mak
 2. Click **Import Blueprint** and paste the **raw GitHub URL** to the `.yaml` file.
 3. Use the blueprint to create automations in Home Assistant.
 
-📘 See [docs/how-to-import.md](./docs/how-to-import.md) for more help.
+📘 See [docs/how_to_import.md](./docs/how_to_import.md) for more help.
 
