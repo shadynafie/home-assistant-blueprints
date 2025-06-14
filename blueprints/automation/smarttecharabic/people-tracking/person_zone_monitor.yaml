@@ -2,6 +2,8 @@ blueprint:
   name: Person Zone Monitor
   domain: automation
   author: Shady Nafie
+  source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/people-tracking/person_zone_monitor.yaml
+  version: "2.0"
 
   description: |
     ### Person Zone Monitor — V2.0 (Single Device)
