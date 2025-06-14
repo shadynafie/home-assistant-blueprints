@@ -50,4 +50,4 @@ Need help? Watch [Smart Tech Arabic](https://www.youtube.com/@smarttecharabic) f
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](../../../../LICENSE.txt).
