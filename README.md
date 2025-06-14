@@ -6,8 +6,8 @@ A collection of useful blueprints for Home Assistant automations, crafted to mak
 
 ## 📜 Available Blueprints
 
-### 🕌 [Azan Notifications](./blueprints/notifications/README.md)
-### 👥 [People Zone Monitor](./blueprints/people-tracking/README.md)
+### 🕌 [Azan Notifications](./blueprints/automation/smarttecharabic/azan-notifications/README.md)
+### 👥 [People Zone Monitor](./blueprints/automation/smarttecharabic/people-tracking/README.md)
 
 ---
 
