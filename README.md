@@ -7,8 +7,13 @@ A collection of useful blueprints for Home Assistant automations, crafted to mak
 ## 📜 Available Blueprints
 
 ### 🕌 [Azan Notifications](./blueprints/automation/smarttecharabic/azan-notifications/README.md)
-### 👥 [People Zone Monitor](./blueprints/automation/smarttecharabic/people-tracking/README.md)
+Send customizable alerts for each of the five daily prayers.
+
+### 👥 [Person Zone Monitor](./blueprints/automation/smarttecharabic/people-tracking/README.md)
+Tracks multiple people's locations across zones and triggers actions on arrivals, departures, or jumps.
+
 ### 📖 [Before Maghrib Quran](./blueprints/automation/smarttecharabic/before-maghrib/README.md)
+Plays Quran audio 30 minutes before Maghrib and can send a push notification.
 
 ---
 
