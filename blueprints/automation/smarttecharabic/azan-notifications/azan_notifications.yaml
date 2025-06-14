@@ -23,7 +23,11 @@ blueprint:
 
   domain: automation
   source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/azan_notifications.yaml
-  version: "1.0"
+
+  metadata:
+   version: "1.0"
+   change_log: https://github.com/shadynafie/home-assistant-blueprints/releases/tag/azan-notifications-v1.0
+
   input:
 
     # --- Section 1: Target Device (Non-collapsible) ---
