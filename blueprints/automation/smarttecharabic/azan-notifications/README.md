@@ -1,4 +1,4 @@
-# 🕌 Azan Notifications v1.0 – Home Assistant Blueprint
+# 🕌 Azan Notifications (v1.0)
 
 **By [Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**
 
