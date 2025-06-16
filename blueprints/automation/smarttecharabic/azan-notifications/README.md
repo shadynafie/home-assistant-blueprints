@@ -52,7 +52,7 @@ Use this button to import the blueprint directly into your Home Assistant instan
   - Select your speaker
   - Choose type: direct or Alexa/Plex
   - Enter MP3 URL or Plex playlist name
-  - Set playback volume (0.0 to 1.0)
+  - Set playback volume
 
 ---
 
