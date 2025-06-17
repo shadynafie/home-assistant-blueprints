@@ -2,7 +2,7 @@
 
 ### by [**Shady Nafie — Smart Tech Arabic**](https://smarttecharabic.com)
 
-A curated collection of high-quality, ready-to-use **Home Assistant blueprints**, designed to help you build a smarter, more personalised home automation experience — with just a few clicks.
+A **curated collection** of high-quality, ready-to-use **Home Assistant blueprints** to build a smarter, personalized home automation experience — **with just a few clicks!**
 
 🔧 Created by [Shady Nafie](https://smarttecharabic.com), a passionate smart home enthusiast and content creator behind the [Smart Tech Arabic YouTube channel](https://www.youtube.com/@smarttecharabic), where he shares practical Home Assistant tutorials and ideas to help Arabic-speaking users simplify their automations and enjoy smarter living.
 
