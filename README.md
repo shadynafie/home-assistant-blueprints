@@ -1,27 +1,38 @@
-# 🏠 Home Assistant Blueprints by Shady Nafie
+# **🏠 Home Assistant Blueprints**
 
-A collection of useful blueprints for Home Assistant automations, crafted to make your smart home smarter.
+### by [**Shady Nafie — Smart Tech Arabic**](https://smarttecharabic.com)
+
+A curated collection of high-quality, ready-to-use **Home Assistant blueprints**, designed to help you build a smarter, more personalised home automation experience — with just a few clicks.
+
+🔧 Created by [Shady Nafie](https://smarttecharabic.com), a passionate smart home enthusiast and content creator behind the [Smart Tech Arabic YouTube channel](https://www.youtube.com/@smarttecharabic), where he shares practical Home Assistant tutorials and ideas to help Arabic-speaking users simplify their automations and enjoy smarter living.
 
 ---
 
-## 📜 Available Blueprints
+## 📚 Available Blueprints
 
 ### 🕌 [Azan Notifications](./blueprints/automation/smarttecharabic/azan-notifications/README.md)
-Send customizable alerts for each of the five daily prayers.
+
+Receive beautifully timed mobile notifications for each of the five daily Islamic prayers — with optional Adhan playback on your smart speakers (Google, HomePod, Alexa via Plex).
 
 ### 👥 [Person Zone Monitor](./blueprints/automation/smarttecharabic/people-tracking/README.md)
-Tracks multiple people's locations across zones and triggers actions on arrivals, departures, or jumps.
+
+Monitor multiple people across zones and trigger custom actions when they enter, leave, or jump between zones — great for family and presence-based automation.
 
 ### 📖 [Before Maghrib Quran](./blueprints/automation/smarttecharabic/before-maghrib/README.md)
-Plays Quran audio 30 minutes before Maghrib and can send a push notification.
+
+Automatically play Quran audio 30 minutes before Maghrib prayer, and optionally send a mobile notification — a peaceful reminder for your evening routine.
+
 
 ---
 
-## 🛠 How to Use
+## 🌐 Learn More & Get Support
 
-1. Go to **Home Assistant** > **Settings** > **Automations & Scenes** > **Blueprints**.
-2. Click **Import Blueprint** and paste the **raw GitHub URL** to the `.yaml` file.
-3. Use the blueprint to create automations in Home Assistant.
+* 📺 **YouTube Channel**: [Smart Tech Arabic](https://www.youtube.com/@smarttecharabic) — tutorials, walkthroughs, and smart home reviews in Arabic
+* 🌍 **Website**: [smarttecharabic.com](https://smarttecharabic.com) — book consultations, explore articles, and download planning tools
+* 💬 **Facebook Group**: Join our growing community of Arabic-speaking smart home enthusiasts: [Smart Tech Arabic Community](https://www.facebook.com/groups/smarttecharabic)
 
-📘 See [docs/how_to_import.md](./docs/how_to_import.md) for more help.
+---
 
+## 🤝 Contribute
+
+Contributions, suggestions, and bug reports are welcome. Please feel free to open issues or pull requests to help make these blueprints even better for the community.
