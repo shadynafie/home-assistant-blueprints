@@ -19,18 +19,30 @@ Plays the Athan on your speakers at every prayer time, and can notify your phone
 
 **3. Create the automation**
 
-- **Prayer times:** choose your five prayer times.
-- **Speakers and sound:** choose your speakers, a [voice](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) and a volume.
-- Save, then press **Run** to hear a test.
+- **Prayer times:** choose each prayer's own time, such as **Fajr Prayer**. Do not choose Iqama, or the Athan will play at the Iqama time.
 
-That is all. Fajr plays its own Fajr Athan automatically. The panels marked **Optional** let you add phones, or change the voice and volume for one prayer.
+![Prayer times panel](../../../../docs/images/azan-prayer-times.png)
+
+- **Speakers and sound:** choose your speakers, a [voice](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) and a volume.
+
+![Choosing the Athan voice](../../../../docs/images/azan-voice.png)
+
+- Save, then open the **⋮** menu at the top right and choose **Run actions** to hear a test. The test plays your main voice, not the Fajr Athan.
+
+![Run actions in the menu](../../../../docs/images/azan-run.png)
+
+That is all. Fajr plays its own Fajr Athan automatically. To change it, open **Optional: Fajr**. The other **Optional** panels let you add phones, or change the voice and volume for one prayer.
+
+![Choosing the Fajr Athan](../../../../docs/images/azan-fajr.png)
 
 ### Good to know
 
 - Works with Amazon Echo, HomePod, Google Cast and Sonos, and you can mix them.
-- Your speakers need internet, because the voices play from this page.
+- Your speakers need internet, because the voices play from GitHub.
+- After you pick a voice, the box shows its short name, such as `abdul-basit`. This is normal.
+- Leave **Speakers** empty if you only want phone notifications.
 - Home Assistant cannot see whether an Echo played, so test it by ear.
-- To use your own sound, type its `https` MP3 link in any voice box. For Echo it must be MP3, 48 kbps, 22050 Hz, up to 240 seconds.
+- To use your own sound, type its `https` MP3 link in any voice box. For Echo it must be MP3, 48 kbps, 22050 Hz, up to 240 seconds. If Alexa says it is having trouble, check the link and the format.
 - Updating from an older version? Import again and tick **Overwrite**. Your automations keep working.
 
 ---
@@ -52,18 +64,30 @@ That is all. Fajr plays its own Fajr Athan automatically. The panels marked **Op
 
 **٣. أنشئ الأتمتة**
 
-- **Prayer times:** اختر مواقيت الصلوات الخمس.
-- **Speakers and sound:** اختر السماعات و[صوت الأذان](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) ومستوى الصوت.
-- احفظ، ثم اضغط **Run** لسماع تجربة.
+- **Prayer times:** اختر وقت كل صلاة نفسها، مثل **Fajr Prayer**. لا تختر Iqama، وإلا سيعمل الأذان في وقت الإقامة.
 
-هذا كل شيء. صلاة الفجر تُشغّل أذان الفجر الخاص بها تلقائيًا. الأقسام المكتوب عليها **Optional** اختيارية، وتتيح لك إضافة الهواتف أو تغيير الصوت لصلاة معينة.
+![Prayer times panel](../../../../docs/images/azan-prayer-times.png)
+
+- **Speakers and sound:** اختر السماعات و[صوت الأذان](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) ومستوى الصوت.
+
+![Choosing the Athan voice](../../../../docs/images/azan-voice.png)
+
+- احفظ، ثم افتح قائمة **⋮** أعلى الصفحة واختر **Run actions** لسماع تجربة. تُشغّل التجربة صوتك الأساسي، وليس أذان الفجر.
+
+![Run actions in the menu](../../../../docs/images/azan-run.png)
+
+هذا كل شيء. صلاة الفجر تُشغّل أذان الفجر الخاص بها تلقائيًا. ولتغييره افتح **Optional: Fajr**. وتتيح لك الأقسام الأخرى المكتوب عليها **Optional** إضافة الهواتف أو تغيير الصوت لصلاة معينة.
+
+![Choosing the Fajr Athan](../../../../docs/images/azan-fajr.png)
 
 ### معلومات مفيدة
 
 - يعمل مع Amazon Echo وHomePod وGoogle Cast وSonos، ويمكنك الجمع بينها.
-- تحتاج السماعات إلى إنترنت، لأن الأصوات تُشغَّل من هذه الصفحة.
+- تحتاج السماعات إلى إنترنت، لأن الأصوات تُشغَّل من GitHub.
+- بعد اختيار الصوت تعرض الخانة اسمه المختصر، مثل `abdul-basit`. وهذا طبيعي.
+- اترك خانة **Speakers** فارغة إذا كنت تريد إشعارات الهواتف فقط.
 - لا يستطيع Home Assistant معرفة هل شغّلت Echo الأذان أم لا، فتأكد بنفسك عن طريق السمع.
-- لاستخدام صوتك الخاص، اكتب رابط MP3 يبدأ بـ `https` في خانة الصوت. وبالنسبة إلى Echo يجب أن يكون الملف MP3 بجودة 48 kbps و22050 Hz ولا يزيد عن 240 ثانية.
+- لاستخدام صوتك الخاص، اكتب رابط MP3 يبدأ بـ `https` في خانة الصوت. وبالنسبة إلى Echo يجب أن يكون الملف MP3 بجودة 48 kbps و22050 Hz ولا يزيد عن 240 ثانية. وإذا قالت Alexa إن هناك مشكلة، فتأكد من الرابط وصيغة الملف.
 - عند التحديث من إصدار قديم، استورد القالب مرة أخرى وفعّل **Overwrite**. ستظل الأتمتة تعمل كما هي.
 
 </div>
