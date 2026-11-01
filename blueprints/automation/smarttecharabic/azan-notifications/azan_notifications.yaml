@@ -151,7 +151,7 @@ blueprint:
             boolean: {}
         fajr_voice:
           name: Athan voice
-          default: malek-chebae-fajr
+          default: default
           selector:
             select:
               mode: dropdown
