@@ -1,31 +1,67 @@
 blueprint:
-  name: Azan Notifications - V3.0
+  name: Azan Notifications - V3.1
   description: |
-    **Azan Notifications + Athan on your speakers - V3.0**
-    **By [Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**
+    **Plays the Athan on your speakers at every prayer time.**
 
-    Plays the Athan at each prayer time and can notify your phones.
+    Fill in the first two panels and save. Everything else is optional.
 
-    **Setup:** pick your speakers, a voice and your five prayer time sensors, then save.
-    Everything else is optional, including a different voice or volume for each prayer.
+    [How to use it](https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/README.md) · [الشرح بالعربي](https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/README.md#arabic)
 
-    **Works with:** Amazon Echo (through Alexa Media Player), HomePod, Google Cast and Sonos.
-    Echo speakers are detected automatically. You can mix speaker types.
-
-    **Prayer times:** any timestamp sensors, such as the MAWAQIT or Islamic Prayer Times integrations.
+    By [Shady Nafie, Smart Tech Arabic](https://smarttecharabic.com)
 
   domain: automation
   source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/azan_notifications.yaml
 
   input:
+    prayer_sensors_section:
+      name: Prayer times
+      description: Choose your five prayer times.
+      icon: mdi:mosque-outline
+      input:
+        fajr_sensor:
+          name: 🌅 Fajr
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        dhuhr_sensor:
+          name: ☀️ Dhuhr
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        asr_sensor:
+          name: 🌤️ Asr
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        maghrib_sensor:
+          name: 🌆 Maghrib
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        isha_sensor:
+          name: 🌙 Isha
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+
     sound_section:
       name: Speakers and sound
+      description: Choose your speakers, a voice and a volume.
       icon: mdi:volume-high
       collapsed: false
       input:
         media_player_target:
           name: Speakers
-          description: Choose one or more speakers.
           default: []
           selector:
             entity:
@@ -33,46 +69,44 @@ blueprint:
               filter:
                 - domain: media_player
         mp3_file:
-          name: Main Athan sound
-          description: Used for every prayer unless you change it below. Pick a voice, or type the https link to your own MP3.
-          default: voice-01
+          name: Athan voice
+          description: "[Listen to the voices](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html)"
+          default: mishary-alafasy
           selector:
             select:
               mode: dropdown
               custom_value: true
               options:
-                - label: "Athan voice 1 (2:13)"
-                  value: voice-01
-                - label: "Athan voice 2 (3:16)"
-                  value: voice-02
-                - label: "Athan voice 3 (3:26)"
-                  value: voice-03
-                - label: "Athan voice 4 (2:08)"
-                  value: voice-04
-                - label: "Athan voice 5 (1:58)"
-                  value: voice-05
-                - label: "Athan voice 6 (2:52)"
-                  value: voice-06
-                - label: "Athan voice 7 (2:00)"
-                  value: voice-07
-                - label: "Athan voice 8 (3:20)"
-                  value: voice-08
-                - label: "Athan voice 9 (3:57)"
-                  value: voice-09
-                - label: "Athan voice 10 (3:31)"
-                  value: voice-10
-                - label: "Athan voice 11 (2:29)"
-                  value: voice-11
-                - label: "Athan voice 12 (3:42)"
-                  value: voice-12
-                - label: "Athan voice 13 (2:39)"
-                  value: voice-13
-                - label: "Athan voice 14 (3:03)"
-                  value: voice-14
-                - label: "Athan voice 15 (1:52)"
-                  value: voice-15
+                - label: "Abdul Basit (3:19)"
+                  value: abdul-basit
+                - label: "Ahmad Nuaina (3:29)"
+                  value: ahmad-nuaina
+                - label: "Hamad Deghreri (2:41)"
+                  value: hamad-deghreri
+                - label: "Hamdan Almalki (4:25)"
+                  value: hamdan-almalki
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: ibrahim-al-arkani
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: majed-al-hamathani
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Malek Chebae (Fajr) (4:10)"
+                  value: malek-chebae-fajr
+                - label: "Mansoor Az-Zahrani (3:10)"
+                  value: mansoor-az-zahrani
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
+                - label: "Mohammad Al-Minshawi (4:05)"
+                  value: mohammad-al-minshawi
+                - label: "Mohammad Refaat (3:22)"
+                  value: mohammad-refaat
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Suhaib Khatba (3:03)"
+                  value: suhaib-khatba
         volume_level:
-          name: Main volume
+          name: Volume
           default: 0.3
           selector:
             number:
@@ -80,57 +114,25 @@ blueprint:
               max: 1
               step: 0.05
               mode: slider
-
-    prayer_sensors_section:
-      name: Prayer times
-      description: Choose the sensors that give each prayer time.
-      icon: mdi:mosque-outline
-      collapsed: false
-      input:
-        fajr_sensor:
-          name: 🌅 Fajr time
+        echo_volume:
+          name: Echo volume
+          description: 0 keeps the volume above.
+          default: 0
           selector:
-            entity:
-              filter:
-                - domain: [sensor]
-                  device_class: timestamp
-        dhuhr_sensor:
-          name: ☀️ Dhuhr time
-          selector:
-            entity:
-              filter:
-                - domain: [sensor]
-                  device_class: timestamp
-        asr_sensor:
-          name: 🌤️ Asr time
-          selector:
-            entity:
-              filter:
-                - domain: [sensor]
-                  device_class: timestamp
-        maghrib_sensor:
-          name: 🌆 Maghrib time
-          selector:
-            entity:
-              filter:
-                - domain: [sensor]
-                  device_class: timestamp
-        isha_sensor:
-          name: 🌙 Isha time
-          selector:
-            entity:
-              filter:
-                - domain: [sensor]
-                  device_class: timestamp
+            number:
+              min: 0
+              max: 1
+              step: 0.05
+              mode: slider
 
     notify_target:
-      name: Phone notifications (optional)
+      name: "Optional: Phones"
+      description: Choose the phones to notify.
       icon: mdi:cellphone-message
-      collapsed: false
+      collapsed: true
       input:
         notify_device:
           name: Phones
-          description: Needs the Home Assistant Companion app. Leave empty for no notifications.
           default: []
           selector:
             device:
@@ -139,62 +141,59 @@ blueprint:
                 - integration: mobile_app
 
     fajr_section:
-      name: 🌅 Fajr options
+      name: "Optional: 🌅 Fajr"
+      description: Changes here apply to Fajr only.
       icon: mdi:tune
       collapsed: true
       input:
         fajr_enabled:
           name: Use this prayer
-          description: Turn off to skip both the sound and the phone notification.
           default: true
           selector:
             boolean: {}
         fajr_voice:
-          name: Athan sound
-          description: Pick a voice, or type the https link to your own MP3.
-          default: default
+          name: Athan voice
+          default: malek-chebae-fajr
           selector:
             select:
               mode: dropdown
               custom_value: true
               options:
-                - label: "Same as main Athan sound"
+                - label: "Same as your main voice"
                   value: default
-                - label: "No sound (phone notification only)"
+                - label: "No sound (phone only)"
                   value: none
-                - label: "Athan voice 1 (2:13)"
-                  value: voice-01
-                - label: "Athan voice 2 (3:16)"
-                  value: voice-02
-                - label: "Athan voice 3 (3:26)"
-                  value: voice-03
-                - label: "Athan voice 4 (2:08)"
-                  value: voice-04
-                - label: "Athan voice 5 (1:58)"
-                  value: voice-05
-                - label: "Athan voice 6 (2:52)"
-                  value: voice-06
-                - label: "Athan voice 7 (2:00)"
-                  value: voice-07
-                - label: "Athan voice 8 (3:20)"
-                  value: voice-08
-                - label: "Athan voice 9 (3:57)"
-                  value: voice-09
-                - label: "Athan voice 10 (3:31)"
-                  value: voice-10
-                - label: "Athan voice 11 (2:29)"
-                  value: voice-11
-                - label: "Athan voice 12 (3:42)"
-                  value: voice-12
-                - label: "Athan voice 13 (2:39)"
-                  value: voice-13
-                - label: "Athan voice 14 (3:03)"
-                  value: voice-14
-                - label: "Athan voice 15 (1:52)"
-                  value: voice-15
+                - label: "Abdul Basit (3:19)"
+                  value: abdul-basit
+                - label: "Ahmad Nuaina (3:29)"
+                  value: ahmad-nuaina
+                - label: "Hamad Deghreri (2:41)"
+                  value: hamad-deghreri
+                - label: "Hamdan Almalki (4:25)"
+                  value: hamdan-almalki
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: ibrahim-al-arkani
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: majed-al-hamathani
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Malek Chebae (Fajr) (4:10)"
+                  value: malek-chebae-fajr
+                - label: "Mansoor Az-Zahrani (3:10)"
+                  value: mansoor-az-zahrani
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
+                - label: "Mohammad Al-Minshawi (4:05)"
+                  value: mohammad-al-minshawi
+                - label: "Mohammad Refaat (3:22)"
+                  value: mohammad-refaat
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Suhaib Khatba (3:03)"
+                  value: suhaib-khatba
         fajr_volume:
           name: Volume
-          description: Leave at 0 to use the main volume.
+          description: 0 keeps your main volume.
           default: 0
           selector:
             number:
@@ -209,62 +208,59 @@ blueprint:
             text: {}
 
     dhuhr_section:
-      name: ☀️ Dhuhr options
+      name: "Optional: ☀️ Dhuhr"
+      description: Changes here apply to Dhuhr only.
       icon: mdi:tune
       collapsed: true
       input:
         dhuhr_enabled:
           name: Use this prayer
-          description: Turn off to skip both the sound and the phone notification.
           default: true
           selector:
             boolean: {}
         dhuhr_voice:
-          name: Athan sound
-          description: Pick a voice, or type the https link to your own MP3.
+          name: Athan voice
           default: default
           selector:
             select:
               mode: dropdown
               custom_value: true
               options:
-                - label: "Same as main Athan sound"
+                - label: "Same as your main voice"
                   value: default
-                - label: "No sound (phone notification only)"
+                - label: "No sound (phone only)"
                   value: none
-                - label: "Athan voice 1 (2:13)"
-                  value: voice-01
-                - label: "Athan voice 2 (3:16)"
-                  value: voice-02
-                - label: "Athan voice 3 (3:26)"
-                  value: voice-03
-                - label: "Athan voice 4 (2:08)"
-                  value: voice-04
-                - label: "Athan voice 5 (1:58)"
-                  value: voice-05
-                - label: "Athan voice 6 (2:52)"
-                  value: voice-06
-                - label: "Athan voice 7 (2:00)"
-                  value: voice-07
-                - label: "Athan voice 8 (3:20)"
-                  value: voice-08
-                - label: "Athan voice 9 (3:57)"
-                  value: voice-09
-                - label: "Athan voice 10 (3:31)"
-                  value: voice-10
-                - label: "Athan voice 11 (2:29)"
-                  value: voice-11
-                - label: "Athan voice 12 (3:42)"
-                  value: voice-12
-                - label: "Athan voice 13 (2:39)"
-                  value: voice-13
-                - label: "Athan voice 14 (3:03)"
-                  value: voice-14
-                - label: "Athan voice 15 (1:52)"
-                  value: voice-15
+                - label: "Abdul Basit (3:19)"
+                  value: abdul-basit
+                - label: "Ahmad Nuaina (3:29)"
+                  value: ahmad-nuaina
+                - label: "Hamad Deghreri (2:41)"
+                  value: hamad-deghreri
+                - label: "Hamdan Almalki (4:25)"
+                  value: hamdan-almalki
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: ibrahim-al-arkani
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: majed-al-hamathani
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Malek Chebae (Fajr) (4:10)"
+                  value: malek-chebae-fajr
+                - label: "Mansoor Az-Zahrani (3:10)"
+                  value: mansoor-az-zahrani
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
+                - label: "Mohammad Al-Minshawi (4:05)"
+                  value: mohammad-al-minshawi
+                - label: "Mohammad Refaat (3:22)"
+                  value: mohammad-refaat
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Suhaib Khatba (3:03)"
+                  value: suhaib-khatba
         dhuhr_volume:
           name: Volume
-          description: Leave at 0 to use the main volume.
+          description: 0 keeps your main volume.
           default: 0
           selector:
             number:
@@ -279,62 +275,59 @@ blueprint:
             text: {}
 
     asr_section:
-      name: 🌤️ Asr options
+      name: "Optional: 🌤️ Asr"
+      description: Changes here apply to Asr only.
       icon: mdi:tune
       collapsed: true
       input:
         asr_enabled:
           name: Use this prayer
-          description: Turn off to skip both the sound and the phone notification.
           default: true
           selector:
             boolean: {}
         asr_voice:
-          name: Athan sound
-          description: Pick a voice, or type the https link to your own MP3.
+          name: Athan voice
           default: default
           selector:
             select:
               mode: dropdown
               custom_value: true
               options:
-                - label: "Same as main Athan sound"
+                - label: "Same as your main voice"
                   value: default
-                - label: "No sound (phone notification only)"
+                - label: "No sound (phone only)"
                   value: none
-                - label: "Athan voice 1 (2:13)"
-                  value: voice-01
-                - label: "Athan voice 2 (3:16)"
-                  value: voice-02
-                - label: "Athan voice 3 (3:26)"
-                  value: voice-03
-                - label: "Athan voice 4 (2:08)"
-                  value: voice-04
-                - label: "Athan voice 5 (1:58)"
-                  value: voice-05
-                - label: "Athan voice 6 (2:52)"
-                  value: voice-06
-                - label: "Athan voice 7 (2:00)"
-                  value: voice-07
-                - label: "Athan voice 8 (3:20)"
-                  value: voice-08
-                - label: "Athan voice 9 (3:57)"
-                  value: voice-09
-                - label: "Athan voice 10 (3:31)"
-                  value: voice-10
-                - label: "Athan voice 11 (2:29)"
-                  value: voice-11
-                - label: "Athan voice 12 (3:42)"
-                  value: voice-12
-                - label: "Athan voice 13 (2:39)"
-                  value: voice-13
-                - label: "Athan voice 14 (3:03)"
-                  value: voice-14
-                - label: "Athan voice 15 (1:52)"
-                  value: voice-15
+                - label: "Abdul Basit (3:19)"
+                  value: abdul-basit
+                - label: "Ahmad Nuaina (3:29)"
+                  value: ahmad-nuaina
+                - label: "Hamad Deghreri (2:41)"
+                  value: hamad-deghreri
+                - label: "Hamdan Almalki (4:25)"
+                  value: hamdan-almalki
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: ibrahim-al-arkani
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: majed-al-hamathani
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Malek Chebae (Fajr) (4:10)"
+                  value: malek-chebae-fajr
+                - label: "Mansoor Az-Zahrani (3:10)"
+                  value: mansoor-az-zahrani
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
+                - label: "Mohammad Al-Minshawi (4:05)"
+                  value: mohammad-al-minshawi
+                - label: "Mohammad Refaat (3:22)"
+                  value: mohammad-refaat
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Suhaib Khatba (3:03)"
+                  value: suhaib-khatba
         asr_volume:
           name: Volume
-          description: Leave at 0 to use the main volume.
+          description: 0 keeps your main volume.
           default: 0
           selector:
             number:
@@ -349,62 +342,59 @@ blueprint:
             text: {}
 
     maghrib_section:
-      name: 🌆 Maghrib options
+      name: "Optional: 🌆 Maghrib"
+      description: Changes here apply to Maghrib only.
       icon: mdi:tune
       collapsed: true
       input:
         maghrib_enabled:
           name: Use this prayer
-          description: Turn off to skip both the sound and the phone notification.
           default: true
           selector:
             boolean: {}
         maghrib_voice:
-          name: Athan sound
-          description: Pick a voice, or type the https link to your own MP3.
+          name: Athan voice
           default: default
           selector:
             select:
               mode: dropdown
               custom_value: true
               options:
-                - label: "Same as main Athan sound"
+                - label: "Same as your main voice"
                   value: default
-                - label: "No sound (phone notification only)"
+                - label: "No sound (phone only)"
                   value: none
-                - label: "Athan voice 1 (2:13)"
-                  value: voice-01
-                - label: "Athan voice 2 (3:16)"
-                  value: voice-02
-                - label: "Athan voice 3 (3:26)"
-                  value: voice-03
-                - label: "Athan voice 4 (2:08)"
-                  value: voice-04
-                - label: "Athan voice 5 (1:58)"
-                  value: voice-05
-                - label: "Athan voice 6 (2:52)"
-                  value: voice-06
-                - label: "Athan voice 7 (2:00)"
-                  value: voice-07
-                - label: "Athan voice 8 (3:20)"
-                  value: voice-08
-                - label: "Athan voice 9 (3:57)"
-                  value: voice-09
-                - label: "Athan voice 10 (3:31)"
-                  value: voice-10
-                - label: "Athan voice 11 (2:29)"
-                  value: voice-11
-                - label: "Athan voice 12 (3:42)"
-                  value: voice-12
-                - label: "Athan voice 13 (2:39)"
-                  value: voice-13
-                - label: "Athan voice 14 (3:03)"
-                  value: voice-14
-                - label: "Athan voice 15 (1:52)"
-                  value: voice-15
+                - label: "Abdul Basit (3:19)"
+                  value: abdul-basit
+                - label: "Ahmad Nuaina (3:29)"
+                  value: ahmad-nuaina
+                - label: "Hamad Deghreri (2:41)"
+                  value: hamad-deghreri
+                - label: "Hamdan Almalki (4:25)"
+                  value: hamdan-almalki
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: ibrahim-al-arkani
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: majed-al-hamathani
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Malek Chebae (Fajr) (4:10)"
+                  value: malek-chebae-fajr
+                - label: "Mansoor Az-Zahrani (3:10)"
+                  value: mansoor-az-zahrani
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
+                - label: "Mohammad Al-Minshawi (4:05)"
+                  value: mohammad-al-minshawi
+                - label: "Mohammad Refaat (3:22)"
+                  value: mohammad-refaat
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Suhaib Khatba (3:03)"
+                  value: suhaib-khatba
         maghrib_volume:
           name: Volume
-          description: Leave at 0 to use the main volume.
+          description: 0 keeps your main volume.
           default: 0
           selector:
             number:
@@ -419,62 +409,59 @@ blueprint:
             text: {}
 
     isha_section:
-      name: 🌙 Isha options
+      name: "Optional: 🌙 Isha"
+      description: Changes here apply to Isha only.
       icon: mdi:tune
       collapsed: true
       input:
         isha_enabled:
           name: Use this prayer
-          description: Turn off to skip both the sound and the phone notification.
           default: true
           selector:
             boolean: {}
         isha_voice:
-          name: Athan sound
-          description: Pick a voice, or type the https link to your own MP3.
+          name: Athan voice
           default: default
           selector:
             select:
               mode: dropdown
               custom_value: true
               options:
-                - label: "Same as main Athan sound"
+                - label: "Same as your main voice"
                   value: default
-                - label: "No sound (phone notification only)"
+                - label: "No sound (phone only)"
                   value: none
-                - label: "Athan voice 1 (2:13)"
-                  value: voice-01
-                - label: "Athan voice 2 (3:16)"
-                  value: voice-02
-                - label: "Athan voice 3 (3:26)"
-                  value: voice-03
-                - label: "Athan voice 4 (2:08)"
-                  value: voice-04
-                - label: "Athan voice 5 (1:58)"
-                  value: voice-05
-                - label: "Athan voice 6 (2:52)"
-                  value: voice-06
-                - label: "Athan voice 7 (2:00)"
-                  value: voice-07
-                - label: "Athan voice 8 (3:20)"
-                  value: voice-08
-                - label: "Athan voice 9 (3:57)"
-                  value: voice-09
-                - label: "Athan voice 10 (3:31)"
-                  value: voice-10
-                - label: "Athan voice 11 (2:29)"
-                  value: voice-11
-                - label: "Athan voice 12 (3:42)"
-                  value: voice-12
-                - label: "Athan voice 13 (2:39)"
-                  value: voice-13
-                - label: "Athan voice 14 (3:03)"
-                  value: voice-14
-                - label: "Athan voice 15 (1:52)"
-                  value: voice-15
+                - label: "Abdul Basit (3:19)"
+                  value: abdul-basit
+                - label: "Ahmad Nuaina (3:29)"
+                  value: ahmad-nuaina
+                - label: "Hamad Deghreri (2:41)"
+                  value: hamad-deghreri
+                - label: "Hamdan Almalki (4:25)"
+                  value: hamdan-almalki
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: ibrahim-al-arkani
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: majed-al-hamathani
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Malek Chebae (Fajr) (4:10)"
+                  value: malek-chebae-fajr
+                - label: "Mansoor Az-Zahrani (3:10)"
+                  value: mansoor-az-zahrani
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
+                - label: "Mohammad Al-Minshawi (4:05)"
+                  value: mohammad-al-minshawi
+                - label: "Mohammad Refaat (3:22)"
+                  value: mohammad-refaat
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Suhaib Khatba (3:03)"
+                  value: suhaib-khatba
         isha_volume:
           name: Volume
-          description: Leave at 0 to use the main volume.
+          description: 0 keeps your main volume.
           default: 0
           selector:
             number:
@@ -492,6 +479,7 @@ variables:
   audio_base: https://raw.githubusercontent.com/shadynafie/home-assistant-blueprints/main/blueprints/automation/smarttecharabic/azan-notifications/audio/
   main_sound: !input mp3_file
   main_volume: !input volume_level
+  echo_main_volume: !input echo_volume
   speakers_input: !input media_player_target
   phones_input: !input notify_device
   prayers:
@@ -535,14 +523,21 @@ variables:
       title: "🌙 Isha Prayer Time"
       icon: mdi:weather-night
       color: "#5C6BC0"
-  prayer: "{{ prayers[trigger.id] }}"
+    # Pressing Run has no prayer time, so it plays the main voice on the speakers as a test.
+    test:
+      enabled: true
+      voice: default
+      volume: 0
+  prayer_id: "{{ trigger.id if trigger is defined and trigger.id is defined else 'test' }}"
+  prayer: "{{ prayers[prayer_id] }}"
   sound: "{{ main_sound if prayer.voice == 'default' else prayer.voice }}"
   # Older versions stored a full link here; a voice name becomes a link to this repository.
   audio_url: >-
     {% if sound == 'none' or not sound %}{% elif sound.startswith('http') %}{{ sound }}{% else %}{{ audio_base ~ sound ~ '.mp3' }}{% endif %}
   volume: "{{ prayer.volume if prayer.volume | float(0) > 0 else main_volume }}"
+  echo_level: "{{ prayer.volume if prayer.volume | float(0) > 0 else (echo_main_volume if echo_main_volume | float(0) > 0 else main_volume) }}"
   speakers: "{{ [speakers_input] if speakers_input is string else speakers_input }}"
-  phones: "{{ [phones_input] if phones_input is string else phones_input }}"
+  phones: "{{ [] if prayer_id == 'test' else ([phones_input] if phones_input is string else phones_input) }}"
   echo_speakers: "{{ speakers | select('in', integration_entities('alexa_media')) | list }}"
   other_speakers: "{{ speakers | reject('in', integration_entities('alexa_media')) | list }}"
 
@@ -565,7 +560,7 @@ trigger:
 
 condition:
   - condition: template
-    value_template: "{{ prayers[trigger.id].enabled }}"
+    value_template: "{{ prayer.enabled }}"
 
 action:
   - parallel:
@@ -599,7 +594,7 @@ action:
             target:
               entity_id: "{{ echo_speakers }}"
             data:
-              volume_level: "{{ volume }}"
+              volume_level: "{{ echo_level }}"
           - action: notify.alexa_media
             data:
               message: '<audio src="{{ audio_url }}"/>'
