@@ -1,57 +1,298 @@
 blueprint:
-  name: Before Maghrib Quran
+  name: Before Maghrib Quran - V2
   description: |
-    📖 Plays Quran audio for 30 minutes before Maghrib.
-    **By [Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**
+    **Plays the Quran you choose on your speakers before Maghrib, and stops before the Athan.**
 
-    PLEASE make sure to install the **Islamic Prayer Times** integration before using this blueprint.
+    Fill in the first two panels, then the panel for your speaker type, and save. To test it, open the ⋮ menu and choose Run actions: it plays for 30 seconds.
+
+    [How to use it](https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/before-maghrib/README.md) · [الشرح بالعربي](https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/before-maghrib/README.md#arabic)
+
+    By [Shady Nafie, Smart Tech Arabic](https://smarttecharabic.com)
+
   domain: automation
   author: Shady Nafie
   source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/before-maghrib/before_maghrib.yaml
+
   input:
-    Mobile_to_Notify:
-      name: Mobile Device to notify.
-      description: Device needs to run the official Home Assistant app to receive notifications.
-      default: ''
-      selector:
-        device:
-          integration: mobile_app
-    Media_Player_to_Notify:
-      name: Media Player to play Quran.
-      description: Choose Media player to play Quran before the time of Maghrib prayer.
-      selector:
-        entity:
-          domain: media_player
-    Quran_Media:
-      name: Quran Media
-      description: Quran you want to play.
-    Music_Service:
-      name: Music Service
-      description: Service you are subscribed to.
-      selector:
-        select:
-          options:
-            - APPLE_MUSIC
-            - AMAZON_MUSIC
-            - SPOTIFY
-            - audio/mp4
-            - audio/mpeg
-            - custom
+    timing_section:
+      name: Timing
+      description: Playback stops 1 minute before Maghrib, so the Athan plays cleanly.
+      icon: mdi:clock-outline
+      input:
+        maghrib_sensor:
+          name: 🌆 Maghrib time
+          description: Choose the sensor for the Maghrib Athan time. Do not choose Iqama.
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        minutes_before:
+          name: Minutes before Maghrib
+          description: How long before Maghrib the Quran starts.
+          default: 30
+          selector:
+            number:
+              min: 5
+              max: 120
+              step: 5
+              unit_of_measurement: minutes
+              mode: slider
+
+    speakers_section:
+      name: Speakers
+      description: Echo speakers are detected automatically. If you play from Music Assistant, choose the Music Assistant version of each speaker.
+      icon: mdi:speaker-multiple
+      input:
+        speakers_input:
+          name: Speakers
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - domain: [media_player]
+        volume_level:
+          name: Volume
+          description: The volume goes back to its previous level when playback stops.
+          default: 0.3
+          selector:
+            number:
+              min: 0.05
+              max: 1
+              step: 0.05
+              mode: slider
+
+    other_speakers_section:
+      name: HomePod, Sonos, Google and other speakers
+      description: What to play on every speaker that is not an Echo.
+      icon: mdi:radio
+      collapsed: true
+      input:
+        other_source:
+          name: Play from
+          default: radio
+          selector:
+            select:
+              mode: list
+              options:
+                - label: Radio station or media file (choose below)
+                  value: radio
+                - label: A web link (URL)
+                  value: url
+                - label: Music Assistant, for Plex, Spotify and other libraries
+                  value: music_assistant
+        other_media:
+          name: Radio station or media file
+          description: Radio Browser in Home Assistant lists many Quran stations. Search under By Category for Quran.
+          default: {}
+          selector:
+            media: {}
+        other_url:
+          name: Web link
+          description: A direct link to an audio file or stream.
+          default: ""
+          selector:
+            text:
+              type: url
+        music_assistant_item:
+          name: Music Assistant item
+          description: The name of a playlist or album, or its library link such as library://album/35.
+          default: ""
+          selector:
+            text: {}
+
+    echo_section:
+      name: Amazon Echo
+      description: Echo cannot play a radio station or web link from Home Assistant. Make a Quran playlist on your music service, give it a distinctive name, and check that Alexa finds it by voice. Link the service in the Alexa app.
+      icon: mdi:playlist-music
+      collapsed: true
+      input:
+        echo_service:
+          name: Music service
+          default: Amazon Music
+          selector:
+            select:
+              options:
+                - Amazon Music
+                - Spotify
+                - Apple Music
+        echo_playlist:
+          name: Playlist name
+          description: Your playlist's exact name. A common name can match a different song.
+          default: ""
+          selector:
+            text: {}
+        echo_order:
+          name: Play order
+          default: play
+          selector:
+            select:
+              mode: list
+              options:
+                - label: In order
+                  value: play
+                - label: Shuffle
+                  value: shuffle
+
+    options_section:
+      name: Options
+      icon: mdi:tune
+      collapsed: true
+      input:
+        presence_people:
+          name: Only when these people are home
+          description: Plays if any of them is home. Leave empty to play every day.
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - domain: [person]
+        skip_playing:
+          name: Leave speakers that are already playing
+          description: A speaker already playing something is not interrupted.
+          default: true
+          selector:
+            boolean: {}
+        phones_input:
+          name: Phones to notify
+          description: Optional. Needs the Home Assistant app.
+          default: []
+          selector:
+            device:
+              multiple: true
+              filter:
+                - integration: mobile_app
+        phone_message:
+          name: Phone message
+          default: موعد قرآن المغرب
+          selector:
+            text: {}
+
+trigger_variables:
+  maghrib_entity: !input maghrib_sensor
+  start_minutes: !input minutes_before
+
+variables:
+  maghrib_time: !input maghrib_sensor
+  speakers_chosen: !input speakers_input
+  volume_level: !input volume_level
+  other_source: !input other_source
+  other_media: !input other_media
+  other_url: !input other_url
+  music_assistant_item: !input music_assistant_item
+  echo_service: !input echo_service
+  echo_playlist: !input echo_playlist
+  echo_order: !input echo_order
+  presence_people: !input presence_people
+  skip_playing: !input skip_playing
+  phones_input: !input phones_input
+  phone_message: !input phone_message
+  is_test: "{{ trigger is not defined or trigger.id is not defined }}"
+  speakers_list: "{{ [speakers_chosen] if speakers_chosen is string else speakers_chosen }}"
+  phones: "{{ [] if is_test else ([phones_input] if phones_input is string else phones_input) }}"
+  speakers: >-
+    {% if skip_playing and not is_test %}{{ speakers_list | reject('is_state', 'playing') | list }}{% else %}{{ speakers_list }}{% endif %}
+  echo_speakers: "{{ speakers | select('in', integration_entities('alexa_media')) | list }}"
+  other_speakers: "{{ speakers | reject('in', integration_entities('alexa_media')) | list }}"
+  echo_phrase: "{{ echo_order }} my playlist {{ echo_playlist }} on {{ echo_service }}"
+  # Run actions has no prayer time, so a test plays for 30 seconds.
+  play_seconds: >-
+    {% set t = states(maghrib_time) | as_datetime(none) %}{% if is_test or t is none %}30{% else %}{{ max(1, ((t - now()).total_seconds() - 60) | int) }}{% endif %}
+  previous_volumes: >-
+    {% set ns = namespace(items=[]) %}{% for e in speakers %}{% set v = state_attr(e, 'volume_level') %}{% if v is not none %}{% set ns.items = ns.items + [{'entity': e, 'volume': v}] %}{% endif %}{% endfor %}{{ ns.items }}
 
 trigger:
   - platform: template
-    value_template: '{{ now().timestamp()|int == as_timestamp(states(''sensor.maghrib_prayer'')) - 1800 }}'
-condition: []
+    id: start
+    value_template: >-
+      {% set t = states(maghrib_entity) | as_datetime(none) %}{{ t is not none and t - timedelta(minutes=start_minutes | int) <= now() < t - timedelta(minutes=1) }}
+
+condition:
+  - condition: template
+    value_template: "{{ speakers | count > 0 }}"
+  - condition: template
+    value_template: "{{ is_test or presence_people | count == 0 or presence_people | select('is_state', 'home') | list | count > 0 }}"
+
 action:
-  - type: notify
-    domain: mobile_app
-    device_id: !input 'Mobile_to_Notify'
-    title: 🕌 Maghrib Quran 🕌
-    message: موعد قرآن المغرب
-  - service: media_player.play_media
-    data:
-      media_content_id: !input 'Quran_Media'
-      media_content_type: !input 'Music_Service'
-    target:
-      entity_id: !input 'Media_Player_to_Notify'
+  - parallel:
+      - repeat:
+          for_each: "{{ phones }}"
+          sequence:
+            - action: "notify.mobile_app_{{ device_attr(repeat.item, 'name') | slugify }}"
+              continue_on_error: true
+              data:
+                title: 🕌 Maghrib Quran
+                message: "{{ phone_message }}"
+      - if: "{{ echo_speakers | count > 0 and echo_playlist != '' }}"
+        then:
+          - action: media_player.volume_set
+            continue_on_error: true
+            target:
+              entity_id: "{{ echo_speakers }}"
+            data:
+              volume_level: "{{ volume_level }}"
+          - action: media_player.play_media
+            continue_on_error: true
+            target:
+              entity_id: "{{ echo_speakers }}"
+            data:
+              media_content_type: custom
+              media_content_id: "{{ echo_phrase }}"
+      - if: "{{ other_speakers | count > 0 }}"
+        then:
+          - action: media_player.volume_set
+            continue_on_error: true
+            target:
+              entity_id: "{{ other_speakers }}"
+            data:
+              volume_level: "{{ volume_level }}"
+          - choose:
+              - conditions: "{{ other_source == 'radio' and other_media.media_content_id | default('') != '' }}"
+                sequence:
+                  - action: media_player.play_media
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ other_speakers }}"
+                    data:
+                      media_content_type: "{{ other_media.media_content_type | default('music') }}"
+                      media_content_id: "{{ other_media.media_content_id }}"
+              - conditions: "{{ other_source == 'url' and other_url != '' }}"
+                sequence:
+                  - action: media_player.play_media
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ other_speakers }}"
+                    data:
+                      media_content_type: music
+                      media_content_id: "{{ other_url }}"
+              - conditions: "{{ other_source == 'music_assistant' and music_assistant_item != '' }}"
+                sequence:
+                  - action: music_assistant.play_media
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ other_speakers }}"
+                    data:
+                      media_id: "{{ music_assistant_item }}"
+                      enqueue: replace
+      # Runs beside playback: on a HomePod, play_media does not return while a live stream plays.
+      - sequence:
+          - delay:
+              seconds: "{{ play_seconds }}"
+          - action: media_player.media_stop
+            continue_on_error: true
+            target:
+              entity_id: "{{ speakers }}"
+          - delay: "00:00:02"
+          - repeat:
+              for_each: "{{ previous_volumes }}"
+              sequence:
+                - action: media_player.volume_set
+                  continue_on_error: true
+                  target:
+                    entity_id: "{{ repeat.item.entity }}"
+                  data:
+                    volume_level: "{{ repeat.item.volume }}"
+
 mode: single
+max_exceeded: silent
