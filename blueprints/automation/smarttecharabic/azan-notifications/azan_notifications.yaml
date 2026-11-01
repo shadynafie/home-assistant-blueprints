@@ -1,272 +1,550 @@
 blueprint:
-  name: Azan Notifications - V2.0
+  name: Azan Notifications - V3.0
   description: |
-    ✨ **Azan Notifications + Optional Audio Playback - V2.0**
+    **Azan Notifications + Athan on your speakers - V3.0**
     **By [Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**
 
-    This blueprint sends Islamic prayer time notifications to your mobile device, and optionally plays the Azan on a selected media player.
+    Plays the Athan at each prayer time and can notify your phones.
 
-    ✨ **Key Features:**
-      - 📱 High-priority mobile notifications for all 5 daily prayers
-      - 🔊 Optional Adhan audio playback with volume control
-      - 🎵 Support for Google Cast, HomePod, Sonos, and Alexa (via Plex)
+    **Setup:** pick your speakers, a voice and your five prayer time sensors, then save.
+    Everything else is optional, including a different voice or volume for each prayer.
 
+    **Works with:** Amazon Echo (through Alexa Media Player), HomePod, Google Cast and Sonos.
+    Echo speakers are detected automatically. You can mix speaker types.
 
-    📋 **Requirements:**
-      - 📱 Home Assistant Companion App on your mobile device
-      - 🕌 Islamic Prayer Times integration
-      - 🎵 Plex Media Server (required only for Alexa audio playback)
-
-    ⚠️ **Note:** Alexa requires Plex integration for audio playback.
+    **Prayer times:** any timestamp sensors, such as the MAWAQIT or Islamic Prayer Times integrations.
 
   domain: automation
   source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/azan_notifications.yaml
 
   input:
-  
-    # ————————————————————————————————————————
-    # Notification target
-    # ————————————————————————————————————————
+    sound_section:
+      name: Speakers and sound
+      icon: mdi:volume-high
+      collapsed: false
+      input:
+        media_player_target:
+          name: Speakers
+          description: Choose one or more speakers.
+          default: []
+          selector:
+            entity:
+              multiple: true
+              filter:
+                - domain: media_player
+        mp3_file:
+          name: Main Athan sound
+          description: Used for every prayer unless you change it below. Pick a voice, or type the https link to your own MP3.
+          default: voice-01
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Athan voice 1 (2:13)"
+                  value: voice-01
+                - label: "Athan voice 2 (3:16)"
+                  value: voice-02
+                - label: "Athan voice 3 (3:26)"
+                  value: voice-03
+                - label: "Athan voice 4 (2:08)"
+                  value: voice-04
+                - label: "Athan voice 5 (1:58)"
+                  value: voice-05
+                - label: "Athan voice 6 (2:52)"
+                  value: voice-06
+                - label: "Athan voice 7 (2:00)"
+                  value: voice-07
+                - label: "Athan voice 8 (3:20)"
+                  value: voice-08
+                - label: "Athan voice 9 (3:57)"
+                  value: voice-09
+                - label: "Athan voice 10 (3:31)"
+                  value: voice-10
+                - label: "Athan voice 11 (2:29)"
+                  value: voice-11
+                - label: "Athan voice 12 (3:42)"
+                  value: voice-12
+                - label: "Athan voice 13 (2:39)"
+                  value: voice-13
+                - label: "Athan voice 14 (3:03)"
+                  value: voice-14
+                - label: "Athan voice 15 (1:52)"
+                  value: voice-15
+        volume_level:
+          name: Main volume
+          default: 0.3
+          selector:
+            number:
+              min: 0.05
+              max: 1
+              step: 0.05
+              mode: slider
+
+    prayer_sensors_section:
+      name: Prayer times
+      description: Choose the sensors that give each prayer time.
+      icon: mdi:mosque-outline
+      collapsed: false
+      input:
+        fajr_sensor:
+          name: 🌅 Fajr time
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        dhuhr_sensor:
+          name: ☀️ Dhuhr time
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        asr_sensor:
+          name: 🌤️ Asr time
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        maghrib_sensor:
+          name: 🌆 Maghrib time
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        isha_sensor:
+          name: 🌙 Isha time
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+
     notify_target:
-      name:  Notification Target Device
-      description: Choose the phone or tablet that will receive the prayer notifications.
-      icon: mdi:devices
+      name: Phone notifications (optional)
+      icon: mdi:cellphone-message
       collapsed: false
       input:
         notify_device:
-          name: 📲 Mobile Device
+          name: Phones
+          description: Needs the Home Assistant Companion app. Leave empty for no notifications.
+          default: []
           selector:
             device:
+              multiple: true
               filter:
-              - integration: mobile_app
-              multiple: false
+                - integration: mobile_app
 
-    # ————————————————————————————————————————
-    # Prayer‑time sensors
-    # ————————————————————————————————————————
-    prayer_sensors_section:
-      name: Prayer Time Sensors
-      description: Select the sensors that provide prayer times.
-      icon: mdi:mosque-outline
-      collapsed: true
-      input:
-        fajr_sensor:
-          name: 🌅 Fajr Time Sensor
-          description: Select a sensor that provides the Fajr prayer time.
-          selector:
-            entity:
-              filter:
-              - domain: [sensor]
-                device_class: timestamp
-        dhuhr_sensor:
-          name: ☀️ Dhuhr Time Sensor
-          description: Select a sensor that provides the Dhuhr prayer time.
-          selector:
-            entity:
-              filter:
-              - domain: [sensor]
-                device_class: timestamp
-        asr_sensor:
-          name: 🌤️ Asr Time Sensor
-          description: Select a sensor that provides the Asr prayer time.
-          selector:
-            entity:
-              filter:
-              - domain: [sensor]
-                device_class: timestamp
-        maghrib_sensor:
-          name: 🌅 Maghrib Time Sensor
-          description: Select a sensor that provides the Maghrib prayer time.
-          selector:
-            entity:
-              filter:
-              - domain: [sensor]
-                device_class: timestamp
-        isha_sensor:
-          name: 🌙 Isha Time Sensor
-          description: Select a sensor that provides the Isha prayer time.
-          selector:
-            entity:
-              filter:
-              - domain: [sensor]
-                device_class: timestamp
-
-    # ————————————————————————————————————————
-    # Enable / disable individual prayer alerts
-    # ————————————————————————————————————————
-    enabled_prayers_section:
-      name: Enable/Disable prayers notifications
-      icon: mdi:bell-outline
+    fajr_section:
+      name: 🌅 Fajr options
+      icon: mdi:tune
       collapsed: true
       input:
         fajr_enabled:
-          name: 🌅 Fajr Prayer
-          description: Enable or disable Fajr notifications
+          name: Use this prayer
+          description: Turn off to skip both the sound and the phone notification.
           default: true
           selector:
             boolean: {}
-
-        dhuhr_enabled:
-          name: ☀️ Dhuhr Prayer
-          description: Enable or disable Dhuhr notifications
-          default: true
+        fajr_voice:
+          name: Athan sound
+          description: Pick a voice, or type the https link to your own MP3.
+          default: default
           selector:
-            boolean: {}
-
-        asr_enabled:
-          name: 🌤️ Asr Prayer
-          description: Enable or disable Asr notifications
-          default: true
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Same as main Athan sound"
+                  value: default
+                - label: "No sound (phone notification only)"
+                  value: none
+                - label: "Athan voice 1 (2:13)"
+                  value: voice-01
+                - label: "Athan voice 2 (3:16)"
+                  value: voice-02
+                - label: "Athan voice 3 (3:26)"
+                  value: voice-03
+                - label: "Athan voice 4 (2:08)"
+                  value: voice-04
+                - label: "Athan voice 5 (1:58)"
+                  value: voice-05
+                - label: "Athan voice 6 (2:52)"
+                  value: voice-06
+                - label: "Athan voice 7 (2:00)"
+                  value: voice-07
+                - label: "Athan voice 8 (3:20)"
+                  value: voice-08
+                - label: "Athan voice 9 (3:57)"
+                  value: voice-09
+                - label: "Athan voice 10 (3:31)"
+                  value: voice-10
+                - label: "Athan voice 11 (2:29)"
+                  value: voice-11
+                - label: "Athan voice 12 (3:42)"
+                  value: voice-12
+                - label: "Athan voice 13 (2:39)"
+                  value: voice-13
+                - label: "Athan voice 14 (3:03)"
+                  value: voice-14
+                - label: "Athan voice 15 (1:52)"
+                  value: voice-15
+        fajr_volume:
+          name: Volume
+          description: Leave at 0 to use the main volume.
+          default: 0
           selector:
-            boolean: {}
-
-        maghrib_enabled:
-          name: 🌅 Maghrib Prayer
-          description: Enable or disable Maghrib notifications
-          default: true
-          selector:
-            boolean: {}
-
-        isha_enabled:
-          name: 🌙 Isha Prayer
-          description: Enable or disable Isha notifications
-          default: true
-          selector:
-            boolean: {}
-
-    # ————————————————————————————————————————
-    # Custom notification text
-    # ————————————————————————————————————————
-    notification_section:
-      name: Custom Notification Text
-      description: Edit the push-notification message for each prayer.
-      icon: mdi:message-outline
-      collapsed: true
-      input:
+            number:
+              min: 0
+              max: 1
+              step: 0.05
+              mode: slider
         fajr_message:
-          name: Fajr Custom Message
+          name: Phone message
           default: Time for Fajr prayer – حان الآن موعد صلاة الفجر
           selector:
             text: {}
+
+    dhuhr_section:
+      name: ☀️ Dhuhr options
+      icon: mdi:tune
+      collapsed: true
+      input:
+        dhuhr_enabled:
+          name: Use this prayer
+          description: Turn off to skip both the sound and the phone notification.
+          default: true
+          selector:
+            boolean: {}
+        dhuhr_voice:
+          name: Athan sound
+          description: Pick a voice, or type the https link to your own MP3.
+          default: default
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Same as main Athan sound"
+                  value: default
+                - label: "No sound (phone notification only)"
+                  value: none
+                - label: "Athan voice 1 (2:13)"
+                  value: voice-01
+                - label: "Athan voice 2 (3:16)"
+                  value: voice-02
+                - label: "Athan voice 3 (3:26)"
+                  value: voice-03
+                - label: "Athan voice 4 (2:08)"
+                  value: voice-04
+                - label: "Athan voice 5 (1:58)"
+                  value: voice-05
+                - label: "Athan voice 6 (2:52)"
+                  value: voice-06
+                - label: "Athan voice 7 (2:00)"
+                  value: voice-07
+                - label: "Athan voice 8 (3:20)"
+                  value: voice-08
+                - label: "Athan voice 9 (3:57)"
+                  value: voice-09
+                - label: "Athan voice 10 (3:31)"
+                  value: voice-10
+                - label: "Athan voice 11 (2:29)"
+                  value: voice-11
+                - label: "Athan voice 12 (3:42)"
+                  value: voice-12
+                - label: "Athan voice 13 (2:39)"
+                  value: voice-13
+                - label: "Athan voice 14 (3:03)"
+                  value: voice-14
+                - label: "Athan voice 15 (1:52)"
+                  value: voice-15
+        dhuhr_volume:
+          name: Volume
+          description: Leave at 0 to use the main volume.
+          default: 0
+          selector:
+            number:
+              min: 0
+              max: 1
+              step: 0.05
+              mode: slider
         dhuhr_message:
-          name: Dhuhr Custom Message
+          name: Phone message
           default: Time for Dhuhr prayer – حان الآن موعد صلاة الظهر
           selector:
             text: {}
+
+    asr_section:
+      name: 🌤️ Asr options
+      icon: mdi:tune
+      collapsed: true
+      input:
+        asr_enabled:
+          name: Use this prayer
+          description: Turn off to skip both the sound and the phone notification.
+          default: true
+          selector:
+            boolean: {}
+        asr_voice:
+          name: Athan sound
+          description: Pick a voice, or type the https link to your own MP3.
+          default: default
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Same as main Athan sound"
+                  value: default
+                - label: "No sound (phone notification only)"
+                  value: none
+                - label: "Athan voice 1 (2:13)"
+                  value: voice-01
+                - label: "Athan voice 2 (3:16)"
+                  value: voice-02
+                - label: "Athan voice 3 (3:26)"
+                  value: voice-03
+                - label: "Athan voice 4 (2:08)"
+                  value: voice-04
+                - label: "Athan voice 5 (1:58)"
+                  value: voice-05
+                - label: "Athan voice 6 (2:52)"
+                  value: voice-06
+                - label: "Athan voice 7 (2:00)"
+                  value: voice-07
+                - label: "Athan voice 8 (3:20)"
+                  value: voice-08
+                - label: "Athan voice 9 (3:57)"
+                  value: voice-09
+                - label: "Athan voice 10 (3:31)"
+                  value: voice-10
+                - label: "Athan voice 11 (2:29)"
+                  value: voice-11
+                - label: "Athan voice 12 (3:42)"
+                  value: voice-12
+                - label: "Athan voice 13 (2:39)"
+                  value: voice-13
+                - label: "Athan voice 14 (3:03)"
+                  value: voice-14
+                - label: "Athan voice 15 (1:52)"
+                  value: voice-15
+        asr_volume:
+          name: Volume
+          description: Leave at 0 to use the main volume.
+          default: 0
+          selector:
+            number:
+              min: 0
+              max: 1
+              step: 0.05
+              mode: slider
         asr_message:
-          name: Asr Custom Message
+          name: Phone message
           default: Time for Asr prayer – حان الآن موعد صلاة العصر
           selector:
             text: {}
+
+    maghrib_section:
+      name: 🌆 Maghrib options
+      icon: mdi:tune
+      collapsed: true
+      input:
+        maghrib_enabled:
+          name: Use this prayer
+          description: Turn off to skip both the sound and the phone notification.
+          default: true
+          selector:
+            boolean: {}
+        maghrib_voice:
+          name: Athan sound
+          description: Pick a voice, or type the https link to your own MP3.
+          default: default
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Same as main Athan sound"
+                  value: default
+                - label: "No sound (phone notification only)"
+                  value: none
+                - label: "Athan voice 1 (2:13)"
+                  value: voice-01
+                - label: "Athan voice 2 (3:16)"
+                  value: voice-02
+                - label: "Athan voice 3 (3:26)"
+                  value: voice-03
+                - label: "Athan voice 4 (2:08)"
+                  value: voice-04
+                - label: "Athan voice 5 (1:58)"
+                  value: voice-05
+                - label: "Athan voice 6 (2:52)"
+                  value: voice-06
+                - label: "Athan voice 7 (2:00)"
+                  value: voice-07
+                - label: "Athan voice 8 (3:20)"
+                  value: voice-08
+                - label: "Athan voice 9 (3:57)"
+                  value: voice-09
+                - label: "Athan voice 10 (3:31)"
+                  value: voice-10
+                - label: "Athan voice 11 (2:29)"
+                  value: voice-11
+                - label: "Athan voice 12 (3:42)"
+                  value: voice-12
+                - label: "Athan voice 13 (2:39)"
+                  value: voice-13
+                - label: "Athan voice 14 (3:03)"
+                  value: voice-14
+                - label: "Athan voice 15 (1:52)"
+                  value: voice-15
+        maghrib_volume:
+          name: Volume
+          description: Leave at 0 to use the main volume.
+          default: 0
+          selector:
+            number:
+              min: 0
+              max: 1
+              step: 0.05
+              mode: slider
         maghrib_message:
-          name: Maghrib Custom Message
+          name: Phone message
           default: Time for Maghrib prayer – حان الآن موعد صلاة المغرب
           selector:
             text: {}
+
+    isha_section:
+      name: 🌙 Isha options
+      icon: mdi:tune
+      collapsed: true
+      input:
+        isha_enabled:
+          name: Use this prayer
+          description: Turn off to skip both the sound and the phone notification.
+          default: true
+          selector:
+            boolean: {}
+        isha_voice:
+          name: Athan sound
+          description: Pick a voice, or type the https link to your own MP3.
+          default: default
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Same as main Athan sound"
+                  value: default
+                - label: "No sound (phone notification only)"
+                  value: none
+                - label: "Athan voice 1 (2:13)"
+                  value: voice-01
+                - label: "Athan voice 2 (3:16)"
+                  value: voice-02
+                - label: "Athan voice 3 (3:26)"
+                  value: voice-03
+                - label: "Athan voice 4 (2:08)"
+                  value: voice-04
+                - label: "Athan voice 5 (1:58)"
+                  value: voice-05
+                - label: "Athan voice 6 (2:52)"
+                  value: voice-06
+                - label: "Athan voice 7 (2:00)"
+                  value: voice-07
+                - label: "Athan voice 8 (3:20)"
+                  value: voice-08
+                - label: "Athan voice 9 (3:57)"
+                  value: voice-09
+                - label: "Athan voice 10 (3:31)"
+                  value: voice-10
+                - label: "Athan voice 11 (2:29)"
+                  value: voice-11
+                - label: "Athan voice 12 (3:42)"
+                  value: voice-12
+                - label: "Athan voice 13 (2:39)"
+                  value: voice-13
+                - label: "Athan voice 14 (3:03)"
+                  value: voice-14
+                - label: "Athan voice 15 (1:52)"
+                  value: voice-15
+        isha_volume:
+          name: Volume
+          description: Leave at 0 to use the main volume.
+          default: 0
+          selector:
+            number:
+              min: 0
+              max: 1
+              step: 0.05
+              mode: slider
         isha_message:
-          name: Isha Custom Message
+          name: Phone message
           default: Time for Isha prayer – حان الآن موعد صلاة العشاء
           selector:
             text: {}
 
-    # ————————————————————————————————————————
-    # Adhan audio playback
-    # ————————————————————————————————————————
-    azan_audio_section:
-      name: Azan Audio Playback
-      description: Configure optional Azan audio playback on a speaker.
-      icon: mdi:volume-high
-      collapsed: true
-      input:
-
-        media_player_target:
-          name: 🖥️ Target Media Player
-          description: Speaker or display that will play the Adhan.
-          selector:
-            entity:
-              domain: media_player
-        
-        volume_level:
-          name: 🔊 Volume Level (0.0 to 1.0)
-          description: Set the playback volume before Adhan (optional)
-          default: 0.5
-          selector:
-            number:
-              min: 0.0
-              max: 1.0
-              step: 0.05
-              mode: slider
-
-
-        media_player_type:
-          name: 🎛️ Media Player Type
-          description: Choose the type of media player that will play the Azan.
-          default: direct_playback
-          selector:
-            select:
-              options:
-                - label: 🔊 Direct Playback (Google Cast, HomePod, Sonos)
-                  value: direct_playback
-                - label: 🗣️ Alexa (via Plex Playlist)
-                  value: alexa_plex
-
-        mp3_file:
-          name: 🌍 MP3 File URL (for Direct Playback)
-          description: |
-            • Use a publically available mp3 file.. OR..
-            • Place your MP3 file in **/config/www** (e.g. **/config/www**/audio/athan.mp3)
-            • Access it via **http://<HA_IP>:8123/local**/audio/athan.mp3
-          default: https://www.islamcan.com/audio/adhan/azan1.mp3
-          selector:
-            text: {}
-            
-        playlist_name:
-          name: 🎵 Plex Playlist Name (for Alexa)
-          description: |
-            • Make sure you have the Plex skill set up and linked to Alexa  
-            • Use the **exact playlist name** as it appears in your Plex library  
-          default: ""
-          selector:
-            text: {}
-
 variables:
-  volume: !input volume_level
+  audio_base: https://raw.githubusercontent.com/shadynafie/home-assistant-blueprints/azan-v3/blueprints/automation/smarttecharabic/azan-notifications/audio/
+  main_sound: !input mp3_file
+  main_volume: !input volume_level
+  speakers_input: !input media_player_target
+  phones_input: !input notify_device
   prayers:
     fajr:
-      sensor: !input fajr_sensor
       enabled: !input fajr_enabled
+      voice: !input fajr_voice
+      volume: !input fajr_volume
       message: !input fajr_message
       title: "🌅 Fajr Prayer Time"
       icon: mdi:weather-sunset-up
-      color: '#FFA726'
+      color: "#FFA726"
     dhuhr:
-      sensor: !input dhuhr_sensor
       enabled: !input dhuhr_enabled
+      voice: !input dhuhr_voice
+      volume: !input dhuhr_volume
       message: !input dhuhr_message
       title: "☀️ Dhuhr Prayer Time"
       icon: mdi:weather-sunny
-      color: '#FFD54F'
+      color: "#FFD54F"
     asr:
-      sensor: !input asr_sensor
       enabled: !input asr_enabled
+      voice: !input asr_voice
+      volume: !input asr_volume
       message: !input asr_message
       title: "🌤️ Asr Prayer Time"
       icon: mdi:weather-partly-cloudy
-      color: '#FF8A65'
+      color: "#FF8A65"
     maghrib:
-      sensor: !input maghrib_sensor
       enabled: !input maghrib_enabled
+      voice: !input maghrib_voice
+      volume: !input maghrib_volume
       message: !input maghrib_message
-      title: "🌅 Maghrib Prayer Time"
+      title: "🌆 Maghrib Prayer Time"
       icon: mdi:weather-sunset
-      color: '#FF7043'
+      color: "#FF7043"
     isha:
-      sensor: !input isha_sensor
       enabled: !input isha_enabled
+      voice: !input isha_voice
+      volume: !input isha_volume
       message: !input isha_message
       title: "🌙 Isha Prayer Time"
       icon: mdi:weather-night
-      color: '#5C6BC0'
+      color: "#5C6BC0"
+  prayer: "{{ prayers[trigger.id] }}"
+  sound: "{{ main_sound if prayer.voice == 'default' else prayer.voice }}"
+  # Older versions stored a full link here; a voice name becomes a link to this repository.
+  audio_url: >-
+    {% if sound == 'none' or not sound %}{% elif sound.startswith('http') %}{{ sound }}{% else %}{{ audio_base ~ sound ~ '.mp3' }}{% endif %}
+  volume: "{{ prayer.volume if prayer.volume | float(0) > 0 else main_volume }}"
+  speakers: "{{ [speakers_input] if speakers_input is string else speakers_input }}"
+  phones: "{{ [phones_input] if phones_input is string else phones_input }}"
+  echo_speakers: "{{ speakers | select('in', integration_entities('alexa_media')) | list }}"
+  other_speakers: "{{ speakers | reject('in', integration_entities('alexa_media')) | list }}"
 
 trigger:
   - platform: time
@@ -287,66 +565,61 @@ trigger:
 
 condition:
   - condition: template
-    value_template: '{{ prayers[trigger.id].enabled }}'
+    value_template: "{{ prayers[trigger.id].enabled }}"
 
 action:
-  - device_id: !input notify_device
-    domain: mobile_app
-    type: notify
-    title: '{{ prayers[trigger.id].title }}'
-    message: '{{ prayers[trigger.id].message }}'
-    data:
-      notification_icon: '{{ prayers[trigger.id].icon }}'
-      color: '{{ prayers[trigger.id].color }}'
-      channel: prayer_notifications
-      importance: high
-      persistent: true
-      sticky: true
-      timeout: 0
-      actions:
-        - action: MARK_PRAYED
-          title: Mark as Prayed
-          icon: sfsymbols:checkmark.circle
-        - action: SNOOZE_PRAYER
-          title: Remind me in 5 min
-          icon: sfsymbols:clock
-
-  - variables:
-      media_type: !input media_player_type
-      mp3_url: !input mp3_file
-      playlist: !input playlist_name
-
-  - choose:
-      - conditions:
-          - condition: template
-            value_template: "{{ media_type == 'direct_playback' }}"
-        sequence:
-          - service: media_player.volume_set
+  - parallel:
+      - repeat:
+          for_each: "{{ phones }}"
+          sequence:
+            - action: "notify.mobile_app_{{ device_attr(repeat.item, 'name') | slugify }}"
+              continue_on_error: true
+              data:
+                title: "{{ prayer.title }}"
+                message: "{{ prayer.message }}"
+                data:
+                  notification_icon: "{{ prayer.icon }}"
+                  color: "{{ prayer.color }}"
+                  channel: prayer_notifications
+                  importance: high
+                  persistent: true
+                  sticky: true
+                  timeout: 0
+                  actions:
+                    - action: MARK_PRAYED
+                      title: Mark as Prayed
+                      icon: sfsymbols:checkmark.circle
+                    - action: SNOOZE_PRAYER
+                      title: Remind me in 5 min
+                      icon: sfsymbols:clock
+      - if: "{{ audio_url != '' and echo_speakers | count > 0 }}"
+        then:
+          - action: media_player.volume_set
+            continue_on_error: true
             target:
-              entity_id: !input media_player_target
+              entity_id: "{{ echo_speakers }}"
             data:
               volume_level: "{{ volume }}"
-          - service: media_player.play_media
+          - action: notify.alexa_media
+            data:
+              message: '<audio src="{{ audio_url }}"/>'
+              target: "{{ echo_speakers }}"
+              data:
+                type: tts
+      - if: "{{ audio_url != '' and other_speakers | count > 0 }}"
+        then:
+          - action: media_player.volume_set
+            continue_on_error: true
             target:
-              entity_id: !input media_player_target
+              entity_id: "{{ other_speakers }}"
+            data:
+              volume_level: "{{ volume }}"
+          - action: media_player.play_media
+            target:
+              entity_id: "{{ other_speakers }}"
             data:
               media_content_type: music
-              media_content_id: "{{ mp3_url }}"
-      - conditions:
-          - condition: template
-            value_template: "{{ media_type == 'alexa_plex' }}"
-        sequence:
-          - service: media_player.volume_set
-            target:
-              entity_id: !input media_player_target
-            data:
-              volume_level: "{{ volume }}"
-          - service: media_player.play_media
-            target:
-              entity_id: !input media_player_target
-            data:
-              media_content_type: custom
-              media_content_id: "Ask Plex to play playlist {{ playlist }}"
+              media_content_id: "{{ audio_url }}"
 
 mode: parallel
 max_exceeded: silent
