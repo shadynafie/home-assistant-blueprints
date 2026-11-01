@@ -12,7 +12,7 @@ A **curated collection** of high-quality, ready-to-use **Home Assistant blueprin
 
 ### 🕌 [Azan Notifications](./blueprints/automation/smarttecharabic/azan-notifications/README.md)
 
-Receive beautifully timed mobile notifications for each of the five daily Islamic prayers — with optional Adhan playback on your smart speakers (Google, HomePod, Alexa via Plex).
+Play the Athan on your smart speakers (Echo, HomePod, Google Cast, Sonos) at each of the five daily Islamic prayers, with a choice of voices for each prayer and optional mobile notifications.
 
 ### 👥 [Person Zone Monitor](./blueprints/automation/smarttecharabic/people-tracking/README.md)
 

@@ -489,7 +489,7 @@ blueprint:
             text: {}
 
 variables:
-  audio_base: https://raw.githubusercontent.com/shadynafie/home-assistant-blueprints/azan-v3/blueprints/automation/smarttecharabic/azan-notifications/audio/
+  audio_base: https://raw.githubusercontent.com/shadynafie/home-assistant-blueprints/main/blueprints/automation/smarttecharabic/azan-notifications/audio/
   main_sound: !input mp3_file
   main_volume: !input volume_level
   speakers_input: !input media_player_target
