@@ -1,5 +1,5 @@
 blueprint:
-  name: Azan Notifications - V3.3
+  name: Azan Notifications - V3.4
   description: |
     **Plays the Athan on your speakers at every prayer time.**
 
@@ -187,6 +187,14 @@ blueprint:
               max: 1
               step: 0.05
               mode: slider
+        reminder_tts:
+          name: Voice for spoken reminders
+          description: Needed for HomePod, Google Cast and Sonos. Not needed for Echo.
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: tts
 
     notify_target:
       name: "Optional: Phones"
@@ -267,6 +275,23 @@ blueprint:
         fajr_message:
           name: Phone message
           default: Time for Fajr prayer – حان الآن موعد صلاة الفجر
+          selector:
+            text: {}
+        fajr_reminder:
+          name: Reminder before the Athan
+          default: false
+          selector:
+            boolean: {}
+        fajr_reminder_message:
+          name: Reminder message on speakers
+          description: Change the number to change the time.
+          default: "Salam, Fajr prayer is after 15 minutes!"
+          selector:
+            text: {}
+        fajr_reminder_phone:
+          name: Reminder message on phones
+          description: If you change the time, change the number here too.
+          default: Fajr prayer is after 15 minutes – صلاة الفجر بعد 15 دقيقة
           selector:
             text: {}
 
@@ -398,6 +423,23 @@ blueprint:
           default: Time for Dhuhr prayer – حان الآن موعد صلاة الظهر
           selector:
             text: {}
+        dhuhr_reminder:
+          name: Reminder before the Athan
+          default: false
+          selector:
+            boolean: {}
+        dhuhr_reminder_message:
+          name: Reminder message on speakers
+          description: Change the number to change the time.
+          default: "Salam, Dhuhr prayer is after 15 minutes!"
+          selector:
+            text: {}
+        dhuhr_reminder_phone:
+          name: Reminder message on phones
+          description: If you change the time, change the number here too.
+          default: Dhuhr prayer is after 15 minutes – صلاة الظهر بعد 15 دقيقة
+          selector:
+            text: {}
 
     asr_section:
       name: "Optional: 🌤️ Asr"
@@ -525,6 +567,23 @@ blueprint:
         asr_message:
           name: Phone message
           default: Time for Asr prayer – حان الآن موعد صلاة العصر
+          selector:
+            text: {}
+        asr_reminder:
+          name: Reminder before the Athan
+          default: false
+          selector:
+            boolean: {}
+        asr_reminder_message:
+          name: Reminder message on speakers
+          description: Change the number to change the time.
+          default: "Salam, Asr prayer is after 15 minutes!"
+          selector:
+            text: {}
+        asr_reminder_phone:
+          name: Reminder message on phones
+          description: If you change the time, change the number here too.
+          default: Asr prayer is after 15 minutes – صلاة العصر بعد 15 دقيقة
           selector:
             text: {}
 
@@ -656,6 +715,23 @@ blueprint:
           default: Time for Maghrib prayer – حان الآن موعد صلاة المغرب
           selector:
             text: {}
+        maghrib_reminder:
+          name: Reminder before the Athan
+          default: false
+          selector:
+            boolean: {}
+        maghrib_reminder_message:
+          name: Reminder message on speakers
+          description: Change the number to change the time.
+          default: "Salam, Maghrib prayer is after 15 minutes!"
+          selector:
+            text: {}
+        maghrib_reminder_phone:
+          name: Reminder message on phones
+          description: If you change the time, change the number here too.
+          default: Maghrib prayer is after 15 minutes – صلاة المغرب بعد 15 دقيقة
+          selector:
+            text: {}
 
     isha_section:
       name: "Optional: 🌙 Isha"
@@ -785,6 +861,46 @@ blueprint:
           default: Time for Isha prayer – حان الآن موعد صلاة العشاء
           selector:
             text: {}
+        isha_reminder:
+          name: Reminder before the Athan
+          default: false
+          selector:
+            boolean: {}
+        isha_reminder_message:
+          name: Reminder message on speakers
+          description: Change the number to change the time.
+          default: "Salam, Isha prayer is after 15 minutes!"
+          selector:
+            text: {}
+        isha_reminder_phone:
+          name: Reminder message on phones
+          description: If you change the time, change the number here too.
+          default: Isha prayer is after 15 minutes – صلاة العشاء بعد 15 دقيقة
+          selector:
+            text: {}
+
+trigger_variables:
+  reminders:
+    fajr:
+      sensor: !input fajr_sensor
+      active: !input fajr_reminder
+      message: !input fajr_reminder_message
+    dhuhr:
+      sensor: !input dhuhr_sensor
+      active: !input dhuhr_reminder
+      message: !input dhuhr_reminder_message
+    asr:
+      sensor: !input asr_sensor
+      active: !input asr_reminder
+      message: !input asr_reminder_message
+    maghrib:
+      sensor: !input maghrib_sensor
+      active: !input maghrib_reminder
+      message: !input maghrib_reminder_message
+    isha:
+      sensor: !input isha_sensor
+      active: !input isha_reminder
+      message: !input isha_reminder_message
 
 variables:
   audio_base: https://raw.githubusercontent.com/shadynafie/home-assistant-blueprints/main/blueprints/automation/smarttecharabic/azan-notifications/audio/
@@ -793,12 +909,16 @@ variables:
   echo_main_volume: !input echo_volume
   speakers_input: !input media_player_target
   phones_input: !input notify_device
+  tts_engine: !input reminder_tts
   prayers:
     fajr:
       enabled: !input fajr_enabled
       voice: !input fajr_voice
       volume: !input fajr_volume
       message: !input fajr_message
+      reminder: !input fajr_reminder
+      reminder_message: !input fajr_reminder_message
+      reminder_phone: !input fajr_reminder_phone
       title: "🌅 Fajr Prayer Time"
       icon: mdi:weather-sunset-up
       color: "#FFA726"
@@ -807,6 +927,9 @@ variables:
       voice: !input dhuhr_voice
       volume: !input dhuhr_volume
       message: !input dhuhr_message
+      reminder: !input dhuhr_reminder
+      reminder_message: !input dhuhr_reminder_message
+      reminder_phone: !input dhuhr_reminder_phone
       title: "☀️ Dhuhr Prayer Time"
       icon: mdi:weather-sunny
       color: "#FFD54F"
@@ -815,6 +938,9 @@ variables:
       voice: !input asr_voice
       volume: !input asr_volume
       message: !input asr_message
+      reminder: !input asr_reminder
+      reminder_message: !input asr_reminder_message
+      reminder_phone: !input asr_reminder_phone
       title: "🌤️ Asr Prayer Time"
       icon: mdi:weather-partly-cloudy
       color: "#FF8A65"
@@ -823,6 +949,9 @@ variables:
       voice: !input maghrib_voice
       volume: !input maghrib_volume
       message: !input maghrib_message
+      reminder: !input maghrib_reminder
+      reminder_message: !input maghrib_reminder_message
+      reminder_phone: !input maghrib_reminder_phone
       title: "🌆 Maghrib Prayer Time"
       icon: mdi:weather-sunset
       color: "#FF7043"
@@ -831,6 +960,9 @@ variables:
       voice: !input isha_voice
       volume: !input isha_volume
       message: !input isha_message
+      reminder: !input isha_reminder
+      reminder_message: !input isha_reminder_message
+      reminder_phone: !input isha_reminder_phone
       title: "🌙 Isha Prayer Time"
       icon: mdi:weather-night
       color: "#5C6BC0"
@@ -839,7 +971,12 @@ variables:
       enabled: true
       voice: default
       volume: 0
-  prayer_id: "{{ trigger.id if trigger is defined and trigger.id is defined else 'test' }}"
+      reminder: false
+      reminder_message: ""
+      reminder_phone: ""
+  trigger_name: "{{ trigger.id if trigger is defined and trigger.id is defined else 'test' }}"
+  is_reminder: "{{ trigger_name.endswith('_reminder') }}"
+  prayer_id: "{{ trigger_name | replace('_reminder', '') }}"
   prayer: "{{ prayers[prayer_id] }}"
   # Fajr has its own Athan, so it never falls back to the main voice.
   sound: "{{ 'mishary-alafasy-fajr' if prayer_id == 'fajr' and prayer.voice == 'default' else (main_sound if prayer.voice == 'default' else prayer.voice) }}"
@@ -852,29 +989,88 @@ variables:
   phones: "{{ [] if prayer_id == 'test' else ([phones_input] if phones_input is string else phones_input) }}"
   echo_speakers: "{{ speakers | select('in', integration_entities('alexa_media')) | list }}"
   other_speakers: "{{ speakers | reject('in', integration_entities('alexa_media')) | list }}"
+  # Run actions has no prayer time, so it speaks the first reminder that is switched on.
+  reminder_text: >-
+    {% set on = prayers.values() | selectattr('enabled') | selectattr('reminder') | list %}{% set p = prayer if is_reminder else (on[0] if on and prayer_id == 'test' else none) %}{{ p.reminder_message if p else '' }}
 
 trigger:
   - platform: time
     at: !input fajr_sensor
     id: fajr
+  - platform: template
+    value_template: >-
+      {% set r = reminders.fajr %}{% set n = r.message | regex_findall('[0-9٠-٩]+') %}{% set t = states(r.sensor) | as_datetime(none) %}{{ r.active and t is not none and t - timedelta(minutes=(n[0] | int if n else 15)) <= now() < t }}
+    id: fajr_reminder
   - platform: time
     at: !input dhuhr_sensor
     id: dhuhr
+  - platform: template
+    value_template: >-
+      {% set r = reminders.dhuhr %}{% set n = r.message | regex_findall('[0-9٠-٩]+') %}{% set t = states(r.sensor) | as_datetime(none) %}{{ r.active and t is not none and t - timedelta(minutes=(n[0] | int if n else 15)) <= now() < t }}
+    id: dhuhr_reminder
   - platform: time
     at: !input asr_sensor
     id: asr
+  - platform: template
+    value_template: >-
+      {% set r = reminders.asr %}{% set n = r.message | regex_findall('[0-9٠-٩]+') %}{% set t = states(r.sensor) | as_datetime(none) %}{{ r.active and t is not none and t - timedelta(minutes=(n[0] | int if n else 15)) <= now() < t }}
+    id: asr_reminder
   - platform: time
     at: !input maghrib_sensor
     id: maghrib
+  - platform: template
+    value_template: >-
+      {% set r = reminders.maghrib %}{% set n = r.message | regex_findall('[0-9٠-٩]+') %}{% set t = states(r.sensor) | as_datetime(none) %}{{ r.active and t is not none and t - timedelta(minutes=(n[0] | int if n else 15)) <= now() < t }}
+    id: maghrib_reminder
   - platform: time
     at: !input isha_sensor
     id: isha
+  - platform: template
+    value_template: >-
+      {% set r = reminders.isha %}{% set n = r.message | regex_findall('[0-9٠-٩]+') %}{% set t = states(r.sensor) | as_datetime(none) %}{{ r.active and t is not none and t - timedelta(minutes=(n[0] | int if n else 15)) <= now() < t }}
+    id: isha_reminder
 
 condition:
   - condition: template
     value_template: "{{ prayer.enabled }}"
 
 action:
+  - if: "{{ reminder_text != '' }}"
+    then:
+      - parallel:
+          - repeat:
+              for_each: "{{ phones if prayer.reminder_phone else [] }}"
+              sequence:
+                - action: "notify.mobile_app_{{ device_attr(repeat.item, 'name') | slugify }}"
+                  continue_on_error: true
+                  data:
+                    title: "{{ prayer.title }}"
+                    message: "{{ prayer.reminder_phone }}"
+          - if: "{{ echo_speakers | count > 0 }}"
+            then:
+              - action: notify.alexa_media
+                continue_on_error: true
+                data:
+                  message: "{{ reminder_text }}"
+                  target: "{{ echo_speakers }}"
+                  data:
+                    type: tts
+          - if: "{{ tts_engine != '' and other_speakers | count > 0 }}"
+            then:
+              - action: tts.speak
+                continue_on_error: true
+                target:
+                  entity_id: "{{ tts_engine }}"
+                data:
+                  media_player_entity_id: "{{ other_speakers }}"
+                  message: "{{ reminder_text }}"
+      # On Run actions, give the sample reminder time to finish before the Athan.
+      - if: "{{ not is_reminder }}"
+        then:
+          - delay: "00:00:06"
+  - if: "{{ is_reminder }}"
+    then:
+      - stop: Reminder finished
   - parallel:
       - repeat:
           for_each: "{{ phones }}"
