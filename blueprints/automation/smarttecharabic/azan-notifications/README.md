@@ -1,88 +1,75 @@
-# 🕌 Azan Notifications (v3.0)
+# Azan Notifications
 
-**By [Shady Nafie — Smart Tech Arabic](https://smarttecharabic.com)**
+Plays the Athan on your speakers at every prayer time, and can notify your phones.
 
-A **Home Assistant automation blueprint** that plays the Athan on your speakers at each of the five daily prayers, and can notify your phones too.
-
----
-
-## ✨ Features
-
-- 🔊 Plays on **Amazon Echo, HomePod, Google Cast and Sonos**, with speaker types mixed freely
-- 🎙️ **15 Athan voices** ready to pick from a list, with nothing to upload or host
-- 🕌 A different **voice and volume for each prayer**, or no sound for a prayer
-- 🔗 Use your own MP3 by typing its `https` link in the voice box
-- 📱 Optional notifications to one or more phones, with editable messages
+[English](#how-to-use-it) · [العربية](#arabic)
 
 ---
 
-## 📋 What you need
+## How to use it
 
-1. **Prayer time sensors**, for example from the [MAWAQIT](https://github.com/mawaqit/home-assistant) or Islamic Prayer Times integration
-2. **For Echo speakers:** the [Alexa Media Player](https://github.com/alandtse/alexa_media_player) integration
-3. **For phone notifications:** the Home Assistant Companion app
+**1. Before you start**
 
-Speakers need internet access, because the voices are streamed from this repository.
+- Install a prayer times integration, such as [MAWAQIT](https://github.com/mawaqit/home-assistant) or Islamic Prayer Times.
+- Using Amazon Echo? Install [Alexa Media Player](https://github.com/alandtse/alexa_media_player) too.
 
----
-
-## 🛠️ Install
+**2. Add the blueprint**
 
 [![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fshadynafie%2Fhome-assistant-blueprints%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fsmarttecharabic%2Fazan-notifications%2Fazan_notifications.yaml)
 
-Then create an automation from the blueprint:
+**3. Create the automation**
 
-1. **Speakers and sound:** pick your speakers, a voice and a volume
-2. **Prayer times:** pick the five time sensors
-3. **Phones:** pick your phones, or leave this empty
-4. Save
+- **Prayer times:** choose your five prayer times.
+- **Speakers and sound:** choose your speakers, a [voice](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) and a volume.
+- Save, then press **Run** to hear a test.
 
-To customise a prayer, open its options section at the bottom. All of these are optional.
+That is all. The panels marked **Optional** let you add phones, or change the voice and volume for one prayer. Fajr already uses a Fajr Athan.
 
----
+### Good to know
 
-## 🔄 Upgrading from v2
-
-Re-import the blueprint and tick **Overwrite**. Your existing automations keep working, including any MP3 link you set.
-
-- The **Alexa via Plex** option has been removed, because Plex retired its Alexa skill. Echo speakers now play directly.
-- Echo speakers are detected automatically, so there is no speaker type to choose.
+- Works with Amazon Echo, HomePod, Google Cast and Sonos, and you can mix them.
+- Your speakers need internet, because the voices play from this page.
+- Home Assistant cannot see whether an Echo played, so test it by ear.
+- To use your own sound, type its `https` MP3 link in any voice box. For Echo it must be MP3, 48 kbps, 22050 Hz, up to 240 seconds.
+- Updating from an older version? Import again and tick **Overwrite**. Your automations keep working.
 
 ---
 
-## 🎧 Using your own MP3
+<a id="arabic"></a>
 
-Type the `https` link in any voice box. For Echo speakers the file must follow Amazon's rules: MP3, 48 kbps, 22050 Hz, no longer than 240 seconds, on a secure public link. To convert a file:
+<div dir="rtl">
 
-```bash
-ffmpeg -i input.mp3 -ac 2 -codec:a libmp3lame -b:a 48k -ar 22050 -map_metadata -1 output.mp3
-```
+## طريقة الاستخدام
+
+**١. قبل البدء**
+
+- ثبّت إضافة لمواقيت الصلاة، مثل [MAWAQIT](https://github.com/mawaqit/home-assistant) أو Islamic Prayer Times.
+- لو عندك سماعات Amazon Echo، ثبّت أيضًا [Alexa Media Player](https://github.com/alandtse/alexa_media_player).
+
+**٢. أضف القالب**
+
+اضغط زر **Import Blueprint** الموجود في الشرح الإنجليزي بالأعلى.
+
+**٣. أنشئ الأتمتة**
+
+- **Prayer times:** اختر مواقيت الصلوات الخمس.
+- **Speakers and sound:** اختر السماعات و[صوت الأذان](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) ومستوى الصوت.
+- احفظ، ثم اضغط **Run** لسماع تجربة.
+
+هذا كل شيء. الأقسام المكتوب عليها **Optional** اختيارية، وتتيح لك إضافة الهواتف أو تغيير الصوت لصلاة معينة. صلاة الفجر تستخدم أذان الفجر تلقائيًا.
+
+### معلومات مفيدة
+
+- يعمل مع Amazon Echo وHomePod وGoogle Cast وSonos، ويمكنك الجمع بينها.
+- تحتاج السماعات إلى إنترنت، لأن الأصوات تُشغَّل من هذه الصفحة.
+- لا يستطيع Home Assistant معرفة هل شغّلت Echo الأذان أم لا، فتأكد بنفسك عن طريق السمع.
+- لاستخدام صوتك الخاص، اكتب رابط MP3 يبدأ بـ `https` في خانة الصوت. وبالنسبة إلى Echo يجب أن يكون الملف MP3 بجودة 48 kbps و22050 Hz ولا يزيد عن 240 ثانية.
+- عند التحديث من إصدار قديم، استورد القالب مرة أخرى وفعّل **Overwrite**. ستظل الأتمتة تعمل كما هي.
+
+</div>
 
 ---
 
-## ⚠️ Good to know
+By [Shady Nafie, Smart Tech Arabic](https://smarttecharabic.com)
 
-- Home Assistant cannot see whether an Echo played the Athan, because Echos do not report this kind of playback.
-- The voices are general Athan recordings, so check that the one you choose for Fajr includes the Fajr line.
-
----
-
-## 📷 Screenshots
-
-The preview below is from an earlier version.
-
-![Preview](../../../../docs/images/azan_notification_preview.png)
-
----
-
-## 🤝 Contributing
-
-This blueprint is open for feedback and improvements. Please raise an issue or submit a pull request.
-
----
-
-## 📜 License
-
-Blueprint: MIT License © 2025 [Smart Tech Arabic](https://smarttecharabic.com)
-
-Audio: the voices in `audio/` come from the [IslamCan.com](https://www.islamcan.com/audio/adhan/index.shtml) Athan collection, converted to Echo's format. They are not covered by the MIT License.
+Blueprint: MIT License. Audio is not covered by the MIT License: voices come from [Athan-MP3](https://github.com/abodehq/Athan-MP3) and [IslamCan](https://www.islamcan.com/audio/adhan/index.shtml), converted to Echo's format.
