@@ -23,7 +23,7 @@ Plays the Athan on your speakers at every prayer time, and can notify your phone
 - **Speakers and sound:** choose your speakers, a [voice](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) and a volume.
 - Save, then press **Run** to hear a test.
 
-That is all. The panels marked **Optional** let you add phones, or change the voice and volume for one prayer. Fajr already uses a Fajr Athan.
+That is all. The panels marked **Optional** let you add phones, or change the voice and volume for one prayer. For Fajr, choose a voice that includes the Fajr line.
 
 ### Good to know
 
@@ -56,7 +56,7 @@ That is all. The panels marked **Optional** let you add phones, or change the vo
 - **Speakers and sound:** اختر السماعات و[صوت الأذان](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) ومستوى الصوت.
 - احفظ، ثم اضغط **Run** لسماع تجربة.
 
-هذا كل شيء. الأقسام المكتوب عليها **Optional** اختيارية، وتتيح لك إضافة الهواتف أو تغيير الصوت لصلاة معينة. صلاة الفجر تستخدم أذان الفجر تلقائيًا.
+هذا كل شيء. الأقسام المكتوب عليها **Optional** اختيارية، وتتيح لك إضافة الهواتف أو تغيير الصوت لصلاة معينة. لصلاة الفجر، اختر صوتًا يتضمن جملة «الصلاة خير من النوم».
 
 ### معلومات مفيدة
 
