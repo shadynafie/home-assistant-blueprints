@@ -20,7 +20,7 @@ Monitor multiple people across zones and trigger custom actions when they enter,
 
 ### 📖 [Before Maghrib Quran](./blueprints/automation/smarttecharabic/before-maghrib/README.md)
 
-Automatically play Quran audio 30 minutes before Maghrib prayer, and optionally send a mobile notification — a peaceful reminder for your evening routine.
+Plays the Quran you choose on your speakers before Maghrib, from a radio station, your Music Assistant library, a web link or an Alexa playlist, and stops before the Athan.
 
 
 ---
