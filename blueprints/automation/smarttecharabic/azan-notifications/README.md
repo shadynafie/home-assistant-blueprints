@@ -31,7 +31,7 @@ Plays the Athan on your speakers at every prayer time, and can notify your phone
 
 ![Run actions in the menu](../../../../docs/images/azan-run.png)
 
-That is all. Fajr plays its own Fajr Athan automatically. To change it, open **Optional: Fajr**. The other **Optional** panels let you add phones, or change the voice and volume for one prayer.
+That is all. Fajr plays its own Fajr Athan automatically. To change it, open **Optional: Fajr**. The other **Optional** panels let you add phones, change the voice and volume for one prayer, or add a spoken reminder before it.
 
 ![Choosing the Fajr Athan](../../../../docs/images/azan-fajr.png)
 
@@ -41,6 +41,11 @@ That is all. Fajr plays its own Fajr Athan automatically. To change it, open **O
 - Your speakers need internet, because the voices play from GitHub.
 - After you pick a voice, the box shows its short name, such as `abdul-basit`. This is normal.
 - Leave **Speakers** empty if you only want phone notifications.
+- Want a spoken reminder before a prayer? Open that prayer's **Optional** panel and switch on **Reminder before the Athan**. To change the time, change the number in **Reminder message on speakers**. Use digits, because the first number sets the time. With no number, the reminder comes 15 minutes before.
+- HomePod, Google Cast and Sonos also need **Voice for spoken reminders**. Echo does not.
+- Phones you chose get the text in **Reminder message on phones**. If you change the time, change the number there too.
+- Reminders play at the speaker's current volume. On Echo, music lowers and carries on. On HomePod, music stops and does not come back.
+- If a reminder is on, **Run actions** speaks it before the test Athan.
 - Home Assistant cannot see whether an Echo played, so test it by ear.
 - To use your own sound, type its `https` MP3 link in any voice box. For Echo it must be MP3, 48 kbps, 22050 Hz, up to 240 seconds. If Alexa says it is having trouble, check the link and the format.
 - Updating from an older version? Import again and tick **Overwrite**. Your automations keep working.
@@ -76,7 +81,7 @@ That is all. Fajr plays its own Fajr Athan automatically. To change it, open **O
 
 ![Run actions in the menu](../../../../docs/images/azan-run.png)
 
-هذا كل شيء. صلاة الفجر تُشغّل أذان الفجر الخاص بها تلقائيًا. ولتغييره افتح **Optional: Fajr**. وتتيح لك الأقسام الأخرى المكتوب عليها **Optional** إضافة الهواتف أو تغيير الصوت لصلاة معينة.
+هذا كل شيء. صلاة الفجر تُشغّل أذان الفجر الخاص بها تلقائيًا. ولتغييره افتح **Optional: Fajr**. وتتيح لك الأقسام الأخرى المكتوب عليها **Optional** إضافة الهواتف أو تغيير الصوت لصلاة معينة أو إضافة تذكير صوتي قبلها.
 
 ![Choosing the Fajr Athan](../../../../docs/images/azan-fajr.png)
 
@@ -86,6 +91,11 @@ That is all. Fajr plays its own Fajr Athan automatically. To change it, open **O
 - تحتاج السماعات إلى إنترنت، لأن الأصوات تُشغَّل من GitHub.
 - بعد اختيار الصوت تعرض الخانة اسمه المختصر، مثل `abdul-basit`. وهذا طبيعي.
 - اترك خانة **Speakers** فارغة إذا كنت تريد إشعارات الهواتف فقط.
+- هل تريد تذكيرًا صوتيًا قبل الصلاة؟ افتح قسم **Optional** الخاص بهذه الصلاة وفعّل **Reminder before the Athan**. ولتغيير الوقت، غيّر الرقم في **Reminder message on speakers**. اكتبه بالأرقام، لأن أول رقم هو الذي يحدد الوقت. وإذا لم يوجد رقم، فسيعمل التذكير قبل الصلاة بـ15 دقيقة.
+- تحتاج HomePod وGoogle Cast وSonos أيضًا إلى اختيار **Voice for spoken reminders**، ولا تحتاج Echo إلى ذلك.
+- تصل إلى الهواتف التي اخترتها الرسالة المكتوبة في **Reminder message on phones**. وإذا غيّرت الوقت، فغيّر الرقم فيها أيضًا.
+- تعمل التذكيرات بمستوى الصوت الحالي للسماعة. في Echo ينخفض صوت الموسيقى ثم تستمر، أما في HomePod فتتوقف الموسيقى ولا تعود.
+- إذا كان التذكير مفعّلًا، فإن **Run actions** تنطق به قبل أذان التجربة.
 - لا يستطيع Home Assistant معرفة هل شغّلت Echo الأذان أم لا، فتأكد بنفسك عن طريق السمع.
 - لاستخدام صوتك الخاص، اكتب رابط MP3 يبدأ بـ `https` في خانة الصوت. وبالنسبة إلى Echo يجب أن يكون الملف MP3 بجودة 48 kbps و22050 Hz ولا يزيد عن 240 ثانية. وإذا قالت Alexa إن هناك مشكلة، فتأكد من الرابط وصيغة الملف.
 - عند التحديث من إصدار قديم، استورد القالب مرة أخرى وفعّل **Overwrite**. ستظل الأتمتة تعمل كما هي.
