@@ -1,5 +1,5 @@
 blueprint:
-  name: Before Maghrib Quran - V2
+  name: Before Maghrib Quran - V2.1
   description: |
     **Plays the Quran you choose on your speakers before Maghrib, and stops before the Athan.**
 
@@ -61,6 +61,12 @@ blueprint:
           default: {}
           selector:
             media: {}
+        main_shuffle:
+          name: Shuffle
+          description: Off plays in order. On plays in random order. Works with albums and playlists from your library, not radio stations or web links.
+          default: false
+          selector:
+            boolean: {}
         extra_speakers:
           name: More speakers
           description: Optional. These speakers play the same Quran.
@@ -157,6 +163,7 @@ variables:
   maghrib_time: !input maghrib_sensor
   volume_percent: !input volume_percent
   main_media: !input main_media
+  main_shuffle: !input main_shuffle
   extra_speakers: !input extra_speakers
   other_url: !input other_url
   echo_input: !input echo_input
@@ -182,6 +189,10 @@ variables:
     {% set plain = speakers | reject('in', integration_entities('alexa_media')) | list %}{% if not is_library %}{{ plain }}{% else %}{% set ma = integration_entities('music_assistant') %}{% set ns = namespace(out=[]) %}{% for e in plain %}{% set match = ma | select('is_state_attr', 'friendly_name', state_attr(e, 'friendly_name')) | list %}{% set ns.out = ns.out + [e if e in ma or not match else match[0]] %}{% endfor %}{{ ns.out | unique | list }}{% endif %}
   # A speaker with nothing to play is left alone, so its volume and music stay as they were.
   all_targets: "{{ (echo_speakers if echo_playlist != '' else []) + (other_speakers if media_id != '' else []) }}"
+  # Shuffle only means something for library items, and each speaker gets its own setting back afterwards.
+  library_speakers: "{{ other_speakers if is_library else [] }}"
+  previous_shuffles: >-
+    {% set ns = namespace(items=[]) %}{% for e in library_speakers %}{% set v = state_attr(e, 'shuffle') %}{% if v is not none %}{% set ns.items = ns.items + [{'entity': e, 'shuffle': v}] %}{% endif %}{% endfor %}{{ ns.items }}
   echo_phrase: "{{ 'shuffle' if echo_shuffle else 'play' }} my playlist {{ echo_playlist }} on {{ echo_service }}"
   # Run actions has no prayer time, so a test plays for 30 seconds.
   play_seconds: >-
@@ -241,6 +252,22 @@ action:
             data:
               media_content_type: "{{ 'music' if other_url != '' else (main_media.media_content_type | default('music')) }}"
               media_content_id: "{{ media_id }}"
+      # Music Assistant turns shuffle off whenever new media starts, so it has to be set once playing, then skip to a random track.
+      - if: "{{ main_shuffle and library_speakers | count > 0 }}"
+        then:
+          - wait_template: "{{ library_speakers | select('is_state', 'playing') | list | count == library_speakers | count }}"
+            timeout: "00:00:20"
+          - action: media_player.shuffle_set
+            continue_on_error: true
+            target:
+              entity_id: "{{ library_speakers }}"
+            data:
+              shuffle: true
+          - delay: "00:00:01"
+          - action: media_player.media_next_track
+            continue_on_error: true
+            target:
+              entity_id: "{{ library_speakers }}"
       # Runs beside playback: on a HomePod, play_media does not return while a live stream plays.
       - sequence:
           - delay:
@@ -259,6 +286,15 @@ action:
                     entity_id: "{{ repeat.item.entity }}"
                   data:
                     volume_level: "{{ repeat.item.volume }}"
+          - repeat:
+              for_each: "{{ previous_shuffles }}"
+              sequence:
+                - action: media_player.shuffle_set
+                  continue_on_error: true
+                  target:
+                    entity_id: "{{ repeat.item.entity }}"
+                  data:
+                    shuffle: "{{ repeat.item.shuffle }}"
 
 mode: single
 max_exceeded: silent
