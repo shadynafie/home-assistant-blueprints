@@ -1,5 +1,5 @@
 blueprint:
-  name: Before Maghrib Quran - V2.1
+  name: Before Maghrib Quran - V2.2
   description: |
     **Plays the Quran you choose on your speakers before Maghrib, and stops before the Athan.**
 
@@ -63,7 +63,7 @@ blueprint:
             media: {}
         main_shuffle:
           name: Shuffle
-          description: Off plays in order. On plays in random order. Works with albums and playlists from your library, not radio stations or web links.
+          description: Off plays in order. On plays the first track in full, then the rest in random order. Works with albums and playlists from your library, not radio stations or web links.
           default: false
           selector:
             boolean: {}
@@ -252,7 +252,7 @@ action:
             data:
               media_content_type: "{{ 'music' if other_url != '' else (main_media.media_content_type | default('music')) }}"
               media_content_id: "{{ media_id }}"
-      # Music Assistant turns shuffle off whenever new media starts, so it has to be set once playing, then skip to a random track.
+      # Music Assistant turns shuffle off whenever new media starts, so it has to be set once playing. The first track then finishes before the random order begins.
       - if: "{{ main_shuffle and library_speakers | count > 0 }}"
         then:
           - wait_template: "{{ library_speakers | select('is_state', 'playing') | list | count == library_speakers | count }}"
@@ -263,11 +263,6 @@ action:
               entity_id: "{{ library_speakers }}"
             data:
               shuffle: true
-          - delay: "00:00:01"
-          - action: media_player.media_next_track
-            continue_on_error: true
-            target:
-              entity_id: "{{ library_speakers }}"
       # Runs beside playback: on a HomePod, play_media does not return while a live stream plays.
       - sequence:
           - delay:
