@@ -20,7 +20,7 @@ Plays the Quran you choose on your speakers before Maghrib, and stops before the
 **3. Create the automation**
 
 - **When to play:** choose the sensor for the Maghrib Athan time, not Iqama, how many minutes before Maghrib to start, and the volume.
-- **HomePod, Sonos and Google speakers:** choose a speaker, then press **Pick media** and choose what it plays. Add **More speakers** if you want them to play the same Quran. You can use a web link instead.
+- **HomePod, Sonos and Google speakers:** choose a speaker, then press **Pick media** and choose what it plays. Turn on **Shuffle** to play a library album or playlist in random order. Add **More speakers** if you want them to play the same Quran. You can use a web link instead.
 - **Amazon Echo speakers:** choose your Echo speakers and music service, type your playlist's exact name, and choose in order or shuffle.
 - Save, then open the **⋮** menu at the top right and choose **Run actions**. It plays for 30 seconds, then stops.
 
@@ -57,7 +57,7 @@ Plays the Quran you choose on your speakers before Maghrib, and stops before the
 **٣. أنشئ الأتمتة**
 
 - **When to play:** اختر مستشعر وقت أذان المغرب، وليس الإقامة، وعدد الدقائق قبل المغرب التي يبدأ عندها التشغيل، ومستوى الصوت.
-- **HomePod, Sonos and Google speakers:** اختر سماعة، ثم اضغط **Pick media** واختر ما تشغّله. أضف **More speakers** إذا أردت أن تشغّل سماعات أخرى القرآن نفسه. ويمكنك استخدام رابط بدلًا من ذلك.
+- **HomePod, Sonos and Google speakers:** اختر سماعة، ثم اضغط **Pick media** واختر ما تشغّله. فعّل **Shuffle** لتشغيل ألبوم أو قائمة تشغيل من مكتبتك عشوائيًا. أضف **More speakers** إذا أردت أن تشغّل سماعات أخرى القرآن نفسه. ويمكنك استخدام رابط بدلًا من ذلك.
 - **Amazon Echo speakers:** اختر سماعات Echo وخدمة الموسيقى، واكتب اسم قائمة التشغيل كما هو تمامًا، واختر التشغيل بالترتيب أو عشوائيًا.
 - احفظ، ثم افتح قائمة **⋮** أعلى الصفحة واختر **Run actions**. سيعمل التشغيل 30 ثانية ثم يتوقف.
 
