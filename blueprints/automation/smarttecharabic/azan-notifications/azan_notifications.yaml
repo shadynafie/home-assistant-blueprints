@@ -1,9 +1,9 @@
 blueprint:
-  name: Azan Notifications - V3.2
+  name: Azan Notifications - V3.3
   description: |
     **Plays the Athan on your speakers at every prayer time.**
 
-    Fill in the first two panels and save. Everything else is optional.
+    Fill in the first two panels and save. Everything else is optional. To test it, open the ⋮ menu and choose Run actions.
 
     [How to use it](https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/README.md) · [الشرح بالعربي](https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/README.md#arabic)
 
@@ -15,7 +15,7 @@ blueprint:
   input:
     prayer_sensors_section:
       name: Prayer times
-      description: Choose your five prayer times.
+      description: Choose each prayer's own time, such as Fajr Prayer. Do not choose Iqama.
       icon: mdi:mosque-outline
       input:
         fajr_sensor:
@@ -62,6 +62,7 @@ blueprint:
       input:
         media_player_target:
           name: Speakers
+          description: Leave empty if you only want phone notifications.
           default: []
           selector:
             entity:
