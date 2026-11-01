@@ -23,7 +23,7 @@ Plays the Athan on your speakers at every prayer time, and can notify your phone
 - **Speakers and sound:** choose your speakers, a [voice](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) and a volume.
 - Save, then press **Run** to hear a test.
 
-That is all. The panels marked **Optional** let you add phones, or change the voice and volume for one prayer. For Fajr, choose a voice that includes the Fajr line.
+That is all. Fajr plays its own Fajr Athan automatically. The panels marked **Optional** let you add phones, or change the voice and volume for one prayer.
 
 ### Good to know
 
@@ -56,7 +56,7 @@ That is all. The panels marked **Optional** let you add phones, or change the vo
 - **Speakers and sound:** اختر السماعات و[صوت الأذان](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html) ومستوى الصوت.
 - احفظ، ثم اضغط **Run** لسماع تجربة.
 
-هذا كل شيء. الأقسام المكتوب عليها **Optional** اختيارية، وتتيح لك إضافة الهواتف أو تغيير الصوت لصلاة معينة. لصلاة الفجر، اختر صوتًا يتضمن جملة «الصلاة خير من النوم».
+هذا كل شيء. صلاة الفجر تُشغّل أذان الفجر الخاص بها تلقائيًا. الأقسام المكتوب عليها **Optional** اختيارية، وتتيح لك إضافة الهواتف أو تغيير الصوت لصلاة معينة.
 
 ### معلومات مفيدة
 
@@ -72,4 +72,4 @@ That is all. The panels marked **Optional** let you add phones, or change the vo
 
 By [Shady Nafie, Smart Tech Arabic](https://smarttecharabic.com)
 
-Blueprint: MIT License. Audio is not covered by the MIT License: voices come from [Athan-MP3](https://github.com/abodehq/Athan-MP3) and [IslamCan](https://www.islamcan.com/audio/adhan/index.shtml), converted to Echo's format.
+Blueprint: MIT License. Audio is not covered by the MIT License: voices come from [IslamWeb](https://audio.islamweb.net/audio/index.php?Gtype=1&page=AudioGroup), the [Internet Archive](https://archive.org), [Athan-MP3](https://github.com/abodehq/Athan-MP3) and [IslamCan](https://www.islamcan.com/audio/adhan/index.shtml), converted to Echo's format.

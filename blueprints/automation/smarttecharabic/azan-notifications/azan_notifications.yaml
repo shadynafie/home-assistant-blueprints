@@ -1,5 +1,5 @@
 blueprint:
-  name: Azan Notifications - V3.1
+  name: Azan Notifications - V3.2
   description: |
     **Plays the Athan on your speakers at every prayer time.**
 
@@ -77,32 +77,96 @@ blueprint:
               mode: dropdown
               custom_value: true
               options:
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
                 - label: "Abdul Basit (3:19)"
                   value: abdul-basit
+                - label: "Abdul Basit 2 (3:03)"
+                  value: abdul-basit-2
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: mahmoud-al-husary
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: mahmoud-ali-al-banna
+                - label: "Mustafa Ismail (2:00)"
+                  value: mustafa-ismail
                 - label: "Ahmad Nuaina (3:29)"
                   value: ahmad-nuaina
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: ragheb-ghalwash
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: al-shahat-anwar
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: abdel-fattah-al-tarouti
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: abdulaziz-harbi
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: ali-ahmed-mulla
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Sami Al-Rayes (2:58)"
+                  value: sami-al-rayes
+                - label: "Turki Al-Husni (3:28)"
+                  value: turki-al-husni
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: hashim-al-saqqaf
+                - label: "Majed Abbas (2:58)"
+                  value: majed-abbas
+                - label: "Ahmad Khoja (3:14)"
+                  value: ahmad-khoja
+                - label: "Hussam Khoja (2:53)"
+                  value: hussam-khoja
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: mohamed-ramadan-saad
                 - label: "Hamad Deghreri (2:41)"
                   value: hamad-deghreri
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: abdulmajeed-al-surayhi
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: yasser-al-dosari
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: ibrahim-al-baluchi
                 - label: "Ibrahim Al-Arkani (3:59)"
                   value: ibrahim-al-arkani
                 - label: "Majed Al-Hamathani (3:45)"
                   value: majed-al-hamathani
-                - label: "Makkah (3:20)"
-                  value: makkah
-                - label: "Malek Chebae (Fajr) (3:55)"
-                  value: malek-chebae-fajr
-                - label: "Mansoor Az-Zahrani (3:10)"
-                  value: mansoor-az-zahrani
-                - label: "Mishary Alafasy (4:00)"
-                  value: mishary-alafasy
-                - label: "Mohammad Al-Minshawi (3:42)"
-                  value: mohammad-al-minshawi
-                - label: "Mohammad Refaat (3:22)"
-                  value: mohammad-refaat
-                - label: "Nasser Al-Qatami (2:19)"
-                  value: nasser-al-qatami
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: ahmad-al-emadi
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: ahmad-fakhroo
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: moaz-al-qasimi
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: omar-al-qazabri
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: kamal-al-marrush
+                - label: "Kamel Al-Lala (2:49)"
+                  value: kamel-al-lala
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: muhammad-nasiruddin-al-albani
                 - label: "Suhaib Khatba (3:03)"
                   value: suhaib-khatba
+                - label: "Nasser Al-Abd (2:42)"
+                  value: nasser-al-abd
+                - label: "Badie Jadou (3:26)"
+                  value: badie-jadou
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: ahmad-al-tarabulsi
+                - label: "Ahmad Murtada (2:32)"
+                  value: ahmad-murtada
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: yasin-al-assaf
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: abdulrahman-al-arki
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: wadie-al-yamani
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: ahmad-nawaf-al-mijlad
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: ahmad-al-haddad
+                - label: "Mohamed Naji (2:27)"
+                  value: mohamed-naji
         volume_level:
           name: Volume
           default: 0.3
@@ -151,42 +215,44 @@ blueprint:
             boolean: {}
         fajr_voice:
           name: Athan voice
-          default: default
+          default: mishary-alafasy-fajr
           selector:
             select:
               mode: dropdown
               custom_value: true
               options:
-                - label: "Same as your main voice"
-                  value: default
+                - label: "Mishary Alafasy (3:02)"
+                  value: mishary-alafasy-fajr
+                - label: "Mishary Alafasy, Hijaz (3:41)"
+                  value: mishary-alafasy-fajr-hijaz
+                - label: "Ali Ahmed Mulla (3:56)"
+                  value: ali-ahmed-mulla-fajr
+                - label: "Ahmed Afifi (3:35)"
+                  value: ahmed-afifi-fajr
+                - label: "Hassan Mustafa (2:31)"
+                  value: hassan-mustafa-fajr
+                - label: "Hamad Deghreri (3:14)"
+                  value: hamad-deghreri-fajr
+                - label: "Abdulmajeed Al-Surayhi (3:27)"
+                  value: abdulmajeed-al-surayhi-fajr
+                - label: "Naif Fayda (3:57)"
+                  value: naif-fayda-fajr
+                - label: "Mansour Al-Zahrani (3:10)"
+                  value: mansour-al-zahrani-fajr
+                - label: "Yasin Al-Assaf (3:35)"
+                  value: yasin-al-assaf-fajr
+                - label: "Kamel Al-Lala (3:18)"
+                  value: kamel-al-lala-fajr
+                - label: "Ahmad Murtada (3:08)"
+                  value: ahmad-murtada-fajr
+                - label: "Momen Tarek Salim (3:48)"
+                  value: momen-tarek-salim-fajr
+                - label: "Mohamed Naji (2:16)"
+                  value: mohamed-naji-fajr
+                - label: "Ahmad Nawaf Al-Mijlad (3:38)"
+                  value: ahmad-nawaf-al-mijlad-fajr
                 - label: "No sound (phone only)"
                   value: none
-                - label: "Abdul Basit (3:19)"
-                  value: abdul-basit
-                - label: "Ahmad Nuaina (3:29)"
-                  value: ahmad-nuaina
-                - label: "Hamad Deghreri (2:41)"
-                  value: hamad-deghreri
-                - label: "Ibrahim Al-Arkani (3:59)"
-                  value: ibrahim-al-arkani
-                - label: "Majed Al-Hamathani (3:45)"
-                  value: majed-al-hamathani
-                - label: "Makkah (3:20)"
-                  value: makkah
-                - label: "Malek Chebae (Fajr) (3:55)"
-                  value: malek-chebae-fajr
-                - label: "Mansoor Az-Zahrani (3:10)"
-                  value: mansoor-az-zahrani
-                - label: "Mishary Alafasy (4:00)"
-                  value: mishary-alafasy
-                - label: "Mohammad Al-Minshawi (3:42)"
-                  value: mohammad-al-minshawi
-                - label: "Mohammad Refaat (3:22)"
-                  value: mohammad-refaat
-                - label: "Nasser Al-Qatami (2:19)"
-                  value: nasser-al-qatami
-                - label: "Suhaib Khatba (3:03)"
-                  value: suhaib-khatba
         fajr_volume:
           name: Volume
           description: 0 keeps your main volume.
@@ -226,32 +292,96 @@ blueprint:
                   value: default
                 - label: "No sound (phone only)"
                   value: none
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
                 - label: "Abdul Basit (3:19)"
                   value: abdul-basit
+                - label: "Abdul Basit 2 (3:03)"
+                  value: abdul-basit-2
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: mahmoud-al-husary
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: mahmoud-ali-al-banna
+                - label: "Mustafa Ismail (2:00)"
+                  value: mustafa-ismail
                 - label: "Ahmad Nuaina (3:29)"
                   value: ahmad-nuaina
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: ragheb-ghalwash
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: al-shahat-anwar
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: abdel-fattah-al-tarouti
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: abdulaziz-harbi
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: ali-ahmed-mulla
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Sami Al-Rayes (2:58)"
+                  value: sami-al-rayes
+                - label: "Turki Al-Husni (3:28)"
+                  value: turki-al-husni
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: hashim-al-saqqaf
+                - label: "Majed Abbas (2:58)"
+                  value: majed-abbas
+                - label: "Ahmad Khoja (3:14)"
+                  value: ahmad-khoja
+                - label: "Hussam Khoja (2:53)"
+                  value: hussam-khoja
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: mohamed-ramadan-saad
                 - label: "Hamad Deghreri (2:41)"
                   value: hamad-deghreri
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: abdulmajeed-al-surayhi
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: yasser-al-dosari
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: ibrahim-al-baluchi
                 - label: "Ibrahim Al-Arkani (3:59)"
                   value: ibrahim-al-arkani
                 - label: "Majed Al-Hamathani (3:45)"
                   value: majed-al-hamathani
-                - label: "Makkah (3:20)"
-                  value: makkah
-                - label: "Malek Chebae (Fajr) (3:55)"
-                  value: malek-chebae-fajr
-                - label: "Mansoor Az-Zahrani (3:10)"
-                  value: mansoor-az-zahrani
-                - label: "Mishary Alafasy (4:00)"
-                  value: mishary-alafasy
-                - label: "Mohammad Al-Minshawi (3:42)"
-                  value: mohammad-al-minshawi
-                - label: "Mohammad Refaat (3:22)"
-                  value: mohammad-refaat
-                - label: "Nasser Al-Qatami (2:19)"
-                  value: nasser-al-qatami
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: ahmad-al-emadi
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: ahmad-fakhroo
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: moaz-al-qasimi
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: omar-al-qazabri
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: kamal-al-marrush
+                - label: "Kamel Al-Lala (2:49)"
+                  value: kamel-al-lala
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: muhammad-nasiruddin-al-albani
                 - label: "Suhaib Khatba (3:03)"
                   value: suhaib-khatba
+                - label: "Nasser Al-Abd (2:42)"
+                  value: nasser-al-abd
+                - label: "Badie Jadou (3:26)"
+                  value: badie-jadou
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: ahmad-al-tarabulsi
+                - label: "Ahmad Murtada (2:32)"
+                  value: ahmad-murtada
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: yasin-al-assaf
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: abdulrahman-al-arki
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: wadie-al-yamani
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: ahmad-nawaf-al-mijlad
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: ahmad-al-haddad
+                - label: "Mohamed Naji (2:27)"
+                  value: mohamed-naji
         dhuhr_volume:
           name: Volume
           description: 0 keeps your main volume.
@@ -291,32 +421,96 @@ blueprint:
                   value: default
                 - label: "No sound (phone only)"
                   value: none
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
                 - label: "Abdul Basit (3:19)"
                   value: abdul-basit
+                - label: "Abdul Basit 2 (3:03)"
+                  value: abdul-basit-2
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: mahmoud-al-husary
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: mahmoud-ali-al-banna
+                - label: "Mustafa Ismail (2:00)"
+                  value: mustafa-ismail
                 - label: "Ahmad Nuaina (3:29)"
                   value: ahmad-nuaina
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: ragheb-ghalwash
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: al-shahat-anwar
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: abdel-fattah-al-tarouti
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: abdulaziz-harbi
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: ali-ahmed-mulla
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Sami Al-Rayes (2:58)"
+                  value: sami-al-rayes
+                - label: "Turki Al-Husni (3:28)"
+                  value: turki-al-husni
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: hashim-al-saqqaf
+                - label: "Majed Abbas (2:58)"
+                  value: majed-abbas
+                - label: "Ahmad Khoja (3:14)"
+                  value: ahmad-khoja
+                - label: "Hussam Khoja (2:53)"
+                  value: hussam-khoja
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: mohamed-ramadan-saad
                 - label: "Hamad Deghreri (2:41)"
                   value: hamad-deghreri
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: abdulmajeed-al-surayhi
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: yasser-al-dosari
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: ibrahim-al-baluchi
                 - label: "Ibrahim Al-Arkani (3:59)"
                   value: ibrahim-al-arkani
                 - label: "Majed Al-Hamathani (3:45)"
                   value: majed-al-hamathani
-                - label: "Makkah (3:20)"
-                  value: makkah
-                - label: "Malek Chebae (Fajr) (3:55)"
-                  value: malek-chebae-fajr
-                - label: "Mansoor Az-Zahrani (3:10)"
-                  value: mansoor-az-zahrani
-                - label: "Mishary Alafasy (4:00)"
-                  value: mishary-alafasy
-                - label: "Mohammad Al-Minshawi (3:42)"
-                  value: mohammad-al-minshawi
-                - label: "Mohammad Refaat (3:22)"
-                  value: mohammad-refaat
-                - label: "Nasser Al-Qatami (2:19)"
-                  value: nasser-al-qatami
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: ahmad-al-emadi
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: ahmad-fakhroo
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: moaz-al-qasimi
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: omar-al-qazabri
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: kamal-al-marrush
+                - label: "Kamel Al-Lala (2:49)"
+                  value: kamel-al-lala
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: muhammad-nasiruddin-al-albani
                 - label: "Suhaib Khatba (3:03)"
                   value: suhaib-khatba
+                - label: "Nasser Al-Abd (2:42)"
+                  value: nasser-al-abd
+                - label: "Badie Jadou (3:26)"
+                  value: badie-jadou
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: ahmad-al-tarabulsi
+                - label: "Ahmad Murtada (2:32)"
+                  value: ahmad-murtada
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: yasin-al-assaf
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: abdulrahman-al-arki
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: wadie-al-yamani
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: ahmad-nawaf-al-mijlad
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: ahmad-al-haddad
+                - label: "Mohamed Naji (2:27)"
+                  value: mohamed-naji
         asr_volume:
           name: Volume
           description: 0 keeps your main volume.
@@ -356,32 +550,96 @@ blueprint:
                   value: default
                 - label: "No sound (phone only)"
                   value: none
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
                 - label: "Abdul Basit (3:19)"
                   value: abdul-basit
+                - label: "Abdul Basit 2 (3:03)"
+                  value: abdul-basit-2
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: mahmoud-al-husary
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: mahmoud-ali-al-banna
+                - label: "Mustafa Ismail (2:00)"
+                  value: mustafa-ismail
                 - label: "Ahmad Nuaina (3:29)"
                   value: ahmad-nuaina
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: ragheb-ghalwash
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: al-shahat-anwar
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: abdel-fattah-al-tarouti
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: abdulaziz-harbi
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: ali-ahmed-mulla
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Sami Al-Rayes (2:58)"
+                  value: sami-al-rayes
+                - label: "Turki Al-Husni (3:28)"
+                  value: turki-al-husni
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: hashim-al-saqqaf
+                - label: "Majed Abbas (2:58)"
+                  value: majed-abbas
+                - label: "Ahmad Khoja (3:14)"
+                  value: ahmad-khoja
+                - label: "Hussam Khoja (2:53)"
+                  value: hussam-khoja
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: mohamed-ramadan-saad
                 - label: "Hamad Deghreri (2:41)"
                   value: hamad-deghreri
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: abdulmajeed-al-surayhi
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: yasser-al-dosari
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: ibrahim-al-baluchi
                 - label: "Ibrahim Al-Arkani (3:59)"
                   value: ibrahim-al-arkani
                 - label: "Majed Al-Hamathani (3:45)"
                   value: majed-al-hamathani
-                - label: "Makkah (3:20)"
-                  value: makkah
-                - label: "Malek Chebae (Fajr) (3:55)"
-                  value: malek-chebae-fajr
-                - label: "Mansoor Az-Zahrani (3:10)"
-                  value: mansoor-az-zahrani
-                - label: "Mishary Alafasy (4:00)"
-                  value: mishary-alafasy
-                - label: "Mohammad Al-Minshawi (3:42)"
-                  value: mohammad-al-minshawi
-                - label: "Mohammad Refaat (3:22)"
-                  value: mohammad-refaat
-                - label: "Nasser Al-Qatami (2:19)"
-                  value: nasser-al-qatami
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: ahmad-al-emadi
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: ahmad-fakhroo
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: moaz-al-qasimi
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: omar-al-qazabri
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: kamal-al-marrush
+                - label: "Kamel Al-Lala (2:49)"
+                  value: kamel-al-lala
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: muhammad-nasiruddin-al-albani
                 - label: "Suhaib Khatba (3:03)"
                   value: suhaib-khatba
+                - label: "Nasser Al-Abd (2:42)"
+                  value: nasser-al-abd
+                - label: "Badie Jadou (3:26)"
+                  value: badie-jadou
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: ahmad-al-tarabulsi
+                - label: "Ahmad Murtada (2:32)"
+                  value: ahmad-murtada
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: yasin-al-assaf
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: abdulrahman-al-arki
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: wadie-al-yamani
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: ahmad-nawaf-al-mijlad
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: ahmad-al-haddad
+                - label: "Mohamed Naji (2:27)"
+                  value: mohamed-naji
         maghrib_volume:
           name: Volume
           description: 0 keeps your main volume.
@@ -421,32 +679,96 @@ blueprint:
                   value: default
                 - label: "No sound (phone only)"
                   value: none
+                - label: "Mishary Alafasy (4:00)"
+                  value: mishary-alafasy
                 - label: "Abdul Basit (3:19)"
                   value: abdul-basit
+                - label: "Abdul Basit 2 (3:03)"
+                  value: abdul-basit-2
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: mahmoud-al-husary
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: mahmoud-ali-al-banna
+                - label: "Mustafa Ismail (2:00)"
+                  value: mustafa-ismail
                 - label: "Ahmad Nuaina (3:29)"
                   value: ahmad-nuaina
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: ragheb-ghalwash
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: al-shahat-anwar
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: abdel-fattah-al-tarouti
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: abdulaziz-harbi
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: ali-ahmed-mulla
+                - label: "Makkah (3:20)"
+                  value: makkah
+                - label: "Sami Al-Rayes (2:58)"
+                  value: sami-al-rayes
+                - label: "Turki Al-Husni (3:28)"
+                  value: turki-al-husni
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: hashim-al-saqqaf
+                - label: "Majed Abbas (2:58)"
+                  value: majed-abbas
+                - label: "Ahmad Khoja (3:14)"
+                  value: ahmad-khoja
+                - label: "Hussam Khoja (2:53)"
+                  value: hussam-khoja
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: mohamed-ramadan-saad
                 - label: "Hamad Deghreri (2:41)"
                   value: hamad-deghreri
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: abdulmajeed-al-surayhi
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: yasser-al-dosari
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: nasser-al-qatami
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: ibrahim-al-baluchi
                 - label: "Ibrahim Al-Arkani (3:59)"
                   value: ibrahim-al-arkani
                 - label: "Majed Al-Hamathani (3:45)"
                   value: majed-al-hamathani
-                - label: "Makkah (3:20)"
-                  value: makkah
-                - label: "Malek Chebae (Fajr) (3:55)"
-                  value: malek-chebae-fajr
-                - label: "Mansoor Az-Zahrani (3:10)"
-                  value: mansoor-az-zahrani
-                - label: "Mishary Alafasy (4:00)"
-                  value: mishary-alafasy
-                - label: "Mohammad Al-Minshawi (3:42)"
-                  value: mohammad-al-minshawi
-                - label: "Mohammad Refaat (3:22)"
-                  value: mohammad-refaat
-                - label: "Nasser Al-Qatami (2:19)"
-                  value: nasser-al-qatami
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: ahmad-al-emadi
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: ahmad-fakhroo
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: moaz-al-qasimi
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: omar-al-qazabri
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: kamal-al-marrush
+                - label: "Kamel Al-Lala (2:49)"
+                  value: kamel-al-lala
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: muhammad-nasiruddin-al-albani
                 - label: "Suhaib Khatba (3:03)"
                   value: suhaib-khatba
+                - label: "Nasser Al-Abd (2:42)"
+                  value: nasser-al-abd
+                - label: "Badie Jadou (3:26)"
+                  value: badie-jadou
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: ahmad-al-tarabulsi
+                - label: "Ahmad Murtada (2:32)"
+                  value: ahmad-murtada
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: yasin-al-assaf
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: abdulrahman-al-arki
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: wadie-al-yamani
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: ahmad-nawaf-al-mijlad
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: ahmad-al-haddad
+                - label: "Mohamed Naji (2:27)"
+                  value: mohamed-naji
         isha_volume:
           name: Volume
           description: 0 keeps your main volume.
@@ -518,7 +840,8 @@ variables:
       volume: 0
   prayer_id: "{{ trigger.id if trigger is defined and trigger.id is defined else 'test' }}"
   prayer: "{{ prayers[prayer_id] }}"
-  sound: "{{ main_sound if prayer.voice == 'default' else prayer.voice }}"
+  # Fajr has its own Athan, so it never falls back to the main voice.
+  sound: "{{ 'mishary-alafasy-fajr' if prayer_id == 'fajr' and prayer.voice == 'default' else (main_sound if prayer.voice == 'default' else prayer.voice) }}"
   # Older versions stored a full link here; a voice name becomes a link to this repository.
   audio_url: >-
     {% if sound == 'none' or not sound %}{% elif sound.startswith('http') %}{{ sound }}{% else %}{{ audio_base ~ sound ~ '.mp3' }}{% endif %}
