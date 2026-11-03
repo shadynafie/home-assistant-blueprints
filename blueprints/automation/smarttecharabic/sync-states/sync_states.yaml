@@ -1,0 +1,66 @@
+blueprint:
+  name: Sync On/Off - V1.0
+  domain: automation
+  author: Shady Nafie
+  source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/sync-states/sync_states.yaml
+
+  description: |
+    ### Sync On/Off - V1.0
+    **By [Dr. Shady Nafie, Smart Tech Arabic](https://smarttecharabic.com)**
+
+    Keeps two or more devices on or off together. Switch any one of them, from the wall, an app, voice or another automation, and the rest follow.
+
+    • A smart switch with no light wired to it can drive smart bulbs that are always powered.
+    • Lights come back on at their last brightness and colour.
+    • A device dropping off the network and coming back does not switch the others.
+    • Quick presses settle on the last one, with no flicker or loops.
+
+  input:
+    devices:
+      name: Devices to keep together
+      description: Choose two or more lights, switches, fans or helpers that turn on and off.
+      selector:
+        entity:
+          multiple: true
+          filter:
+            - domain:
+                - light
+                - switch
+                - fan
+                - input_boolean
+
+mode: queued
+max: 20
+max_exceeded: silent
+
+variables:
+  devices: !input devices
+
+triggers:
+  - trigger: state
+    entity_id: !input devices
+    from:
+      - "on"
+      - "off"
+    to:
+      - "on"
+      - "off"
+
+conditions:
+  # A queued run whose device has since changed again is stale: the newer run handles it.
+  - condition: template
+    value_template: "{{ states(trigger.entity_id) == trigger.to_state.state }}"
+
+actions:
+  - variables:
+      target_state: "{{ trigger.to_state.state }}"
+      others: >-
+        {{ devices
+           | reject('eq', trigger.entity_id)
+           | select('is_state', 'on' if target_state == 'off' else 'off')
+           | list }}
+  - condition: template
+    value_template: "{{ others | count > 0 }}"
+  - action: "homeassistant.turn_{{ target_state }}"
+    target:
+      entity_id: "{{ others }}"
