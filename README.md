@@ -22,6 +22,10 @@ Monitor multiple people across zones and trigger custom actions when they enter,
 
 Plays the Quran you choose on your speakers before Maghrib, from a radio station, your Music Assistant library, a web link or an Alexa playlist, and stops before the Athan.
 
+### 🔗 [Sync On/Off](./blueprints/automation/smarttecharabic/sync-states/README.md)
+
+Keeps two or more lights, switches or fans on or off together, so a smart switch can drive smart bulbs that are always powered.
+
 
 ---
 
