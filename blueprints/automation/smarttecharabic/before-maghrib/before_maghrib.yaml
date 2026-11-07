@@ -1,5 +1,5 @@
 blueprint:
-  name: Before Maghrib Quran - V2.2
+  name: Before Maghrib Quran - V2.3
   description: |
     **Plays the Quran you choose on your speakers before Maghrib, and stops before the Athan.**
 
@@ -162,6 +162,7 @@ trigger_variables:
 variables:
   maghrib_time: !input maghrib_sensor
   volume_percent: !input volume_percent
+  start_minutes_input: !input minutes_before
   main_media: !input main_media
   main_shuffle: !input main_shuffle
   extra_speakers: !input extra_speakers
@@ -204,11 +205,15 @@ trigger:
   - platform: template
     id: start
     value_template: >-
-      {% set t = states(maghrib_entity) | as_datetime(none) %}{{ t is not none and t - timedelta(minutes=start_minutes | int) <= now() < t - timedelta(minutes=1) }}
+      {% set t = states(maghrib_entity) | as_datetime(none) %}{% set s = t - timedelta(minutes=start_minutes | int) if t is not none else none %}{{ s is not none and s <= now() < [s + timedelta(minutes=2), t - timedelta(minutes=1)] | min }}
 
 condition:
   - condition: template
     value_template: "{{ speakers | count > 0 }}"
+  # Starts only in its first 2 minutes, so a reload or a repeated trigger later in the window cannot start it again.
+  - condition: template
+    value_template: >-
+      {% set t = states(maghrib_time) | as_datetime(none) %}{{ is_test or (t is not none and now() < t - timedelta(minutes=(start_minutes_input | int) - 2)) }}
   - condition: template
     value_template: "{{ is_test or presence_people | count == 0 or presence_people | select('is_state', 'home') | list | count > 0 }}"
 
@@ -267,6 +272,10 @@ action:
       - sequence:
           - delay:
               seconds: "{{ play_seconds }}"
+          # A late stop would land on the Athan, so once Maghrib has come, leave the speakers to it.
+          - condition: template
+            value_template: >-
+              {% set t = states(maghrib_time) | as_datetime(none) %}{{ is_test or t is none or now() < t }}
           - action: media_player.media_stop
             continue_on_error: true
             target:

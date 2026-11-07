@@ -27,6 +27,7 @@ Plays the Quran you choose on your speakers before Maghrib, and stops before the
 ### Good to know
 
 - Playback stops 1 minute before Maghrib, then each speaker goes back to its previous volume.
+- It starts only once, in the first 2 minutes of its window. If Home Assistant restarts or reloads later in the window, it does not start again, and a stop never lands on the Athan.
 - **Radio stations:** Radio Browser in Home Assistant lists many Quran stations. Search under **By Category** for Quran.
 - **Plex, Spotify and other libraries:** these play through Music Assistant. If you do not see Albums in **Pick media**, your speaker may be listed twice, so choose the other one.
 - **Echo in the speaker list:** Home Assistant also lists Echo speakers under **Pick media**, and this cannot be filtered. Set them up in the Echo panel instead.
