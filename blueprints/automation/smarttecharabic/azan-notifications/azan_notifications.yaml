@@ -1,5 +1,5 @@
 blueprint:
-  name: Azan Notifications - V3.4
+  name: Azan Notifications - V3.5
   description: |
     **Plays the Athan on your speakers at every prayer time.**
 
@@ -989,6 +989,9 @@ variables:
   phones: "{{ [] if prayer_id == 'test' else ([phones_input] if phones_input is string else phones_input) }}"
   echo_speakers: "{{ speakers | select('in', integration_entities('alexa_media')) | list }}"
   other_speakers: "{{ speakers | reject('in', integration_entities('alexa_media')) | list }}"
+  # Music Assistant plays the Athan as an announcement: its own volume, then each speaker's volume and music come back.
+  ma_speakers: "{{ other_speakers | select('in', integration_entities('music_assistant')) | list }}"
+  plain_speakers: "{{ other_speakers | reject('in', integration_entities('music_assistant')) | list }}"
   # Run actions has no prayer time, so it speaks the first reminder that is switched on.
   reminder_text: >-
     {% set on = prayers.values() | selectattr('enabled') | selectattr('reminder') | list %}{% set p = prayer if is_reminder else (on[0] if on and prayer_id == 'test' else none) %}{{ p.reminder_message if p else '' }}
@@ -1109,17 +1112,26 @@ action:
               target: "{{ echo_speakers }}"
               data:
                 type: tts
-      - if: "{{ audio_url != '' and other_speakers | count > 0 }}"
+      - if: "{{ audio_url != '' and ma_speakers | count > 0 }}"
+        then:
+          - action: music_assistant.play_announcement
+            target:
+              entity_id: "{{ ma_speakers }}"
+            data:
+              url: "{{ audio_url }}"
+              use_pre_announce: false
+              announce_volume: "{{ (volume | float(0.3) * 100) | round(0) | int }}"
+      - if: "{{ audio_url != '' and plain_speakers | count > 0 }}"
         then:
           - action: media_player.volume_set
             continue_on_error: true
             target:
-              entity_id: "{{ other_speakers }}"
+              entity_id: "{{ plain_speakers }}"
             data:
               volume_level: "{{ volume }}"
           - action: media_player.play_media
             target:
-              entity_id: "{{ other_speakers }}"
+              entity_id: "{{ plain_speakers }}"
             data:
               media_content_type: music
               media_content_id: "{{ audio_url }}"
