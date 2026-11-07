@@ -44,7 +44,8 @@ That is all. Fajr plays its own Fajr Athan automatically. To change it, open **O
 - Want a spoken reminder before a prayer? Open that prayer's **Optional** panel and switch on **Reminder before the Athan**. To change the time, change the number in **Reminder message on speakers**. Use digits, because the first number sets the time. With no number, the reminder comes 15 minutes before.
 - HomePod, Google Cast and Sonos also need **Voice for spoken reminders**. Echo does not.
 - Phones you chose get the text in **Reminder message on phones**. If you change the time, change the number there too.
-- Reminders play at the speaker's current volume. On Echo, music lowers and carries on. On HomePod, music stops and does not come back.
+- On Music Assistant speakers the Athan plays as an announcement at the volume you choose. Afterwards each speaker goes back to its own volume, and any music that was playing carries on.
+- Reminders play at the speaker's current volume. On Music Assistant speakers, music pauses and then carries on. On Echo (Alexa Media Player), music lowers and carries on.
 - If a reminder is on, **Run actions** speaks it before the test Athan.
 - Home Assistant cannot see whether an Echo played, so test it by ear.
 - To use your own sound, type its `https` MP3 link in any voice box. For Echo it must be MP3, 48 kbps, 22050 Hz, up to 240 seconds. If Alexa says it is having trouble, check the link and the format.
