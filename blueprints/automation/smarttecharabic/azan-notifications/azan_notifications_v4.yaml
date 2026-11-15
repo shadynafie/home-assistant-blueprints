@@ -1,0 +1,1589 @@
+blueprint:
+  name: Azan Notifications - V4
+  description: |
+    **Plays the Athan on your speakers at every prayer time, each speaker at its own volume.**
+
+    Choose the prayer times, a voice for each prayer, then your speakers with each one's volume per prayer.
+    Reminders and phone notifications are optional. To test it, open the ⋮ menu and choose Run actions (plays the Dhuhr voice at Dhuhr volumes).
+
+    [How to use it](https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/README.md) · [الشرح بالعربي](https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/README.md#arabic)
+
+    By [Shady Nafie, Smart Tech Arabic](https://smarttecharabic.com)
+
+  domain: automation
+  source_url: https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/azan_notifications_v4.yaml
+
+  input:
+    times_section:
+      name: Prayer times
+      description: Choose each prayer's own time, such as Fajr Prayer. Do not choose Iqama.
+      icon: mdi:mosque-outline
+      input:
+        fajr_sensor:
+          name: 🌅 Fajr
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        dhuhr_sensor:
+          name: ☀️ Dhuhr
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        asr_sensor:
+          name: 🌤️ Asr
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        maghrib_sensor:
+          name: 🌆 Maghrib
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+        isha_sensor:
+          name: 🌙 Isha
+          selector:
+            entity:
+              filter:
+                - domain: [sensor]
+                  device_class: timestamp
+
+    voices_section:
+      name: Athan voice
+      description: "Choose a voice for each prayer. [Listen to the voices](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html)"
+      icon: mdi:account-voice
+      input:
+        fajr_voice:
+          name: 🌅 Fajr
+          description: Fajr has its own Athan, so only Fajr voices are listed.
+          default: mishary-alafasy-fajr
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Mishary Alafasy (3:02)"
+                  value: "mishary-alafasy-fajr"
+                - label: "Mishary Alafasy, Hijaz (3:41)"
+                  value: "mishary-alafasy-fajr-hijaz"
+                - label: "Ali Ahmed Mulla (3:56)"
+                  value: "ali-ahmed-mulla-fajr"
+                - label: "Ahmed Afifi (3:35)"
+                  value: "ahmed-afifi-fajr"
+                - label: "Hassan Mustafa (2:31)"
+                  value: "hassan-mustafa-fajr"
+                - label: "Hamad Deghreri (3:14)"
+                  value: "hamad-deghreri-fajr"
+                - label: "Abdulmajeed Al-Surayhi (3:27)"
+                  value: "abdulmajeed-al-surayhi-fajr"
+                - label: "Naif Fayda (3:57)"
+                  value: "naif-fayda-fajr"
+                - label: "Mansour Al-Zahrani (3:10)"
+                  value: "mansour-al-zahrani-fajr"
+                - label: "Yasin Al-Assaf (3:35)"
+                  value: "yasin-al-assaf-fajr"
+                - label: "Kamel Al-Lala (3:18)"
+                  value: "kamel-al-lala-fajr"
+                - label: "Ahmad Murtada (3:08)"
+                  value: "ahmad-murtada-fajr"
+                - label: "Momen Tarek Salim (3:48)"
+                  value: "momen-tarek-salim-fajr"
+                - label: "Mohamed Naji (2:16)"
+                  value: "mohamed-naji-fajr"
+                - label: "Ahmad Nawaf Al-Mijlad (3:38)"
+                  value: "ahmad-nawaf-al-mijlad-fajr"
+                - label: "No sound (phone only)"
+                  value: "none"
+        dhuhr_voice:
+          name: ☀️ Dhuhr
+          default: mishary-alafasy
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Mishary Alafasy (4:00)"
+                  value: "mishary-alafasy"
+                - label: "Abdul Basit (3:19)"
+                  value: "abdul-basit"
+                - label: "Abdul Basit 2 (3:03)"
+                  value: "abdul-basit-2"
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: "mahmoud-al-husary"
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: "mahmoud-ali-al-banna"
+                - label: "Mustafa Ismail (2:00)"
+                  value: "mustafa-ismail"
+                - label: "Ahmad Nuaina (3:29)"
+                  value: "ahmad-nuaina"
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: "ragheb-ghalwash"
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: "al-shahat-anwar"
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: "abdel-fattah-al-tarouti"
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: "abdulaziz-harbi"
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: "ali-ahmed-mulla"
+                - label: "Makkah (3:20)"
+                  value: "makkah"
+                - label: "Sami Al-Rayes (2:58)"
+                  value: "sami-al-rayes"
+                - label: "Turki Al-Husni (3:28)"
+                  value: "turki-al-husni"
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: "hashim-al-saqqaf"
+                - label: "Majed Abbas (2:58)"
+                  value: "majed-abbas"
+                - label: "Ahmad Khoja (3:14)"
+                  value: "ahmad-khoja"
+                - label: "Hussam Khoja (2:53)"
+                  value: "hussam-khoja"
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: "mohamed-ramadan-saad"
+                - label: "Hamad Deghreri (2:41)"
+                  value: "hamad-deghreri"
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: "abdulmajeed-al-surayhi"
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: "yasser-al-dosari"
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: "nasser-al-qatami"
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: "ibrahim-al-baluchi"
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: "ibrahim-al-arkani"
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: "majed-al-hamathani"
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: "ahmad-al-emadi"
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: "ahmad-fakhroo"
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: "moaz-al-qasimi"
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: "omar-al-qazabri"
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: "kamal-al-marrush"
+                - label: "Kamel Al-Lala (2:49)"
+                  value: "kamel-al-lala"
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: "muhammad-nasiruddin-al-albani"
+                - label: "Suhaib Khatba (3:03)"
+                  value: "suhaib-khatba"
+                - label: "Nasser Al-Abd (2:42)"
+                  value: "nasser-al-abd"
+                - label: "Badie Jadou (3:26)"
+                  value: "badie-jadou"
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: "ahmad-al-tarabulsi"
+                - label: "Ahmad Murtada (2:32)"
+                  value: "ahmad-murtada"
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: "yasin-al-assaf"
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: "abdulrahman-al-arki"
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: "wadie-al-yamani"
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: "ahmad-nawaf-al-mijlad"
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: "ahmad-al-haddad"
+                - label: "Mohamed Naji (2:27)"
+                  value: "mohamed-naji"
+        asr_voice:
+          name: 🌤️ Asr
+          default: mishary-alafasy
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Mishary Alafasy (4:00)"
+                  value: "mishary-alafasy"
+                - label: "Abdul Basit (3:19)"
+                  value: "abdul-basit"
+                - label: "Abdul Basit 2 (3:03)"
+                  value: "abdul-basit-2"
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: "mahmoud-al-husary"
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: "mahmoud-ali-al-banna"
+                - label: "Mustafa Ismail (2:00)"
+                  value: "mustafa-ismail"
+                - label: "Ahmad Nuaina (3:29)"
+                  value: "ahmad-nuaina"
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: "ragheb-ghalwash"
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: "al-shahat-anwar"
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: "abdel-fattah-al-tarouti"
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: "abdulaziz-harbi"
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: "ali-ahmed-mulla"
+                - label: "Makkah (3:20)"
+                  value: "makkah"
+                - label: "Sami Al-Rayes (2:58)"
+                  value: "sami-al-rayes"
+                - label: "Turki Al-Husni (3:28)"
+                  value: "turki-al-husni"
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: "hashim-al-saqqaf"
+                - label: "Majed Abbas (2:58)"
+                  value: "majed-abbas"
+                - label: "Ahmad Khoja (3:14)"
+                  value: "ahmad-khoja"
+                - label: "Hussam Khoja (2:53)"
+                  value: "hussam-khoja"
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: "mohamed-ramadan-saad"
+                - label: "Hamad Deghreri (2:41)"
+                  value: "hamad-deghreri"
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: "abdulmajeed-al-surayhi"
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: "yasser-al-dosari"
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: "nasser-al-qatami"
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: "ibrahim-al-baluchi"
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: "ibrahim-al-arkani"
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: "majed-al-hamathani"
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: "ahmad-al-emadi"
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: "ahmad-fakhroo"
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: "moaz-al-qasimi"
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: "omar-al-qazabri"
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: "kamal-al-marrush"
+                - label: "Kamel Al-Lala (2:49)"
+                  value: "kamel-al-lala"
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: "muhammad-nasiruddin-al-albani"
+                - label: "Suhaib Khatba (3:03)"
+                  value: "suhaib-khatba"
+                - label: "Nasser Al-Abd (2:42)"
+                  value: "nasser-al-abd"
+                - label: "Badie Jadou (3:26)"
+                  value: "badie-jadou"
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: "ahmad-al-tarabulsi"
+                - label: "Ahmad Murtada (2:32)"
+                  value: "ahmad-murtada"
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: "yasin-al-assaf"
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: "abdulrahman-al-arki"
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: "wadie-al-yamani"
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: "ahmad-nawaf-al-mijlad"
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: "ahmad-al-haddad"
+                - label: "Mohamed Naji (2:27)"
+                  value: "mohamed-naji"
+        maghrib_voice:
+          name: 🌆 Maghrib
+          default: mishary-alafasy
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Mishary Alafasy (4:00)"
+                  value: "mishary-alafasy"
+                - label: "Abdul Basit (3:19)"
+                  value: "abdul-basit"
+                - label: "Abdul Basit 2 (3:03)"
+                  value: "abdul-basit-2"
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: "mahmoud-al-husary"
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: "mahmoud-ali-al-banna"
+                - label: "Mustafa Ismail (2:00)"
+                  value: "mustafa-ismail"
+                - label: "Ahmad Nuaina (3:29)"
+                  value: "ahmad-nuaina"
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: "ragheb-ghalwash"
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: "al-shahat-anwar"
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: "abdel-fattah-al-tarouti"
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: "abdulaziz-harbi"
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: "ali-ahmed-mulla"
+                - label: "Makkah (3:20)"
+                  value: "makkah"
+                - label: "Sami Al-Rayes (2:58)"
+                  value: "sami-al-rayes"
+                - label: "Turki Al-Husni (3:28)"
+                  value: "turki-al-husni"
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: "hashim-al-saqqaf"
+                - label: "Majed Abbas (2:58)"
+                  value: "majed-abbas"
+                - label: "Ahmad Khoja (3:14)"
+                  value: "ahmad-khoja"
+                - label: "Hussam Khoja (2:53)"
+                  value: "hussam-khoja"
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: "mohamed-ramadan-saad"
+                - label: "Hamad Deghreri (2:41)"
+                  value: "hamad-deghreri"
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: "abdulmajeed-al-surayhi"
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: "yasser-al-dosari"
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: "nasser-al-qatami"
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: "ibrahim-al-baluchi"
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: "ibrahim-al-arkani"
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: "majed-al-hamathani"
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: "ahmad-al-emadi"
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: "ahmad-fakhroo"
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: "moaz-al-qasimi"
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: "omar-al-qazabri"
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: "kamal-al-marrush"
+                - label: "Kamel Al-Lala (2:49)"
+                  value: "kamel-al-lala"
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: "muhammad-nasiruddin-al-albani"
+                - label: "Suhaib Khatba (3:03)"
+                  value: "suhaib-khatba"
+                - label: "Nasser Al-Abd (2:42)"
+                  value: "nasser-al-abd"
+                - label: "Badie Jadou (3:26)"
+                  value: "badie-jadou"
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: "ahmad-al-tarabulsi"
+                - label: "Ahmad Murtada (2:32)"
+                  value: "ahmad-murtada"
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: "yasin-al-assaf"
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: "abdulrahman-al-arki"
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: "wadie-al-yamani"
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: "ahmad-nawaf-al-mijlad"
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: "ahmad-al-haddad"
+                - label: "Mohamed Naji (2:27)"
+                  value: "mohamed-naji"
+        isha_voice:
+          name: 🌙 Isha
+          default: mishary-alafasy
+          selector:
+            select:
+              mode: dropdown
+              custom_value: true
+              options:
+                - label: "Mishary Alafasy (4:00)"
+                  value: "mishary-alafasy"
+                - label: "Abdul Basit (3:19)"
+                  value: "abdul-basit"
+                - label: "Abdul Basit 2 (3:03)"
+                  value: "abdul-basit-2"
+                - label: "Mahmoud Al-Husary (2:06)"
+                  value: "mahmoud-al-husary"
+                - label: "Mahmoud Ali Al-Banna (2:45)"
+                  value: "mahmoud-ali-al-banna"
+                - label: "Mustafa Ismail (2:00)"
+                  value: "mustafa-ismail"
+                - label: "Ahmad Nuaina (3:29)"
+                  value: "ahmad-nuaina"
+                - label: "Ragheb Ghalwash (3:05)"
+                  value: "ragheb-ghalwash"
+                - label: "Al-Shahat Anwar (3:18)"
+                  value: "al-shahat-anwar"
+                - label: "Abdel Fattah Al-Tarouti (2:45)"
+                  value: "abdel-fattah-al-tarouti"
+                - label: "Abdulaziz Harbi (2:36)"
+                  value: "abdulaziz-harbi"
+                - label: "Ali Ahmed Mulla (3:36)"
+                  value: "ali-ahmed-mulla"
+                - label: "Makkah (3:20)"
+                  value: "makkah"
+                - label: "Sami Al-Rayes (2:58)"
+                  value: "sami-al-rayes"
+                - label: "Turki Al-Husni (3:28)"
+                  value: "turki-al-husni"
+                - label: "Hashim Al-Saqqaf (2:56)"
+                  value: "hashim-al-saqqaf"
+                - label: "Majed Abbas (2:58)"
+                  value: "majed-abbas"
+                - label: "Ahmad Khoja (3:14)"
+                  value: "ahmad-khoja"
+                - label: "Hussam Khoja (2:53)"
+                  value: "hussam-khoja"
+                - label: "Mohamed Ramadan Saad (3:38)"
+                  value: "mohamed-ramadan-saad"
+                - label: "Hamad Deghreri (2:41)"
+                  value: "hamad-deghreri"
+                - label: "Abdulmajeed Al-Surayhi (3:28)"
+                  value: "abdulmajeed-al-surayhi"
+                - label: "Yasser Al-Dosari (2:56)"
+                  value: "yasser-al-dosari"
+                - label: "Nasser Al-Qatami (2:19)"
+                  value: "nasser-al-qatami"
+                - label: "Ibrahim Al-Baluchi (3:25)"
+                  value: "ibrahim-al-baluchi"
+                - label: "Ibrahim Al-Arkani (3:59)"
+                  value: "ibrahim-al-arkani"
+                - label: "Majed Al-Hamathani (3:45)"
+                  value: "majed-al-hamathani"
+                - label: "Ahmad Al-Emadi (2:58)"
+                  value: "ahmad-al-emadi"
+                - label: "Ahmad Fakhroo (2:33)"
+                  value: "ahmad-fakhroo"
+                - label: "Moaz Al-Qasimi (3:46)"
+                  value: "moaz-al-qasimi"
+                - label: "Omar Al-Qazabri (3:54)"
+                  value: "omar-al-qazabri"
+                - label: "Kamal Al-Marrush (2:20)"
+                  value: "kamal-al-marrush"
+                - label: "Kamel Al-Lala (2:49)"
+                  value: "kamel-al-lala"
+                - label: "Muhammad Nasiruddin Al-Albani (1:19)"
+                  value: "muhammad-nasiruddin-al-albani"
+                - label: "Suhaib Khatba (3:03)"
+                  value: "suhaib-khatba"
+                - label: "Nasser Al-Abd (2:42)"
+                  value: "nasser-al-abd"
+                - label: "Badie Jadou (3:26)"
+                  value: "badie-jadou"
+                - label: "Ahmad Al-Tarabulsi (3:57)"
+                  value: "ahmad-al-tarabulsi"
+                - label: "Ahmad Murtada (2:32)"
+                  value: "ahmad-murtada"
+                - label: "Yasin Al-Assaf (2:52)"
+                  value: "yasin-al-assaf"
+                - label: "Abdulrahman Al-Arki (3:25)"
+                  value: "abdulrahman-al-arki"
+                - label: "Wadie Al-Yamani (3:17)"
+                  value: "wadie-al-yamani"
+                - label: "Ahmad Nawaf Al-Mijlad (3:12)"
+                  value: "ahmad-nawaf-al-mijlad"
+                - label: "Ahmad Al-Haddad (2:32)"
+                  value: "ahmad-al-haddad"
+                - label: "Mohamed Naji (2:27)"
+                  value: "mohamed-naji"
+        after_athan:
+          name: After the Athan
+          description: Stay silent stops any music first and clears its queue, so nothing starts again afterwards.
+          default: silent
+          selector:
+            select:
+              options:
+                - label: Stay silent
+                  value: silent
+                - label: Resume what was playing (Music Assistant only)
+                  value: resume
+
+    speaker_1_section:
+      name: Speaker
+      description: Choose a speaker and its volume for each prayer. 0 keeps it silent for that prayer.
+      icon: mdi:speaker
+      collapsed: false
+      input:
+
+        speaker_1:
+          name: Speaker
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: media_player
+        speaker_1_fajr:
+          name: 🌅 Fajr volume
+          default: 15
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_1_dhuhr:
+          name: ☀️ Dhuhr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_1_asr:
+          name: 🌤️ Asr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_1_maghrib:
+          name: 🌆 Maghrib volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_1_isha:
+          name: 🌙 Isha volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+
+    speaker_2_section:
+      name: "Speaker 2"
+      icon: mdi:subdirectory-arrow-right
+      collapsed: true
+      input:
+        speaker_2:
+          name: Speaker 2
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: media_player
+        speaker_2_fajr:
+          name: 🌅 Fajr volume
+          default: 15
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_2_dhuhr:
+          name: ☀️ Dhuhr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_2_asr:
+          name: 🌤️ Asr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_2_maghrib:
+          name: 🌆 Maghrib volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_2_isha:
+          name: 🌙 Isha volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+
+    speaker_3_section:
+      name: "Speaker 3"
+      icon: mdi:subdirectory-arrow-right
+      collapsed: true
+      input:
+        speaker_3:
+          name: Speaker 3
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: media_player
+        speaker_3_fajr:
+          name: 🌅 Fajr volume
+          default: 15
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_3_dhuhr:
+          name: ☀️ Dhuhr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_3_asr:
+          name: 🌤️ Asr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_3_maghrib:
+          name: 🌆 Maghrib volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_3_isha:
+          name: 🌙 Isha volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+
+    speaker_4_section:
+      name: "Speaker 4"
+      icon: mdi:subdirectory-arrow-right
+      collapsed: true
+      input:
+        speaker_4:
+          name: Speaker 4
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: media_player
+        speaker_4_fajr:
+          name: 🌅 Fajr volume
+          default: 15
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_4_dhuhr:
+          name: ☀️ Dhuhr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_4_asr:
+          name: 🌤️ Asr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_4_maghrib:
+          name: 🌆 Maghrib volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_4_isha:
+          name: 🌙 Isha volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+
+    speaker_5_section:
+      name: "Speaker 5"
+      icon: mdi:subdirectory-arrow-right
+      collapsed: true
+      input:
+        speaker_5:
+          name: Speaker 5
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: media_player
+        speaker_5_fajr:
+          name: 🌅 Fajr volume
+          default: 15
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_5_dhuhr:
+          name: ☀️ Dhuhr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_5_asr:
+          name: 🌤️ Asr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_5_maghrib:
+          name: 🌆 Maghrib volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_5_isha:
+          name: 🌙 Isha volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+
+    speaker_6_section:
+      name: "Speaker 6"
+      icon: mdi:subdirectory-arrow-right
+      collapsed: true
+      input:
+        speaker_6:
+          name: Speaker 6
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: media_player
+        speaker_6_fajr:
+          name: 🌅 Fajr volume
+          default: 15
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_6_dhuhr:
+          name: ☀️ Dhuhr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_6_asr:
+          name: 🌤️ Asr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_6_maghrib:
+          name: 🌆 Maghrib volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_6_isha:
+          name: 🌙 Isha volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+
+    speaker_7_section:
+      name: "Speaker 7"
+      icon: mdi:subdirectory-arrow-right
+      collapsed: true
+      input:
+        speaker_7:
+          name: Speaker 7
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: media_player
+        speaker_7_fajr:
+          name: 🌅 Fajr volume
+          default: 15
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_7_dhuhr:
+          name: ☀️ Dhuhr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_7_asr:
+          name: 🌤️ Asr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_7_maghrib:
+          name: 🌆 Maghrib volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_7_isha:
+          name: 🌙 Isha volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+
+    speaker_8_section:
+      name: "Speaker 8"
+      icon: mdi:subdirectory-arrow-right
+      collapsed: true
+      input:
+        speaker_8:
+          name: Speaker 8
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: media_player
+        speaker_8_fajr:
+          name: 🌅 Fajr volume
+          default: 15
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_8_dhuhr:
+          name: ☀️ Dhuhr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_8_asr:
+          name: 🌤️ Asr volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_8_maghrib:
+          name: 🌆 Maghrib volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+        speaker_8_isha:
+          name: 🌙 Isha volume
+          default: 30
+          selector:
+            number:
+              min: 0
+              max: 100
+              step: 5
+              unit_of_measurement: "%"
+              mode: slider
+
+    reminders_section:
+      name: "Optional: Reminders"
+      description: A spoken reminder on the speakers before the Athan, at the same volumes.
+      icon: mdi:bell-ring-outline
+      collapsed: true
+      input:
+        reminder_prayers:
+          name: Prayers with a reminder
+          default: []
+          selector:
+            select:
+              multiple: true
+              options:
+                - label: Fajr
+                  value: fajr
+                - label: Dhuhr
+                  value: dhuhr
+                - label: Asr
+                  value: asr
+                - label: Maghrib
+                  value: maghrib
+                - label: Isha
+                  value: isha
+        reminder_minutes:
+          name: Minutes before the Athan
+          default: 15
+          selector:
+            number:
+              min: 1
+              max: 60
+              step: 1
+              unit_of_measurement: min
+              mode: box
+        reminder_message:
+          name: Spoken reminder
+          description: "{prayer} and {minutes} are filled in for you. {minutes} comes from Minutes before the Athan."
+          default: "Salam, {prayer} prayer is in {minutes} minutes."
+          selector:
+            text: {}
+        reminder_tts:
+          name: Voice for spoken reminders
+          description: Needed for every speaker except Echos added through Alexa Media Player.
+          default: ""
+          selector:
+            entity:
+              filter:
+                - domain: tts
+
+    phones_section:
+      name: "Optional: Phone notifications"
+      description: A notification on each phone at the Athan, and with each reminder.
+      icon: mdi:cellphone-message
+      collapsed: true
+      input:
+        notify_device:
+          name: Phones
+          default: []
+          selector:
+            device:
+              multiple: true
+              filter:
+                - integration: mobile_app
+        phone_prayers:
+          name: Prayers that notify
+          default: [fajr, dhuhr, asr, maghrib, isha]
+          selector:
+            select:
+              multiple: true
+              options:
+                - label: Fajr
+                  value: fajr
+                - label: Dhuhr
+                  value: dhuhr
+                - label: Asr
+                  value: asr
+                - label: Maghrib
+                  value: maghrib
+                - label: Isha
+                  value: isha
+        phone_message:
+          name: Message at the Athan
+          description: "{emoji}, {prayer} and {prayer_ar} are filled in for you."
+          default: "{emoji} Time for {prayer} prayer – حان الآن موعد صلاة {prayer_ar}"
+          selector:
+            text: {}
+        phone_reminder_message:
+          name: Message with the reminder
+          description: "{emoji}, {prayer}, {prayer_ar} and {minutes} are filled in for you. {minutes} comes from Minutes before the Athan in Reminders."
+          default: "⏰ {emoji} {prayer} prayer is in {minutes} minutes – صلاة {prayer_ar} بعد {minutes} دقيقة"
+          selector:
+            text: {}
+
+trigger_variables:
+  sensors:
+    fajr: !input fajr_sensor
+    dhuhr: !input dhuhr_sensor
+    asr: !input asr_sensor
+    maghrib: !input maghrib_sensor
+    isha: !input isha_sensor
+  reminder_list: !input reminder_prayers
+  reminder_mins: !input reminder_minutes
+
+trigger:
+  - platform: time
+    at: !input fajr_sensor
+    id: fajr
+  - platform: template
+    value_template: >-
+      {% set t = states(sensors.fajr) | as_datetime(none) %}{{ 'fajr' in reminder_list and t is not none and t - timedelta(minutes=reminder_mins | int(15)) <= now() < t }}
+    id: fajr_reminder
+  - platform: time
+    at: !input dhuhr_sensor
+    id: dhuhr
+  - platform: template
+    value_template: >-
+      {% set t = states(sensors.dhuhr) | as_datetime(none) %}{{ 'dhuhr' in reminder_list and t is not none and t - timedelta(minutes=reminder_mins | int(15)) <= now() < t }}
+    id: dhuhr_reminder
+  - platform: time
+    at: !input asr_sensor
+    id: asr
+  - platform: template
+    value_template: >-
+      {% set t = states(sensors.asr) | as_datetime(none) %}{{ 'asr' in reminder_list and t is not none and t - timedelta(minutes=reminder_mins | int(15)) <= now() < t }}
+    id: asr_reminder
+  - platform: time
+    at: !input maghrib_sensor
+    id: maghrib
+  - platform: template
+    value_template: >-
+      {% set t = states(sensors.maghrib) | as_datetime(none) %}{{ 'maghrib' in reminder_list and t is not none and t - timedelta(minutes=reminder_mins | int(15)) <= now() < t }}
+    id: maghrib_reminder
+  - platform: time
+    at: !input isha_sensor
+    id: isha
+  - platform: template
+    value_template: >-
+      {% set t = states(sensors.isha) | as_datetime(none) %}{{ 'isha' in reminder_list and t is not none and t - timedelta(minutes=reminder_mins | int(15)) <= now() < t }}
+    id: isha_reminder
+
+variables:
+  audio_base: https://raw.githubusercontent.com/shadynafie/home-assistant-blueprints/main/blueprints/automation/smarttecharabic/azan-notifications/audio/
+  after_mode: !input after_athan
+  tts_engine: !input reminder_tts
+  phones_input: !input notify_device
+  phone_list: !input phone_prayers
+  phone_text: !input phone_message
+  phone_reminder_text: !input phone_reminder_message
+  reminder_text_template: !input reminder_message
+  voices:
+    fajr: !input fajr_voice
+    dhuhr: !input dhuhr_voice
+    asr: !input asr_voice
+    maghrib: !input maghrib_voice
+    isha: !input isha_voice
+  slots:
+    - entity: !input speaker_1
+      fajr: !input speaker_1_fajr
+      dhuhr: !input speaker_1_dhuhr
+      asr: !input speaker_1_asr
+      maghrib: !input speaker_1_maghrib
+      isha: !input speaker_1_isha
+    - entity: !input speaker_2
+      fajr: !input speaker_2_fajr
+      dhuhr: !input speaker_2_dhuhr
+      asr: !input speaker_2_asr
+      maghrib: !input speaker_2_maghrib
+      isha: !input speaker_2_isha
+    - entity: !input speaker_3
+      fajr: !input speaker_3_fajr
+      dhuhr: !input speaker_3_dhuhr
+      asr: !input speaker_3_asr
+      maghrib: !input speaker_3_maghrib
+      isha: !input speaker_3_isha
+    - entity: !input speaker_4
+      fajr: !input speaker_4_fajr
+      dhuhr: !input speaker_4_dhuhr
+      asr: !input speaker_4_asr
+      maghrib: !input speaker_4_maghrib
+      isha: !input speaker_4_isha
+    - entity: !input speaker_5
+      fajr: !input speaker_5_fajr
+      dhuhr: !input speaker_5_dhuhr
+      asr: !input speaker_5_asr
+      maghrib: !input speaker_5_maghrib
+      isha: !input speaker_5_isha
+    - entity: !input speaker_6
+      fajr: !input speaker_6_fajr
+      dhuhr: !input speaker_6_dhuhr
+      asr: !input speaker_6_asr
+      maghrib: !input speaker_6_maghrib
+      isha: !input speaker_6_isha
+    - entity: !input speaker_7
+      fajr: !input speaker_7_fajr
+      dhuhr: !input speaker_7_dhuhr
+      asr: !input speaker_7_asr
+      maghrib: !input speaker_7_maghrib
+      isha: !input speaker_7_isha
+    - entity: !input speaker_8
+      fajr: !input speaker_8_fajr
+      dhuhr: !input speaker_8_dhuhr
+      asr: !input speaker_8_asr
+      maghrib: !input speaker_8_maghrib
+      isha: !input speaker_8_isha
+  names:
+    fajr: {en: Fajr, ar: الفجر, emoji: "🌅", title: "🌅 Fajr Prayer Time", icon: "mdi:weather-sunset-up", color: "#FFA726"}
+    dhuhr: {en: Dhuhr, ar: الظهر, emoji: "☀️", title: "☀️ Dhuhr Prayer Time", icon: "mdi:weather-sunny", color: "#FFD54F"}
+    asr: {en: Asr, ar: العصر, emoji: "🌤️", title: "🌤️ Asr Prayer Time", icon: "mdi:weather-partly-cloudy", color: "#FF8A65"}
+    maghrib: {en: Maghrib, ar: المغرب, emoji: "🌆", title: "🌆 Maghrib Prayer Time", icon: "mdi:weather-sunset", color: "#FF7043"}
+    isha: {en: Isha, ar: العشاء, emoji: "🌙", title: "🌙 Isha Prayer Time", icon: "mdi:weather-night", color: "#5C6BC0"}
+  trigger_name: "{{ trigger.id if trigger is defined and trigger.id is defined else 'test' }}"
+  is_reminder: "{{ trigger_name.endswith('_reminder') }}"
+  is_test: "{{ trigger_name == 'test' }}"
+  # Run actions has no prayer time, so it plays Dhuhr's voice at Dhuhr's volumes.
+  prayer_id: "{{ 'dhuhr' if is_test else trigger_name | replace('_reminder', '') }}"
+  prayer: "{{ names[prayer_id] }}"
+  minutes: "{{ reminder_mins | int(15) }}"
+  sound: "{{ voices[prayer_id] }}"
+  # A voice name becomes a link to this repository; your own MP3 link is used as it is.
+  audio_url: >-
+    {% if sound == 'none' or not sound %}{% elif sound.startswith('http') %}{{ sound }}{% else %}{{ audio_base ~ sound ~ '.mp3' }}{% endif %}
+  # Each chosen speaker with its volume for this prayer. 0 = silent. A speaker chosen twice uses its first panel.
+  speaker_levels: >-
+    {% set ns = namespace(rows=[], seen=[]) %}
+    {% for s in slots %}
+      {% set e = s.entity if s.entity is string else '' %}
+      {% if e and e not in ns.seen %}
+        {% set ns.seen = ns.seen + [e] %}
+        {% set v = s[prayer_id] | float(0) %}
+        {% if v > 0 %}{% set ns.rows = ns.rows + [[e, (v / 100) | round(2)]] %}{% endif %}
+      {% endif %}
+    {% endfor %}
+    {{ ns.rows }}
+  speakers: "{{ speaker_levels | map('first') | list }}"
+  alexa_entities: "{{ integration_entities('alexa_media') }}"
+  echo_speakers: "{{ speakers | select('in', alexa_entities) | list }}"
+  other_speakers: "{{ speakers | reject('in', alexa_entities) | list }}"
+  # Music Assistant plays the Athan as an announcement at each speaker's own volume, then puts the volume back.
+  ma_speakers: "{{ other_speakers | select('in', integration_entities('music_assistant')) | list }}"
+  plain_speakers: "{{ other_speakers | reject('in', integration_entities('music_assistant')) | list }}"
+  # Speakers with the same volume share one announcement, so they stay together.
+  ma_groups: >-
+    {% set ns = namespace(vols=[], out=[]) %}
+    {% for r in speaker_levels if r[0] in ma_speakers and r[1] not in ns.vols %}{% set ns.vols = ns.vols + [r[1]] %}{% endfor %}
+    {% for v in ns.vols %}{% set ns.out = ns.out + [{'volume': (v * 100) | round(0) | int, 'entities': speaker_levels | selectattr('1', 'eq', v) | map('first') | select('in', ma_speakers) | list}] %}{% endfor %}
+    {{ ns.out }}
+  # Echos in Music Assistant cannot tell it when they were stopped by voice, so an old queue looks like it is still playing
+  # and would start again after any announcement. Music Assistant does not let them join groups, which is how they are found.
+  stale_queue_speakers: >-
+    {% set ns = namespace(out=[]) %}{% for e in ma_speakers %}{% if ((state_attr(e, 'supported_features') | int(0)) // 524288) % 2 == 0 %}{% set ns.out = ns.out + [e] %}{% endif %}{% endfor %}{{ ns.out }}
+  phones: "{{ [] if is_test or prayer_id not in phone_list else ([phones_input] if phones_input is string else phones_input) }}"
+  # Run actions speaks a sample reminder when any reminder is switched on.
+  reminder_on: "{{ (is_reminder and prayer_id in reminder_list) or (is_test and reminder_list | count > 0) }}"
+  reminder_text: >-
+    {{ reminder_text_template | replace('{prayer}', prayer.en) | replace('{minutes}', minutes | string) if reminder_on else '' }}
+  reminder_phone_text: >-
+    {{ phone_reminder_text | replace('{emoji}', prayer.emoji) | replace('{prayer_ar}', prayer.ar) | replace('{prayer}', prayer.en) | replace('{minutes}', minutes | string) }}
+  athan_phone_text: >-
+    {{ phone_text | replace('{emoji}', prayer.emoji) | replace('{prayer_ar}', prayer.ar) | replace('{prayer}', prayer.en) }}
+  reminder_tts_url: >-
+    {% if tts_engine and reminder_text %}media-source://tts/{{ tts_engine }}?message={{ reminder_text | urlencode }}{% endif %}
+
+action:
+  - if: "{{ reminder_text != '' }}"
+    then:
+      - parallel:
+          - repeat:
+              for_each: "{{ phones }}"
+              sequence:
+                - action: "notify.mobile_app_{{ device_attr(repeat.item, 'name') | slugify }}"
+                  continue_on_error: true
+                  data:
+                    title: "{{ prayer.title }}"
+                    message: "{{ reminder_phone_text }}"
+          - if: "{{ echo_speakers | count > 0 }}"
+            then:
+              - action: notify.alexa_media
+                continue_on_error: true
+                data:
+                  message: "{{ reminder_text }}"
+                  target: "{{ echo_speakers }}"
+                  data:
+                    type: tts
+          - if: "{{ tts_engine != '' and plain_speakers | count > 0 }}"
+            then:
+              - action: tts.speak
+                continue_on_error: true
+                target:
+                  entity_id: "{{ tts_engine }}"
+                data:
+                  media_player_entity_id: "{{ plain_speakers }}"
+                  message: "{{ reminder_text }}"
+          - if: "{{ reminder_tts_url != '' and ma_groups | count > 0 }}"
+            then:
+              # An Echo's old queue would start again after the reminder, so it is stopped and cleared first.
+              - if: "{{ stale_queue_speakers | count > 0 }}"
+                then:
+                  - action: media_player.media_stop
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ stale_queue_speakers }}"
+                  - action: media_player.clear_playlist
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ stale_queue_speakers }}"
+              - parallel:
+                  - if: "{{ ma_groups | count > 0 }}"
+                    then:
+                      - action: media_player.play_media
+                        continue_on_error: true
+                        target:
+                          entity_id: "{{ ma_groups[0].entities }}"
+                        data:
+                          media_content_id: "{{ reminder_tts_url }}"
+                          media_content_type: music
+                          announce: true
+                          extra:
+                            use_pre_announce: false
+                            announce_volume: "{{ ma_groups[0].volume }}"
+                  - if: "{{ ma_groups | count > 1 }}"
+                    then:
+                      - action: media_player.play_media
+                        continue_on_error: true
+                        target:
+                          entity_id: "{{ ma_groups[1].entities }}"
+                        data:
+                          media_content_id: "{{ reminder_tts_url }}"
+                          media_content_type: music
+                          announce: true
+                          extra:
+                            use_pre_announce: false
+                            announce_volume: "{{ ma_groups[1].volume }}"
+                  - if: "{{ ma_groups | count > 2 }}"
+                    then:
+                      - action: media_player.play_media
+                        continue_on_error: true
+                        target:
+                          entity_id: "{{ ma_groups[2].entities }}"
+                        data:
+                          media_content_id: "{{ reminder_tts_url }}"
+                          media_content_type: music
+                          announce: true
+                          extra:
+                            use_pre_announce: false
+                            announce_volume: "{{ ma_groups[2].volume }}"
+                  - if: "{{ ma_groups | count > 3 }}"
+                    then:
+                      - action: media_player.play_media
+                        continue_on_error: true
+                        target:
+                          entity_id: "{{ ma_groups[3].entities }}"
+                        data:
+                          media_content_id: "{{ reminder_tts_url }}"
+                          media_content_type: music
+                          announce: true
+                          extra:
+                            use_pre_announce: false
+                            announce_volume: "{{ ma_groups[3].volume }}"
+                  - if: "{{ ma_groups | count > 4 }}"
+                    then:
+                      - action: media_player.play_media
+                        continue_on_error: true
+                        target:
+                          entity_id: "{{ ma_groups[4].entities }}"
+                        data:
+                          media_content_id: "{{ reminder_tts_url }}"
+                          media_content_type: music
+                          announce: true
+                          extra:
+                            use_pre_announce: false
+                            announce_volume: "{{ ma_groups[4].volume }}"
+                  - if: "{{ ma_groups | count > 5 }}"
+                    then:
+                      - action: media_player.play_media
+                        continue_on_error: true
+                        target:
+                          entity_id: "{{ ma_groups[5].entities }}"
+                        data:
+                          media_content_id: "{{ reminder_tts_url }}"
+                          media_content_type: music
+                          announce: true
+                          extra:
+                            use_pre_announce: false
+                            announce_volume: "{{ ma_groups[5].volume }}"
+                  - if: "{{ ma_groups | count > 6 }}"
+                    then:
+                      - action: media_player.play_media
+                        continue_on_error: true
+                        target:
+                          entity_id: "{{ ma_groups[6].entities }}"
+                        data:
+                          media_content_id: "{{ reminder_tts_url }}"
+                          media_content_type: music
+                          announce: true
+                          extra:
+                            use_pre_announce: false
+                            announce_volume: "{{ ma_groups[6].volume }}"
+                  # Any further volume levels play one after another.
+                  - repeat:
+                      for_each: "{{ ma_groups[7:] }}"
+                      sequence:
+                        - action: media_player.play_media
+                          continue_on_error: true
+                          target:
+                            entity_id: "{{ repeat.item.entities }}"
+                          data:
+                            media_content_id: "{{ reminder_tts_url }}"
+                            media_content_type: music
+                            announce: true
+                            extra:
+                              use_pre_announce: false
+                              announce_volume: "{{ repeat.item.volume }}"
+      - if: "{{ is_test }}"
+        then:
+          - delay: "00:00:03"
+  - if: "{{ is_reminder }}"
+    then:
+      - stop: Reminder finished
+  # Stay silent: stop the music and clear the queue first, so nothing starts again after the Athan.
+  - if: "{{ audio_url != '' and after_mode == 'silent' and ma_speakers | count > 0 }}"
+    then:
+      - action: media_player.media_stop
+        continue_on_error: true
+        target:
+          entity_id: "{{ ma_speakers }}"
+      - action: media_player.clear_playlist
+        continue_on_error: true
+        target:
+          entity_id: "{{ ma_speakers }}"
+  - parallel:
+      - repeat:
+          for_each: "{{ phones }}"
+          sequence:
+            - action: "notify.mobile_app_{{ device_attr(repeat.item, 'name') | slugify }}"
+              continue_on_error: true
+              data:
+                title: "{{ prayer.title }}"
+                message: "{{ athan_phone_text }}"
+                data:
+                  notification_icon: "{{ prayer.icon }}"
+                  color: "{{ prayer.color }}"
+                  channel: prayer_notifications
+                  importance: high
+                  persistent: true
+                  sticky: true
+                  timeout: 0
+                  actions:
+                    - action: MARK_PRAYED
+                      title: Mark as Prayed
+                      icon: sfsymbols:checkmark.circle
+                    - action: SNOOZE_PRAYER
+                      title: Remind me in 5 min
+                      icon: sfsymbols:clock
+      - if: "{{ audio_url != '' and echo_speakers | count > 0 }}"
+        then:
+          - repeat:
+              for_each: "{{ speaker_levels | selectattr('0', 'in', echo_speakers) | list }}"
+              sequence:
+                - action: media_player.volume_set
+                  continue_on_error: true
+                  target:
+                    entity_id: "{{ repeat.item[0] }}"
+                  data:
+                    volume_level: "{{ repeat.item[1] }}"
+          - action: notify.alexa_media
+            continue_on_error: true
+            data:
+              message: '<audio src="{{ audio_url }}"/>'
+              target: "{{ echo_speakers }}"
+              data:
+                type: tts
+      - if: "{{ audio_url != '' and ma_groups | count > 0 }}"
+        then:
+          - parallel:
+              - if: "{{ ma_groups | count > 0 }}"
+                then:
+                  - action: music_assistant.play_announcement
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ ma_groups[0].entities }}"
+                    data:
+                      url: "{{ audio_url }}"
+                      use_pre_announce: false
+                      announce_volume: "{{ ma_groups[0].volume }}"
+              - if: "{{ ma_groups | count > 1 }}"
+                then:
+                  - action: music_assistant.play_announcement
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ ma_groups[1].entities }}"
+                    data:
+                      url: "{{ audio_url }}"
+                      use_pre_announce: false
+                      announce_volume: "{{ ma_groups[1].volume }}"
+              - if: "{{ ma_groups | count > 2 }}"
+                then:
+                  - action: music_assistant.play_announcement
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ ma_groups[2].entities }}"
+                    data:
+                      url: "{{ audio_url }}"
+                      use_pre_announce: false
+                      announce_volume: "{{ ma_groups[2].volume }}"
+              - if: "{{ ma_groups | count > 3 }}"
+                then:
+                  - action: music_assistant.play_announcement
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ ma_groups[3].entities }}"
+                    data:
+                      url: "{{ audio_url }}"
+                      use_pre_announce: false
+                      announce_volume: "{{ ma_groups[3].volume }}"
+              - if: "{{ ma_groups | count > 4 }}"
+                then:
+                  - action: music_assistant.play_announcement
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ ma_groups[4].entities }}"
+                    data:
+                      url: "{{ audio_url }}"
+                      use_pre_announce: false
+                      announce_volume: "{{ ma_groups[4].volume }}"
+              - if: "{{ ma_groups | count > 5 }}"
+                then:
+                  - action: music_assistant.play_announcement
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ ma_groups[5].entities }}"
+                    data:
+                      url: "{{ audio_url }}"
+                      use_pre_announce: false
+                      announce_volume: "{{ ma_groups[5].volume }}"
+              - if: "{{ ma_groups | count > 6 }}"
+                then:
+                  - action: music_assistant.play_announcement
+                    continue_on_error: true
+                    target:
+                      entity_id: "{{ ma_groups[6].entities }}"
+                    data:
+                      url: "{{ audio_url }}"
+                      use_pre_announce: false
+                      announce_volume: "{{ ma_groups[6].volume }}"
+              # Any further volume levels play one after another.
+              - repeat:
+                  for_each: "{{ ma_groups[7:] }}"
+                  sequence:
+                    - action: music_assistant.play_announcement
+                      continue_on_error: true
+                      target:
+                        entity_id: "{{ repeat.item.entities }}"
+                      data:
+                        url: "{{ audio_url }}"
+                        use_pre_announce: false
+                        announce_volume: "{{ repeat.item.volume }}"
+      - if: "{{ audio_url != '' and plain_speakers | count > 0 }}"
+        then:
+          - repeat:
+              for_each: "{{ speaker_levels | selectattr('0', 'in', plain_speakers) | list }}"
+              sequence:
+                - action: media_player.volume_set
+                  continue_on_error: true
+                  target:
+                    entity_id: "{{ repeat.item[0] }}"
+                  data:
+                    volume_level: "{{ repeat.item[1] }}"
+          - action: media_player.play_media
+            continue_on_error: true
+            target:
+              entity_id: "{{ plain_speakers }}"
+            data:
+              media_content_type: music
+              media_content_id: "{{ audio_url }}"
+
+mode: parallel
+max_exceeded: silent

@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Azan Notifications for Home Assistant</title>
+<meta name="description" content="A free Home Assistant blueprint that plays the Athan on every speaker in your home, with a voice for each prayer and each speaker at its own volume.">
+<meta property="og:title" content="Azan Notifications for Home Assistant">
+<meta property="og:description" content="The Athan on every speaker in your home, at the right volume for every prayer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBF8F3;--surface:#FFFFFF;--surface-2:#F4EFE7;--fg:#1B2433;--mute:#5B6474;--line:#E6DFD3;
+  --acc:#0F7B6C;--acc-fg:#FFFFFF;--sil:#EDE6DA;
+  --fajr:#8B7CF6;--dhuhr:#F2B705;--asr:#F08A24;--maghrib:#E5484D;--isha:#2B3FC4;
+  --shadow:0 1px 2px rgba(27,36,51,.05),0 8px 24px rgba(27,36,51,.06);
+  --radius:20px;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-ar:'IBM Plex Sans Arabic','Inter',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0D1420;--surface:#141D2C;--surface-2:#1C2738;--fg:#F2F4F8;--mute:#9AA4B5;--line:#253246;
+  --acc:#3DD6B5;--acc-fg:#06231D;--sil:#18243A;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}}
+:root[data-theme="dark"]{
+  --bg:#0D1420;--surface:#141D2C;--surface-2:#1C2738;--fg:#F2F4F8;--mute:#9AA4B5;--line:#253246;
+  --acc:#3DD6B5;--acc-fg:#06231D;--sil:#18243A;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--font);-webkit-font-smoothing:antialiased}
+[dir="rtl"],.ar{font-family:var(--font-ar)}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+@media(min-width:720px){.wrap{padding:0 32px}}
+
+/* nav */
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{font-weight:800;letter-spacing:-.3px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand svg{flex:none}
+nav .links{margin-left:auto;display:flex;gap:4px}
+nav .links a{text-decoration:none;color:var(--mute);font-weight:500;font-size:15px;padding:8px 10px;border-radius:10px}
+nav .links a:hover{color:var(--fg);background:var(--surface-2)}
+@media(max-width:640px){nav .links a.hide-sm{display:none}}
+
+/* hero */
+.hero{padding:56px 0 32px}
+.hero .wrap{display:grid;gap:32px;align-items:center}
+@media(min-width:900px){.hero .wrap{grid-template-columns:1.05fr 1fr}.hero{padding:80px 0 48px}}
+.pill{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--acc);background:var(--surface-2);padding:6px 14px;border-radius:999px}
+h1{font-size:clamp(40px,7vw,68px);line-height:1.02;letter-spacing:-2px;margin:18px 0 8px;font-weight:800}
+.hero .ar-title{font-size:clamp(24px,4vw,34px);color:var(--mute);font-weight:600;margin:0 0 20px}
+.lede{font-size:clamp(18px,2.2vw,21px);margin:0 0 28px;max-width:520px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;text-decoration:none;padding:13px 20px;border-radius:14px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow)}
+.btn.primary{background:var(--acc);color:var(--acc-fg);border-color:transparent}
+.btn:hover{transform:translateY(-1px)}
+.works{margin-top:24px;color:var(--mute);font-size:14.5px}
+
+/* sky arc */
+.sky{width:100%;height:auto;display:block}
+.sky .path-glow{stroke-opacity:.14}
+.sky text{font-family:var(--font);font-size:16px;font-weight:600;fill:var(--fg)}
+.sky text tspan{fill:var(--mute);font-weight:500;font-family:var(--font-ar)}
+.sun{offset-path:path("M 40 330 A 300 270 0 0 1 640 330");offset-rotate:0deg;animation:sunpath 14s ease-in-out infinite}
+@keyframes sunpath{0%{offset-distance:0%;opacity:0}6%{opacity:1}88%{opacity:1}100%{offset-distance:100%;opacity:0}}
+@media (prefers-reduced-motion:reduce){.sun{animation:none;offset-distance:40%}}
+
+/* sections */
+section,header{padding:56px 0;scroll-margin-top:64px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--acc);margin:0 0 8px}
+h2{font-size:clamp(28px,4vw,40px);letter-spacing:-1px;line-height:1.1;margin:0 0 12px}
+.sub{color:var(--mute);font-size:18px;max-width:640px;margin:0 0 32px}
+
+.grid{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.card .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;margin-bottom:14px;background:var(--surface-2)}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0;color:var(--mute)}
+
+.figure{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--surface)}
+.figure img{display:block;width:100%;height:auto}
+
+/* steps */
+.steps{display:grid;gap:20px}
+.step{display:grid;gap:20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+@media(min-width:860px){.step{grid-template-columns:.8fr 1.2fr;padding:28px}}
+.step .num{width:36px;height:36px;border-radius:50%;background:var(--acc);color:var(--acc-fg);display:grid;place-items:center;font-weight:800;margin-bottom:12px}
+.step h3{margin:0 0 6px;font-size:20px}
+.step p{margin:0;color:var(--mute)}
+.step img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block;background:#fff}
+
+/* voices */
+.tabs{display:inline-flex;background:var(--surface-2);border-radius:14px;padding:4px;gap:4px;margin-bottom:16px}
+.tabs button{font:inherit;font-weight:600;border:0;background:transparent;color:var(--mute);padding:9px 16px;border-radius:10px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+.vlist{display:grid;gap:10px;grid-template-columns:1fr;list-style:none;margin:0;padding:0}
+@media(min-width:720px){.vlist{grid-template-columns:1fr 1fr}}
+@media(min-width:1040px){.vlist{grid-template-columns:1fr 1fr 1fr}}
+.voice{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 14px 10px 10px;min-width:0}
+.voice button{flex:none;width:42px;height:42px;border-radius:50%;border:0;background:var(--surface-2);color:var(--fg);cursor:pointer;display:grid;place-items:center}
+.voice.playing button{background:var(--acc);color:var(--acc-fg)}
+.voice .t{min-width:0;flex:1}
+.voice .en{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.voice .meta{display:flex;gap:8px;color:var(--mute);font-size:14px}
+.voice .meta .ar{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.voice code{font-size:12px;color:var(--mute);background:var(--surface-2);padding:2px 6px;border-radius:6px}
+.bar{height:3px;background:var(--line);border-radius:2px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--acc)}
+
+/* arabic */
+.arabic{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.arabic ul{padding:0;margin:0 0 28px;list-style:none;display:grid;gap:10px}
+.arabic li{font-size:18px}
+
+/* cta */
+.final{text-align:center}
+.final .ctas{justify-content:center}
+footer{padding:40px 0 56px;color:var(--mute);font-size:14px}
+footer .row{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:12px}
+footer a{color:var(--fg);text-decoration:none;font-weight:500}
+</style>
+</head>
+<body>
+
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Azan Notifications home">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#8B7CF6"/><stop offset=".5" stop-color="#F2B705"/><stop offset="1" stop-color="#E5484D"/></linearGradient></defs><path d="M3 22 A 11 11 0 0 1 25 22" fill="none" stroke="url(#lg)" stroke-width="3" stroke-linecap="round"/><circle cx="14" cy="11" r="3.5" fill="#F2B705"/></svg>
+      Azan Notifications
+    </a>
+    <div class="links">
+      <a class="hide-sm" href="#features">Features</a>
+      <a class="hide-sm" href="#how">How it works</a>
+      <a href="#voices">Voices</a>
+      <a href="#arabic" lang="ar">العربية</a>
+      <a class="hide-sm" href="https://github.com/shadynafie/home-assistant-blueprints">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="pill">Home Assistant blueprint · V4</span>
+      <h1>Azan Notifications</h1>
+      <p class="ar-title ar" lang="ar" dir="rtl" style="text-align:left">تنبيهات الأذان</p>
+      <p class="lede">The Athan on every speaker in your home, at the right volume for every prayer. Free, and set up in minutes.</p>
+      <div class="ctas">
+        <a class="btn primary" href="https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fshadynafie%2Fhome-assistant-blueprints%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fsmarttecharabic%2Fazan-notifications%2Fazan_notifications_v4.yaml">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+          Import to Home Assistant
+        </a>
+        <a class="btn" href="#voices">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          Listen to the voices
+        </a>
+      </div>
+      <p class="works">HomePod · Amazon Echo · Google Cast · Sonos · Music Assistant</p>
+    </div>
+    <svg class="sky" viewBox="0 0 680 370" role="img" aria-label="The five daily prayers along the path of the sun">
+      <defs>
+        <linearGradient id="arc" x1="0" x2="1"><stop offset="0" stop-color="var(--fajr)"/><stop offset=".38" stop-color="var(--dhuhr)"/><stop offset=".8" stop-color="var(--asr)"/><stop offset=".94" stop-color="var(--maghrib)"/><stop offset="1" stop-color="var(--isha)"/></linearGradient>
+        <radialGradient id="sunglow"><stop offset="0" stop-color="var(--dhuhr)" stop-opacity=".45"/><stop offset="1" stop-color="var(--dhuhr)" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g transform="translate(68.0 66.0) scale(0.8)"><g fill="var(--sil)"><rect x="176" y="160" width="14" height="170"/><rect x="171" y="206" width="24" height="6" rx="2"/><rect x="171" y="256" width="24" height="6" rx="2"/><rect x="178" y="146" width="10" height="16"/><path d="M 175 162 L 183 124 L 191 162 Z"/><rect x="182" y="112" width="2" height="14"/><rect x="490" y="160" width="14" height="170"/><rect x="485" y="206" width="24" height="6" rx="2"/><rect x="485" y="256" width="24" height="6" rx="2"/><rect x="492" y="146" width="10" height="16"/><path d="M 489 162 L 497 124 L 505 162 Z"/><rect x="496" y="112" width="2" height="14"/><rect x="206" y="288" width="52" height="42"/><path d="M 212 288 C 212 268, 232 262, 232 254 C 232 262, 252 268, 252 288 Z"/><rect x="231" y="244" width="2" height="11"/><rect x="422" y="288" width="52" height="42"/><path d="M 428 288 C 428 268, 448 262, 448 254 C 448 262, 468 268, 468 288 Z"/><rect x="447" y="244" width="2" height="11"/><rect x="252" y="268" width="176" height="62"/><rect x="290" y="250" width="100" height="20"/><path d="M 294 252 C 288 206, 330 196, 340 166 C 350 196, 392 206, 386 252 Z"/><rect x="339" y="146" width="2" height="22"/></g><g fill="var(--bg)"><path d="M 264 330 L 264 300 A 7.5 7.5 0 0 1 279 300 L 279 330 Z"/><path d="M 291 330 L 291 300 A 7.5 7.5 0 0 1 306 300 L 306 330 Z"/><path d="M 318 330 L 318 300 A 7.5 7.5 0 0 1 333 300 L 333 330 Z"/><path d="M 345 330 L 345 300 A 7.5 7.5 0 0 1 360 300 L 360 330 Z"/><path d="M 372 330 L 372 300 A 7.5 7.5 0 0 1 387 300 L 387 330 Z"/><path d="M 399 330 L 399 300 A 7.5 7.5 0 0 1 414 300 L 414 330 Z"/><path d="M 300 268 L 300 259 A 4 4 0 0 1 308 259 L 308 268 Z"/><path d="M 318 268 L 318 259 A 4 4 0 0 1 326 259 L 326 268 Z"/><path d="M 336 268 L 336 259 A 4 4 0 0 1 344 259 L 344 268 Z"/><path d="M 354 268 L 354 259 A 4 4 0 0 1 362 259 L 362 268 Z"/><path d="M 372 268 L 372 259 A 4 4 0 0 1 380 259 L 380 268 Z"/><path d="M 222 318 L 222 302 A 5 5 0 0 1 232 302 L 232 318 Z"/><path d="M 438 318 L 438 302 A 5 5 0 0 1 448 302 L 448 318 Z"/></g><g transform="translate(340 141)"><circle r="5" fill="var(--sil)"/><circle cx="2.4" cy="-1.6" r="4.2" fill="var(--bg)"/></g></g>
+      <line x1="20" y1="330" x2="660" y2="330" stroke="var(--line)" stroke-width="2"/>
+      <path class="path-glow" d="M 40 330 A 300 270 0 0 1 640 330" fill="none" stroke="url(#arc)" stroke-width="22" stroke-linecap="round"/>
+      <path d="M 40 330 A 300 270 0 0 1 640 330" fill="none" stroke="url(#arc)" stroke-width="6" stroke-linecap="round"/>
+      <g class="sun"><circle r="34" fill="url(#sunglow)"/><circle r="15" fill="var(--dhuhr)"/></g>
+      <circle cx="47" cy="274" r="12" fill="var(--fajr)" stroke="var(--bg)" stroke-width="4"/>
+      <text x="70" y="280">Fajr <tspan>الفجر</tspan></text>
+      <circle cx="267" cy="68" r="12" fill="var(--dhuhr)" stroke="var(--bg)" stroke-width="4"/>
+      <text x="267" y="36" text-anchor="middle">Dhuhr <tspan>الظهر</tspan></text>
+      <circle cx="525" cy="117" r="12" fill="var(--asr)" stroke="var(--bg)" stroke-width="4"/>
+      <text x="525" y="85" text-anchor="middle">Asr <tspan>العصر</tspan></text>
+      <circle cx="614" cy="220" r="12" fill="var(--maghrib)" stroke="var(--bg)" stroke-width="4"/>
+      <text x="590" y="217" text-anchor="end">Maghrib<tspan x="590" dy="19">المغرب</tspan></text>
+      <circle cx="638" cy="302" r="12" fill="var(--isha)" stroke="var(--bg)" stroke-width="4"/>
+      <text x="614" y="299" text-anchor="end">Isha<tspan x="614" dy="19">العشاء</tspan></text>
+    </svg>
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap">
+    <p class="eyebrow">Features</p>
+    <h2>Everything the Athan needs at home</h2>
+    <p class="sub">One automation for the whole house: the right voice, the right speakers and the right volume, five times a day.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">🕌</div><h3>The Athan at every prayer</h3><p>On time at Fajr, Dhuhr, Asr, Maghrib and Isha, from any prayer times integration such as MAWAQIT.</p></div>
+      <div class="card"><div class="ico">🎙️</div><h3>A voice for each prayer</h3><p>Over 40 reciters to choose from, and Fajr always plays a real Fajr Athan.</p></div>
+      <div class="card"><div class="ico">🔊</div><h3>Each speaker, its own volume</h3><p>Quieter in the bedroom at Fajr, louder in the kitchen at Maghrib, or silent where you choose.</p></div>
+      <div class="card"><div class="ico">🤫</div><h3>Silence after the Athan</h3><p>Music stops before the Athan and does not come back afterwards.</p></div>
+      <div class="card"><div class="ico">⏰</div><h3>Reminders before the prayer</h3><p>An optional spoken reminder on your speakers, minutes before the Athan.</p></div>
+      <div class="card"><div class="ico">📱</div><h3>Phone notifications</h3><p>In English and Arabic, at the Athan and with each reminder.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="volumes" style="padding-top:0">
+  <div class="wrap">
+    <div class="figure">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="images/azan-volumes-dark.svg">
+        <img src="images/azan-volumes-light.svg" alt="Each speaker has its own volume for each of the five prayers, and 0 keeps a speaker silent." loading="lazy">
+      </picture>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>Set up in four steps</h2>
+    <p class="sub">Import the blueprint, then fill in one short form in Home Assistant.</p>
+    <div class="steps">
+      <div class="step"><div><div class="num">1</div><h3>Choose the prayer times</h3><p>Pick each prayer's own time from your prayer times integration, such as Fajr Prayer. Not the Iqama.</p></div><img src="images/v4-prayer-times.png" alt="Prayer times panel in Home Assistant"></div>
+      <div class="step"><div><div class="num">2</div><h3>Choose a voice for each prayer</h3><p>Fajr lists Fajr Athans only. Decide whether music stays silent after the Athan or carries on.</p></div><img src="images/v4-athan-voice.png" alt="Athan voice panel in Home Assistant"></div>
+      <div class="step"><div><div class="num">3</div><h3>Add a speaker and its volumes</h3><p>One volume for each prayer. 0 keeps the speaker silent for that prayer. Add up to 8 speakers.</p></div><img src="images/v4-speaker.png" alt="Speaker panel with a volume slider for each prayer"></div>
+      <div class="step"><div><div class="num">4</div><h3>Save and test</h3><p>Add reminders and phones if you want them, save, then choose <b>Run actions</b> in the ⋮ menu to hear it.</p></div><img src="images/v4-more-speakers.png" alt="Speaker 2 to 8, reminders and phone notifications"></div>
+    </div>
+  </div>
+</section>
+
+<section id="voices">
+  <div class="wrap">
+    <p class="eyebrow">Voices</p>
+    <h2>Listen before you choose</h2>
+    <p class="sub">Choose a voice by name in Home Assistant. The short name under each one is what the box shows after you pick it.</p>
+    <div class="tabs" role="tablist" aria-label="Voice list">
+      <button role="tab" id="tab-other" aria-selected="true" data-list="other">Dhuhr to Isha <span class="ar">· باقي الصلوات</span></button>
+      <button role="tab" id="tab-fajr" aria-selected="false" data-list="fajr">Fajr <span class="ar">· الفجر</span></button>
+    </div>
+    <ul class="vlist" id="vlist" aria-live="polite"></ul>
+  </div>
+</section>
+
+<section class="arabic" id="arabic" lang="ar" dir="rtl">
+  <div class="wrap">
+    <p class="eyebrow">بالعربي</p>
+    <h2>الأذان في كل سماعات بيتك، بالصوت المناسب لكل صلاة</h2>
+    <ul>
+      <li>🕌 الأذان في وقته للصلوات الخمس، من أي إضافة لمواقيت الصلاة.</li>
+      <li>🎙️ أكثر من 40 مؤذنًا، والفجر يُشغّل دائمًا أذان الفجر.</li>
+      <li>🔊 لكل سماعة مستوى صوت خاص في كل صلاة، أو صامتة حيث تريد.</li>
+      <li>🤫 تتوقف الموسيقى قبل الأذان ولا تعود بعده.</li>
+      <li>⏰ تذكير صوتي اختياري قبل الأذان بدقائق.</li>
+      <li>📱 إشعارات على الهاتف بالعربية والإنجليزية.</li>
+    </ul>
+    <div class="ctas">
+      <a class="btn primary" href="https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fshadynafie%2Fhome-assistant-blueprints%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fsmarttecharabic%2Fazan-notifications%2Fazan_notifications_v4.yaml">استورد القالب إلى Home Assistant</a>
+      <a class="btn" href="https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/README.md#arabic">طريقة الاستخدام</a>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Bring the Athan home</h2>
+    <p class="sub" style="margin-left:auto;margin-right:auto">Free and open source. Import it, choose your speakers, and hear the Athan at the next prayer.</p>
+    <div class="ctas">
+      <a class="btn primary" href="https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fshadynafie%2Fhome-assistant-blueprints%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fsmarttecharabic%2Fazan-notifications%2Fazan_notifications_v4.yaml">Import to Home Assistant</a>
+      <a class="btn" href="https://github.com/shadynafie/home-assistant-blueprints/blob/main/blueprints/automation/smarttecharabic/azan-notifications/README.md">Read the guide</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <span>By <a href="https://smarttecharabic.com">Shady Nafie, Smart Tech Arabic</a></span>
+      <a href="https://www.youtube.com/@smarttecharabic">YouTube</a>
+      <a href="https://github.com/shadynafie/home-assistant-blueprints">More blueprints on GitHub</a>
+    </div>
+    <div>Blueprint: MIT License. Audio is not covered by the MIT License: voices come from IslamWeb, the Internet Archive, Athan-MP3 and IslamCan.</div>
+  </div>
+</footer>
+
+<script>
+const VOICES = {"fajr": [{"en": "Mishary Alafasy", "ar": "مشاري العفاسي", "d": "3:02", "slug": "mishary-alafasy-fajr"}, {"en": "Mishary Alafasy, Hijaz", "ar": "مشاري العفاسي، مقام الحجاز", "d": "3:41", "slug": "mishary-alafasy-fajr-hijaz"}, {"en": "Ali Ahmed Mulla", "ar": "علي أحمد ملا", "d": "3:56", "slug": "ali-ahmed-mulla-fajr"}, {"en": "Ahmed Afifi", "ar": "أحمد عفيفي", "d": "3:35", "slug": "ahmed-afifi-fajr"}, {"en": "Hassan Mustafa", "ar": "حسن مصطفى", "d": "2:31", "slug": "hassan-mustafa-fajr"}, {"en": "Hamad Deghreri", "ar": "حمد الدغريري", "d": "3:14", "slug": "hamad-deghreri-fajr"}, {"en": "Abdulmajeed Al-Surayhi", "ar": "عبدالمجيد السريحي", "d": "3:27", "slug": "abdulmajeed-al-surayhi-fajr"}, {"en": "Naif Fayda", "ar": "نايف فيده", "d": "3:57", "slug": "naif-fayda-fajr"}, {"en": "Mansour Al-Zahrani", "ar": "منصور الزهراني", "d": "3:10", "slug": "mansour-al-zahrani-fajr"}, {"en": "Yasin Al-Assaf", "ar": "ياسين العساف", "d": "3:35", "slug": "yasin-al-assaf-fajr"}, {"en": "Kamel Al-Lala", "ar": "كامل اللالا", "d": "3:18", "slug": "kamel-al-lala-fajr"}, {"en": "Ahmad Murtada", "ar": "أحمد مرتضى", "d": "3:08", "slug": "ahmad-murtada-fajr"}, {"en": "Momen Tarek Salim", "ar": "مؤمن طارق سليم", "d": "3:48", "slug": "momen-tarek-salim-fajr"}, {"en": "Mohamed Naji", "ar": "محمد ناجي", "d": "2:16", "slug": "mohamed-naji-fajr"}, {"en": "Ahmad Nawaf Al-Mijlad", "ar": "أحمد نواف المجلاد", "d": "3:38", "slug": "ahmad-nawaf-al-mijlad-fajr"}], "other": [{"en": "Mishary Alafasy", "ar": "مشاري العفاسي", "d": "4:00", "slug": "mishary-alafasy"}, {"en": "Abdul Basit", "ar": "عبدالباسط عبدالصمد", "d": "3:19", "slug": "abdul-basit"}, {"en": "Abdul Basit 2", "ar": "عبدالباسط عبدالصمد", "d": "3:03", "slug": "abdul-basit-2"}, {"en": "Mahmoud Al-Husary", "ar": "محمود خليل الحصري", "d": "2:06", "slug": "mahmoud-al-husary"}, {"en": "Mahmoud Ali Al-Banna", "ar": "محمود علي البنا", "d": "2:45", "slug": "mahmoud-ali-al-banna"}, {"en": "Mustafa Ismail", "ar": "مصطفى إسماعيل", "d": "2:00", "slug": "mustafa-ismail"}, {"en": "Ahmad Nuaina", "ar": "أحمد نعينع", "d": "3:29", "slug": "ahmad-nuaina"}, {"en": "Ragheb Ghalwash", "ar": "راغب مصطفى غلوش", "d": "3:05", "slug": "ragheb-ghalwash"}, {"en": "Al-Shahat Anwar", "ar": "الشحات محمد أنور", "d": "3:18", "slug": "al-shahat-anwar"}, {"en": "Abdel Fattah Al-Tarouti", "ar": "عبدالفتاح الطاروطي", "d": "2:45", "slug": "abdel-fattah-al-tarouti"}, {"en": "Abdulaziz Harbi", "ar": "عبدالعزيز حربي", "d": "2:36", "slug": "abdulaziz-harbi"}, {"en": "Ali Ahmed Mulla", "ar": "علي أحمد ملا", "d": "3:36", "slug": "ali-ahmed-mulla"}, {"en": "Makkah", "ar": "الحرم المكي", "d": "3:20", "slug": "makkah"}, {"en": "Sami Al-Rayes", "ar": "سامي الريس", "d": "2:58", "slug": "sami-al-rayes"}, {"en": "Turki Al-Husni", "ar": "تركي الحسني", "d": "3:28", "slug": "turki-al-husni"}, {"en": "Hashim Al-Saqqaf", "ar": "هاشم السقاف", "d": "2:56", "slug": "hashim-al-saqqaf"}, {"en": "Majed Abbas", "ar": "ماجد عباس", "d": "2:58", "slug": "majed-abbas"}, {"en": "Ahmad Khoja", "ar": "أحمد خوجه", "d": "3:14", "slug": "ahmad-khoja"}, {"en": "Hussam Khoja", "ar": "حسام خوجه", "d": "2:53", "slug": "hussam-khoja"}, {"en": "Mohamed Ramadan Saad", "ar": "محمد رمضان سعد", "d": "3:38", "slug": "mohamed-ramadan-saad"}, {"en": "Hamad Deghreri", "ar": "حمد الدغريري", "d": "2:41", "slug": "hamad-deghreri"}, {"en": "Abdulmajeed Al-Surayhi", "ar": "عبدالمجيد السريحي", "d": "3:28", "slug": "abdulmajeed-al-surayhi"}, {"en": "Yasser Al-Dosari", "ar": "ياسر الدوسري", "d": "2:56", "slug": "yasser-al-dosari"}, {"en": "Nasser Al-Qatami", "ar": "ناصر القطامي", "d": "2:19", "slug": "nasser-al-qatami"}, {"en": "Ibrahim Al-Baluchi", "ar": "إبراهيم البلوشي", "d": "3:25", "slug": "ibrahim-al-baluchi"}, {"en": "Ibrahim Al-Arkani", "ar": "إبراهيم الأركاني", "d": "3:59", "slug": "ibrahim-al-arkani"}, {"en": "Majed Al-Hamathani", "ar": "ماجد الهمذاني", "d": "3:45", "slug": "majed-al-hamathani"}, {"en": "Ahmad Al-Emadi", "ar": "أحمد العمادي", "d": "2:58", "slug": "ahmad-al-emadi"}, {"en": "Ahmad Fakhroo", "ar": "أحمد فخرو", "d": "2:33", "slug": "ahmad-fakhroo"}, {"en": "Moaz Al-Qasimi", "ar": "معاذ القاسمي", "d": "3:46", "slug": "moaz-al-qasimi"}, {"en": "Omar Al-Qazabri", "ar": "عمر القزابري", "d": "3:54", "slug": "omar-al-qazabri"}, {"en": "Kamal Al-Marrush", "ar": "كمال المروش", "d": "2:20", "slug": "kamal-al-marrush"}, {"en": "Kamel Al-Lala", "ar": "كامل اللالا", "d": "2:49", "slug": "kamel-al-lala"}, {"en": "Muhammad Nasiruddin Al-Albani", "ar": "محمد ناصر الدين الألباني", "d": "1:19", "slug": "muhammad-nasiruddin-al-albani"}, {"en": "Suhaib Khatba", "ar": "صهيب خطبا", "d": "3:03", "slug": "suhaib-khatba"}, {"en": "Nasser Al-Abd", "ar": "ناصر العبد", "d": "2:42", "slug": "nasser-al-abd"}, {"en": "Badie Jadou", "ar": "بديع جادو", "d": "3:26", "slug": "badie-jadou"}, {"en": "Ahmad Al-Tarabulsi", "ar": "أحمد الطرابلسي", "d": "3:57", "slug": "ahmad-al-tarabulsi"}, {"en": "Ahmad Murtada", "ar": "أحمد مرتضى", "d": "2:32", "slug": "ahmad-murtada"}, {"en": "Yasin Al-Assaf", "ar": "ياسين العساف", "d": "2:52", "slug": "yasin-al-assaf"}, {"en": "Abdulrahman Al-Arki", "ar": "عبدالرحمن الأركي", "d": "3:25", "slug": "abdulrahman-al-arki"}, {"en": "Wadie Al-Yamani", "ar": "وديع حمادي اليمني", "d": "3:17", "slug": "wadie-al-yamani"}, {"en": "Ahmad Nawaf Al-Mijlad", "ar": "أحمد نواف المجلاد", "d": "3:12", "slug": "ahmad-nawaf-al-mijlad"}, {"en": "Ahmad Al-Haddad", "ar": "أحمد الحداد", "d": "2:32", "slug": "ahmad-al-haddad"}, {"en": "Mohamed Naji", "ar": "محمد ناجي", "d": "2:27", "slug": "mohamed-naji"}]};
+const BASE = "https://raw.githubusercontent.com/shadynafie/home-assistant-blueprints/main/blueprints/automation/smarttecharabic/azan-notifications/audio/";
+const list = document.getElementById("vlist");
+const audio = new Audio(); audio.preload = "none";
+let current = null;
+const PLAY = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+const PAUSE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+function render(key){
+  list.innerHTML = "";
+  for (const v of VOICES[key]) {
+    const li = document.createElement("li"); li.className = "voice"; li.dataset.slug = v.slug;
+    li.innerHTML = `<button type="button" aria-label="Play ${v.en}">${PLAY}</button>
+      <div class="t"><div class="en">${v.en}</div>
+      <div class="meta"><span class="ar" dir="rtl" lang="ar">${v.ar}</span><span>${v.d}</span></div>
+      <code>${v.slug}</code><div class="bar"><i></i></div></div>`;
+    li.querySelector("button").addEventListener("click", () => toggle(li, v));
+    list.appendChild(li);
+  }
+}
+function setState(li, playing){
+  li.classList.toggle("playing", playing);
+  const b = li.querySelector("button"); b.innerHTML = playing ? PAUSE : PLAY;
+  b.setAttribute("aria-label", (playing ? "Pause " : "Play ") + li.querySelector(".en").textContent);
+}
+function toggle(li, v){
+  if (current === li) { if (audio.paused) { audio.play(); setState(li, true); } else { audio.pause(); setState(li, false); } return; }
+  if (current) { setState(current, false); current.querySelector(".bar i").style.width = "0"; }
+  current = li; audio.src = BASE + v.slug + ".mp3"; audio.play(); setState(li, true);
+}
+audio.addEventListener("timeupdate", () => { if (current && audio.duration) current.querySelector(".bar i").style.width = (audio.currentTime / audio.duration * 100) + "%"; });
+audio.addEventListener("ended", () => { if (current) setState(current, false); });
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+  audio.pause(); current = null; render(b.dataset.list);
+}));
+render("other");
+</script>
+</body>
+</html>

@@ -8,11 +8,30 @@ A **curated collection** of high-quality, ready-to-use **Home Assistant blueprin
 
 ---
 
-## 📚 Available Blueprints
+## ⭐ Featured: Azan Notifications V4
+
+<a href="./blueprints/automation/smarttecharabic/azan-notifications/README.md">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/azan-banner-dark.svg">
+    <img alt="Azan Notifications: the Athan on every speaker in your home, at the right volume for every prayer." src="docs/images/azan-banner-light.svg" width="100%">
+  </picture>
+</a>
+
+The Athan on every speaker in your home (HomePod, Echo, Google Cast, Sonos), with a voice for each prayer, each speaker at its own volume for each prayer, silence after the Athan, spoken reminders and phone notifications in English and Arabic.
+
+<p>
+  <a href="https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fshadynafie%2Fhome-assistant-blueprints%2Fblob%2Fmain%2Fblueprints%2Fautomation%2Fsmarttecharabic%2Fazan-notifications%2Fazan_notifications_v4.yaml"><img src="https://my.home-assistant.io/badges/blueprint_import.svg" alt="Import the Azan Notifications blueprint" height="40"></a>
+</p>
+
+[Read more](./blueprints/automation/smarttecharabic/azan-notifications/README.md) · [Website](https://shadynafie.github.io/home-assistant-blueprints/) · [Listen to the voices](https://shadynafie.github.io/home-assistant-blueprints/azan-voices.html)
+
+---
+
+## 📚 All Blueprints
 
 ### 🕌 [Azan Notifications](./blueprints/automation/smarttecharabic/azan-notifications/README.md)
 
-Play the Athan on your smart speakers (Echo, HomePod, Google Cast, Sonos) at each of the five daily Islamic prayers, with a choice of voices for each prayer and optional mobile notifications.
+Plays the Athan on your speakers at each of the five daily prayers, each speaker at its own volume for each prayer, with spoken reminders and phone notifications.
 
 ### 👥 [Person Zone Monitor](./blueprints/automation/smarttecharabic/people-tracking/README.md)
 

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="542" viewBox="0 0 1280 542" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+<rect width="1280" height="542" rx="24" fill="#FBF8F3"/>
+<text x="60" y="66" font-size="26" font-weight="800" fill="#1B2433">Every speaker, every prayer, its own volume</text>
+<text x="60" y="96" font-size="16" fill="#5B6474">0 keeps a speaker silent for that prayer</text>
+<text x="500" y="112" text-anchor="middle" font-size="16" font-weight="700" fill="#8B7CF6">Fajr</text>
+<text x="660" y="112" text-anchor="middle" font-size="16" font-weight="700" fill="#F2B705">Dhuhr</text>
+<text x="820" y="112" text-anchor="middle" font-size="16" font-weight="700" fill="#F08A24">Asr</text>
+<text x="980" y="112" text-anchor="middle" font-size="16" font-weight="700" fill="#E5484D">Maghrib</text>
+<text x="1140" y="112" text-anchor="middle" font-size="16" font-weight="700" fill="#2B3FC4">Isha</text>
+<rect x="40" y="132" width="1200" height="78" rx="16" fill="#FFFFFF" stroke="#E6DFD3"/>
+<g transform="translate(72 171)" fill="none" stroke="#5B6474" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M -10 -6 h 6 l 8 -7 v 26 l -8 -7 h -6 z"/><path d="M 9 -7 a 10 10 0 0 1 0 14"/><path d="M 14 -12 a 17 17 0 0 1 0 24"/></g>
+<text x="104" y="177" font-size="19" font-weight="600" fill="#1B2433">Office HomePod</text>
+<rect x="438" y="164" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="438" y="164" width="52" height="14" rx="7" fill="#8B7CF6"/>
+<text x="562" y="156" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">25%</text>
+<rect x="598" y="164" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="598" y="164" width="93" height="14" rx="7" fill="#F2B705"/>
+<text x="722" y="156" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">45%</text>
+<rect x="758" y="164" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="758" y="164" width="93" height="14" rx="7" fill="#F08A24"/>
+<text x="882" y="156" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">45%</text>
+<rect x="918" y="164" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="918" y="164" width="93" height="14" rx="7" fill="#E5484D"/>
+<text x="1042" y="156" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">45%</text>
+<rect x="1078" y="164" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="1078" y="164" width="93" height="14" rx="7" fill="#2B3FC4"/>
+<text x="1202" y="156" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">45%</text>
+<rect x="40" y="224" width="1200" height="78" rx="16" fill="#FFFFFF" stroke="#E6DFD3"/>
+<g transform="translate(72 263)" fill="none" stroke="#5B6474" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M -10 -6 h 6 l 8 -7 v 26 l -8 -7 h -6 z"/><path d="M 9 -7 a 10 10 0 0 1 0 14"/><path d="M 14 -12 a 17 17 0 0 1 0 24"/></g>
+<text x="104" y="269" font-size="19" font-weight="600" fill="#1B2433">Living Room Echo</text>
+<rect x="438" y="256" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="438" y="256" width="62" height="14" rx="7" fill="#8B7CF6"/>
+<text x="562" y="248" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">30%</text>
+<rect x="598" y="256" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="598" y="256" width="103" height="14" rx="7" fill="#F2B705"/>
+<text x="722" y="248" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">50%</text>
+<rect x="758" y="256" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="758" y="256" width="103" height="14" rx="7" fill="#F08A24"/>
+<text x="882" y="248" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">50%</text>
+<rect x="918" y="256" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="918" y="256" width="103" height="14" rx="7" fill="#E5484D"/>
+<text x="1042" y="248" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">50%</text>
+<rect x="1078" y="256" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="1078" y="256" width="103" height="14" rx="7" fill="#2B3FC4"/>
+<text x="1202" y="248" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">50%</text>
+<rect x="40" y="316" width="1200" height="78" rx="16" fill="#FFFFFF" stroke="#E6DFD3"/>
+<g transform="translate(72 355)" fill="none" stroke="#5B6474" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M -10 -6 h 6 l 8 -7 v 26 l -8 -7 h -6 z"/><path d="M 9 -7 a 10 10 0 0 1 0 14"/><path d="M 14 -12 a 17 17 0 0 1 0 24"/></g>
+<text x="104" y="361" font-size="19" font-weight="600" fill="#1B2433">Kitchen Echo</text>
+<rect x="438" y="348" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<text x="562" y="340" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">silent</text>
+<rect x="598" y="348" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="598" y="348" width="83" height="14" rx="7" fill="#F2B705"/>
+<text x="722" y="340" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">40%</text>
+<rect x="758" y="348" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="758" y="348" width="83" height="14" rx="7" fill="#F08A24"/>
+<text x="882" y="340" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">40%</text>
+<rect x="918" y="348" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="918" y="348" width="83" height="14" rx="7" fill="#E5484D"/>
+<text x="1042" y="340" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">40%</text>
+<rect x="1078" y="348" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="1078" y="348" width="83" height="14" rx="7" fill="#2B3FC4"/>
+<text x="1202" y="340" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">40%</text>
+<rect x="40" y="408" width="1200" height="78" rx="16" fill="#FFFFFF" stroke="#E6DFD3"/>
+<g transform="translate(72 447)" fill="none" stroke="#5B6474" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M -10 -6 h 6 l 8 -7 v 26 l -8 -7 h -6 z"/><path d="M 9 -7 a 10 10 0 0 1 0 14"/><path d="M 14 -12 a 17 17 0 0 1 0 24"/></g>
+<text x="104" y="453" font-size="19" font-weight="600" fill="#1B2433">Bedroom Echo</text>
+<rect x="438" y="440" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="438" y="440" width="21" height="14" rx="7" fill="#8B7CF6"/>
+<text x="562" y="432" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">10%</text>
+<rect x="598" y="440" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="598" y="440" width="72" height="14" rx="7" fill="#F2B705"/>
+<text x="722" y="432" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">35%</text>
+<rect x="758" y="440" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="758" y="440" width="72" height="14" rx="7" fill="#F08A24"/>
+<text x="882" y="432" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">35%</text>
+<rect x="918" y="440" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="918" y="440" width="72" height="14" rx="7" fill="#E5484D"/>
+<text x="1042" y="432" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">35%</text>
+<rect x="1078" y="440" width="124" height="14" rx="7" fill="#F1ECE3"/>
+<rect x="1078" y="440" width="41" height="14" rx="7" fill="#2B3FC4"/>
+<text x="1202" y="432" text-anchor="end" font-size="14" font-weight="600" fill="#5B6474">20%</text>
+</svg>
